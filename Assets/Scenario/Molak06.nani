@@ -1,0 +1,2144 @@
+; ===== 몰락검신 — 달과 장부(月과帳簿): 소아, 그리고 배신자 =====
+
+; ---------- 소아 아크 ----------
+
+; --- S1: 밤의 대작 (6일+) ---
+# SoaN1
+@art scene:yard
+@art char:soa_smile
+@vfx kind:petals
+@deja need:g_soadied text:"담 위에서 술병이 흔들린다. 이 웃음을 안다. 이 웃음이 어느 밤에 끊기는지도 안다."
+{dejapre}
+@goto #SoaN1Re if:g_bt_soan1>0&&f_bt_soan1<1
+@set g_bt_soan1=g_bt_soan1+1 if:f_bt_soan1<1
+@set f_bt_soan1=1
+밤 수련을 마친 마당. 소아가 담 위에 앉아 술병을 흔든다.
+"객잔 술이다. 영감 몰래 들고 온 건 아니다. 값은 치렀지."
+받고 보니 벌써 반이 비었다.
+"적운에선 수련이 끝나면 사부가 딱 석 잔을 내렸다. 한 잔은 몸에, 한 잔은 검에, 한 잔은……."
+외눈이 잠깐 먼 곳을 본다.
+"……먼저 간 자들에게."
+# SoaN1Ch
+@choice "석 잔을 따라 그 법도대로 마신다" goto:#SoaN1A
+@choice "\"청운엔 그런 법도 없었다. 그냥 마셨지.\"" goto:#SoaN1B
+@choice "\"수련이 남았다.\" — 병을 돌려준다" goto:#SoaN1C
+@stop
+# SoaN1A
+한 잔은 몸에, 한 잔은 검에, 한 잔은 운검사태와 적운과 청운에게.
+소아가 제 병을 들어 세 번째 잔에 가볍게 부딪친다. 쨍.
+@set aff=aff+2
+@fx curse:-1
+@goto Molak02#AfterChapter
+# SoaN1B
+"하. 역시 청운이군. 멋대가리 없기는."
+말과 달리 웃는다. 스물도 안 된 계집아이의 웃음이다.
+반 병이 금세 빈다. 이야기는 더 오래 간다.
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# SoaN1C
+"……그래. 바쁘신 몸이지."
+소아가 병을 거두고 돌아보지 않고 담에서 내려선다.
+@goto Molak02#AfterChapter
+
+; --- S2: 저자 동행 (10일+) ---
+# SoaN2
+@art scene:marketday
+@art char:soa
+@deja need:g_soadied text:"나란히 걷는 이 저잣거리가, 지난 생에는 그녀와의 마지막 나들이였다."
+{dejapre}
+@goto #SoaN2Re if:g_bt_soan2>0&&f_bt_soan2<1
+@set g_bt_soan2=g_bt_soan2+1 if:f_bt_soan2<1
+@set f_bt_soan2=1
+"저자에 간다고? 같이 가지."
+소아가 따라나선다.
+대장간 앞에서 그녀의 걸음이 멎는다. 적운에서 쓰던 것과 같은 청석(靑石) 숫돌이다.
+"……사부의 검은 늘 내가 갈았다. 눈을 다친 뒤로는 남은 왼눈 하나로."
+은자 두 냥. 소아는 전낭을 꺼내지 않는다. 적운의 마지막 제자는 가난하다.
+# SoaN2Ch
+@choice "숫돌을 사서 건넨다 (은자 2)" if:mn>=2 goto:#SoaN2A
+@choice "\"내 검도 갈아 준다면 사지.\" (은자 2)" if:mn>=2 goto:#SoaN2B
+@choice "숫돌에서 눈을 거두고 지나친다" goto:#SoaN2C
+@stop
+# SoaN2A
+@fx mn:-2
+소아가 숫돌을 한참 만지작거리다, 퉁명스럽게 말한다.
+"……이것도 빚으로 치겠다."
+"네가 들고 다니는 그 책에 적어 둬라."
+"적었다. 벌써 몇 줄째인지 아느냐?"
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# SoaN2B
+@fx mn:-2 sw:1
+그날 밤 소아는 왼눈 하나로 반 시진 동안 당신의 검을 갈았다.
+돌려받은 검날이 달이라도 벨 듯 섰다.
+"적운에서는 이렇게 한다. 불만은 없겠지?"
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# SoaN2C
+지나쳤다. 소아도 아무 말 없었다.
+다만 돌아오는 내내, 그녀는 반 걸음 뒤에서 걸었다.
+@goto Molak02#AfterChapter
+
+; --- S3: 비 오는 밤 (20일+) ---
+# SoaN3
+@art scene:rain
+@art char:soa_grief
+@vfx kind:rain
+@deja text:"반 뼘 열린 문. 지난 생에도 이 문 앞에 섰다. 그녀가 무슨 말을 할지 알아서 문고리를 쥔 손이 무겁다."
+{dejapre}
+@goto #SoaN3Re if:g_bt_soan3>0&&f_bt_soan3<1
+@set g_bt_soan3=g_bt_soan3+1 if:f_bt_soan3<1
+@set f_bt_soan3=1
+비가 온다. 복도 끝 소아의 방문이 반 뼘 열려 있다.
+등불도 없이 그녀가 벽에 기대 앉아 있다.
+"……눈을 감으면, 그날 밤 빗소리가 난다."
+적운이 무너진 밤에도 비가 왔다고 했다.
+"사형들이 문을 막았다. 나를 우물에 숨겨 두고. 우물 속에서……."
+그녀가 오른눈의 안대를 만진다.
+"……불빛이 어른거리는 걸, 물에 비친 채로 봤다. 밤새도록."
+# SoaN3Ch
+@choice "문가에 앉는다 — 비가 그칠 때까지" goto:#SoaN3A
+@choice "\"검을 잡아라. 빗소리는 검 소리로 덮는다.\"" goto:#SoaN3B
+@choice "안식향 한 대를 피워 문틈에 꽂아 둔다" if:f_incense>0 goto:#SoaN3X
+@choice "문양의 냉기로 빗소리를 누른다 — 저주 +3" if:curse>=40 goto:#SoaN3Y
+@stop
+# SoaN3X
+말 대신 향에 불을 붙여 문틈에 꽂아 두고 돌아간다.
+빗소리 사이로 그녀의 숨소리가 조금씩 길어진다.
+이튿날 아침, 소아가 다 탄 향 꽁지를 손가락에 끼운 채 서 있다.
+"……이건 적지 않겠다. 어떻게 갚아야 할지 모르겠으니까."
+@set aff=aff+1
+@fx curse:-2 hp:1
+@goto Molak02#AfterChapter
+# SoaN3Y
+문짝에 손바닥을 댄다. 문양의 냉기가 문지방을 넘는다.
+그 방 처마에서만 빗소리가 끊긴다. 물방울이 허공에 멎는다.
+소아의 숨이 고르게 가라앉는다. 대신 새벽까지 손끝이 얼어 풀리지 않는다.
+아침, 소아가 마른 처마 밑을 내려다본다.
+"……어젯밤, 내 방에만 비가 그쳤다."
+외눈이 당신 손을 보고, 더 묻지 않는다.
+@set aff=aff+1
+@fx curse:3 sl:1
+@goto Molak02#AfterChapter
+# SoaN3A
+문가에 앉아 같은 빗소리를 들었을 뿐이다.
+새벽녘, 소아는 벽에 기댄 채 잠들어 있었다.
+우물 밖에서 맞는 첫 비 오는 밤인지도 모른다.
+@set aff=aff+2
+@fx hp:-1
+@goto Molak02#AfterChapter
+# SoaN3B
+"……청운에서는 그렇게 배우나 보지."
+빗속에서 두 검파의 마지막이 검을 섞는다.
+그녀의 검이 평소보다 사납고, 평소보다 정직하다.
+@set aff=aff+1
+@fx sw:1 hp:-1
+@goto Molak02#AfterChapter
+
+; --- S4: 사슬은 그녀를 노린다 (25일+) ---
+# SoaN4
+@art scene:alley
+@art char:soa_fierce
+@deja text:"사슬 셋. \"적운의 마지막 눈.\" 지난 생에도 이 골목이었다. 이번엔 한 걸음 먼저 간다."
+{dejapre}
+@goto #SoaN4Re if:g_bt_soan4>0&&f_bt_soan4<1
+@set g_bt_soan4=g_bt_soan4+1 if:f_bt_soan4<1
+@set f_bt_soan4=1
+저자에서 돌아오는 소아를 혈쇄문의 사슬 셋이 막아선다. '운검류 수집' 명단에 그녀의 이름도 있었다.
+"적운의 마지막 눈이군. 문주께서 찾으신다."
+사슬은 검을 감는 무기다. 하나는 베고, 둘은 못 벤다.
+골목에 들어선 것은 그때다.
+@choice "골목으로 뛰어든다" goto:#SoaN4F
+@stop
+# SoaN4F
+@set dkind="chainmob"
+@gosub MolakDuel#Run
+@goto #SoaN4W if:duelwin>0
+사슬 하나가 당신의 검을, 하나가 소아를 묶는 순간, 소아의 외눈이 번뜩인다.
+묶인 채로 반 보, 적운의 보법. 사슬 주인의 목젖에 검 끝이 닿는다.
+"……그 손 놓는 게 좋을 거다. 내 칼이 먼저 움직이기 전에."
+놈들이 물러난다. 구한 것인지 구해진 것인지. 둘 다다.
+@set f_soasaved=1
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# SoaN4W
+마지막 사슬이 바닥에 떨어진다.
+소아가 숨을 몰아쉬며 검을 거둔다.
+"……왔군."
+<align=right>"지나가던 길이다."</align>
+"거짓말. 저잣거리는 반대쪽이잖나."
+소아가 웃고는, 당신의 소매를 아주 잠깐 쥐었다 놓는다.
+'소매가 따뜻하다. 모른 척한다.'
+@set f_soasaved=1
+@set aff=aff+2
+@fx hp:-2 sl:1
+@goto #SoaN4H if:f_herbfriend>0
+@goto #SoaN4J if:f_jangfriend>0
+@goto Molak02#AfterChapter
+# SoaN4H
+이튿날, 방문 앞에 금창약 두 통. 백초 할멈의 글씨. 「젊은 것들이 겁도 없이 사슬에 몸을 내놓는구나. 반값도 안 받는다.」
+약통은 품에 넣고, 쪽지는 접어 따로 넣는다.
+@fx hp:2
+@goto Molak02#AfterChapter
+# SoaN4J
+@art char:jang
+저녁, 쥐눈이 장이 지나가듯 귀띔한다.
+"혈쇄문 명단에서 적운 계집애 이름이 지워졌소. 시치미 떼는 얼굴이 참 한결같으시오."
+@goto Molak02#AfterChapter
+
+; --- S5: 지붕 위의 달 (31일+, 호감 높음) ---
+# SoaN5
+@art scene:roofmoon
+@art char:soa
+@vfx kind:petals
+@deja need:g_soadied text:"같은 달이다. 지난 생에도 이 기와 위에서 이 달을 봤고, 며칠 뒤 이 지붕에 그녀의 피가 고였다."
+{dejapre}
+"올라와라."
+지붕 위, 소아가 기와에 누워 달을 본다.
+"혈쇄문도, 독아단도, 교도 놈들도. 다 네가 벨 테지. 그다음은?"
+<align=right>"……생각해 본 적 없다."</align>
+"그럼 지금부터라도 생각해 두거라."
+'다 벤 다음. 그런 날이 오긴 하나.'
+그녀가 몸을 일으켜 똑바로 당신을 본다.
+"다 벤 다음에도 살아 있어야 한다. 그게 내 몫의 빚이다."
+그녀의 손이 가슴의 문양 위에 얹힌다. 저주가 거짓말처럼 조용해진다.
+@goto #SoaN5L if:g_end_wonhaeng<1
+<color=#9A70C4>지난 생, 이 손을 잡고 남쪽으로 갔다. 한 달 뒤 강가에서 문양이 목까지 올라왔다. 도망친 길 끝에서도 열매는 익었다.</color>
+@choice "\"이번엔 끝을 내고 가자. 다 벤 다음에, 같이.\"" goto:#SoaN5W
+# SoaN5L
+@choice "\"약속하지.\"" goto:#SoaN5A
+@choice "말없이 그 손 위에 손을 얹는다" goto:#SoaN5B
+@choice "칼등을 맞대어 약조한다" goto:#SoaN5X
+@stop
+# SoaN5W
+소아의 외눈이 당신 얼굴 위에서 무언가를 맞춰 본다.
+"……너는 가끔 미친 소리를 한다. 그런데 그 미친 소리가 틀린 적이 없다."
+그녀가 쌍검 하나를 반 치 뽑아 칼등을 당신 칼등에 댄다. 쨍.
+"다 벤 다음 일은…… 같이 생각해 보자."
+@fx curse:-4 sw:1
+@set aff=aff+1
+@set f_soabond=1
+@set g_soabond=1
+@mark text:"소아 곁에 남았다"
+@goto Molak02#AfterChapter
+# SoaN5X
+대답 대신 검을 반 치 뽑는다.
+소아도 쌍검 하나를 반 치 뽑아 칼등을 댄다. 쨍.
+"적운에선 이 소리로 약조를 맺었다. 깨면 칼로 갚는다."
+<align=right>"깨지 않는다."</align>
+"어디 두고 보지."
+@fx curse:-3 sw:1
+@set f_soabond=1
+@set g_soabond=1
+@mark text:"소아 곁에 남았다"
+@goto Molak02#AfterChapter
+# SoaN5A
+"약속했지?"
+<align=right>"했다."</align>
+"그럼 됐다."
+소아가 다시 기와에 눕는다. 그날 밤과 같은 달인데, 오늘은 그냥 밝다.
+@fx curse:-5
+@set f_soabond=1
+@set g_soabond=1
+@mark text:"소아 곁에 남았다"
+@goto Molak02#AfterChapter
+# SoaN5B
+말은 필요 없었다.
+두 검파의 마지막 둘이 지붕 위에서 같은 달을 본다.
+@vfx kind:clear
+기와 아래 어딘가에서 짧은 휘파람이 두 번 울린다.
+소아의 손이 쌍검 자루로 간다.
+달은 그대로인데, 밤이 식는다.
+@fx curse:-6 hp:1
+@set f_soabond=1
+@set g_soabond=1
+@mark text:"소아 곁에 남았다"
+@goto Molak02#AfterChapter
+
+; ---------- 소아 아크 II: 우물, 장부, 그리고 그 밤 (0.3.3) ----------
+; 진엔딩 사슬: 7지점(42일+ 혈랑대의 밤)에서 적운의 구결을 얻음(g_redverse, 회귀해도 남는 기억)
+;            → 다음 생 4지점(22일 운검사태 사당, 28일에 불탐)에서 석함을 열어 「운검합벽」(f_hapbyeok)
+;            → 교주전에서 소아와 합벽 = 진엔딩. 첫 생에는 순서상 닿을 수 없다.
+
+; --- S6: 우물 (16일+) ---
+# SoaN6
+@art scene:well
+@art char:soa
+@set tr=random(1,3)
+@goto #SoaN6b if:tr==2
+@goto #SoaN6c if:tr==3
+@deja text:"두레박줄을 쥔 손. \"우물만 보면 손이 멎는다.\" 그 우물이 어떤 우물인지 이제는 안다."
+{dejapre}
+@goto #SoaN6Re if:g_bt_soan6>0&&f_bt_soan6<1
+@set g_bt_soan6=g_bt_soan6+1 if:f_bt_soan6<1
+@set f_bt_soan6=1
+객잔 뒤뜰 우물가. 소아가 두레박줄을 쥔 채 서 있다.
+"우물만 보면 아직도 손이 멎는다. 우습지?"
+줄이 천천히 풀려 내려간다. 첨벙.
+@goto #SoaN6M
+# SoaN6b
+새벽. 소아가 우물 덮개 위에 쌍검을 무릎에 눕혀 놓고 앉아 있다.
+"잠이 안 와서 나왔다. 이상하게 우물 위가 제일 덜 무섭다. 아래로만 내려가지 않으면 된다."
+@goto #SoaN6M
+# SoaN6c
+점소이가 우물에 두레박을 떨어뜨린다. 소아가 말없이 줄을 타고 내려가 건져 올라온다.
+젖은 소매로 얼굴을 훔치는 손이 떨린다.
+"……십 년 만에 내려가 봤다. 막상 들어가 보니 별것 아니더군."
+@goto #SoaN6M
+# SoaN6M
+"그날 밤, 사부가 우물 덮개 위에 사흘을 앉아 있었다. 교도들이 산장을 뒤지는 동안, 검을 무릎에 놓고."
+"사흘째 새벽, 위에서 같은 말을 백 번 외웠다. 아래로 흘려보내듯이."
+"외워라. 아무에게도 주지 마라. 반만, 청운의 아이에게만—그렇게 끝났다. 그다음엔 두레박줄을 타고 피가 떨어졌다."
+외눈이 묻는다. 당신이 그 아이냐고. 입으로 묻지는 않는다.
+@choice "\"그 반을 내게 줄 생각이었나.\"" goto:#SoaN6A
+@choice "아무 말 없이 두레박을 끌어 올려 준다" goto:#SoaN6B
+@choice "\"죽은 자의 말에 묶여 사는 건 그만둬라.\"" goto:#SoaN6C
+@stop
+# SoaN6A
+"……아직은 안 된다."
+소아가 우물 덮개를 무겁게 닫는다.
+"사부는 반만 주라 했다. 언제 주라고는 안 했다. 네 가슴의 그게 무엇으로 익는지 보고 나서다."
+@set aff=aff+1
+@set f_soawell=1
+@goto Molak02#AfterChapter
+# SoaN6B
+소아가 두레박 물에 손을 담근다.
+"……물이 차군. 그날 밤에도 꼭 이만큼 찼다."
+물이 미지근해질 때까지 손을 빼지 않는다.
+@set aff=aff+2
+@set f_soawell=1
+@fx curse:-1
+@goto Molak02#AfterChapter
+# SoaN6C
+외눈이 가늘어진다. 손이 쌍검 자루에 갔다가 내려온다.
+"묶여 사는 게 아니다. 그 말 하나로 살아남았다. 너는 무엇으로 살아남았지?"
+대답 대신 가슴의 문양이 뜨거워진다.
+"……그래. 너는 그걸로 버텼구나."
+@set aff=aff-1
+@set f_soawell=1
+@goto Molak02#AfterChapter
+
+; --- S7: 장부의 첫 줄 (30일+, 호감 3 이상) ---
+# SoaN7
+@art scene:innroom
+@art char:soa_grief
+@deja text:"적운의 책, 첫 장 첫 줄. 그 줄에 누구의 이름이 있는지 안다."
+{dejapre}
+밤. 소아가 탁자에 적운의 글씨로 된 낡은 책을 펴 놓고 앉아 있다. 첫 장, 첫 줄.
+「청운의 막내. 가슴에 사(邪)가 심겼거든, 익기 전에 네 손으로 베어라. — 사부」
+"첫날 국밥집에서 맞은편에 앉은 게 우연인 줄 알았나."
+거짓말을 할 때보다 더 낮은 목소리다.
+"한 달을 지켜봤다. 그 문양이 언제 익는지, 네가 언제 마인이 되는지. 벨 날을 재면서."
+"……이제는 못 재겠다. 그래서 털어놓는 거다."
+@choice "\"그래서, 벨 거냐.\"" goto:#SoaN7A
+@choice "옷깃을 풀어 문양을 보인다 — 직접 재 보라" goto:#SoaN7B
+@choice "검을 뽑아 그 목에 댄다 — 먼저 속인 쪽은 너다" goto:#SoaN7C
+@choice "책을 덮고 방을 나간다" goto:#SoaN7D
+@choice "\"둘째 장부터 넘겨 보시오. 끼니가 적혀 있을 거요.\"" if:g_soaledger>0 goto:#SoaN7L
+@stop
+# SoaN7L
+소아의 손이 책 모서리에서 멎는다.
+<color=#9A70C4>지난 생, 우물가에서 이 책을 끝까지 넘겼다. 마지막 장은 꿈 이야기였다.</color>
+"……둘째 장은 아직 비어 있다."
+<align=right>"<color=#9A70C4>곧 찰 거요. 국밥, 거지 그릇, 지붕의 달. 줄 끝마다 '빚'이라 썼다가 지울 거요.</color>"</align>
+소아가 책을 덮는다. 손바닥이 표지 위에 오래 머문다.
+"……적어 놓고 왜 지운다는 거지?"
+<align=right>"빚이 아니니까."</align>
+그녀가 첫 장을 찢어 등잔불에 댄다. 사부의 글씨가 오그라든다.
+이번엔 망설임이 없다.
+@set aff=aff+3
+@set f_soatruth=1
+@fx curse:-2
+@goto Molak02#AfterChapter
+# SoaN7A
+@goto #SoaN7A2 if:curse>=60
+"……아직은 아니다."
+소아가 책 첫 장을 찢어 등잔불에 댄다. 사부의 글씨가 오그라든다.
+"사부도 틀릴 때가 있었다. 우물 속에서 처음 알았지. 사흘이면 구하러 온다고 했거든."
+타는 종이를 손바닥으로 비벼 끈다. 손바닥이 데는데 표정은 그대로다.
+@set aff=aff+2
+@set f_soatruth=1
+@goto Molak02#AfterChapter
+# SoaN7A2
+"……아직은."
+소아가 첫 줄 위에 손가락을 올려놓는다.
+"네 몸에서 익는 냄새가 난다. 사부가 말하던 바로 그 냄새다."
+<align=right>"익으면?"</align>
+"그땐 내가 벤다. 다른 놈이 베게 두지 않는다. 그게 내가 줄 수 있는 전부다."
+@set aff=aff+1
+@set f_soatruth=1
+@set f_soawatch=1
+@goto Molak02#AfterChapter
+# SoaN7B
+옷깃이 풀린다. 등잔불 아래, 문양이 쇄골을 향해 뻗어 있다.
+@goto #SoaN7B2 if:curse>=65
+소아의 차가운 손끝이 문양의 가장자리를 따라간다.
+"……아직 네 것이 더 많다."
+그녀가 책을 품에 넣는다.
+"익기 전까지는, 내가 네 등을 본다. 익거든, 내가 네 목을 본다. 그게 약조다."
+@set aff=aff+2
+@set f_soatruth=1
+@goto Molak02#AfterChapter
+# SoaN7B2
+소아의 손이 문양 한 치 앞에서 멈춘다. 닿을 수가 없다는 얼굴이다.
+"……늦었구나. 내가 너무 오래 쟀다."
+소리 없이 쌍검이 뽑힌다.
+"미안하다. 사부의 말이다. 그리고 내 말이기도 하다."
+@choice "검을 뽑아 맞선다" goto:#SoaN7Fight
+@choice "검을 내려놓고 목을 내민다" goto:#SoaN7Bare
+@stop
+# SoaN7Fight
+@set dkind="soa"
+@gosub MolakDuel#Run
+@goto #SoaN7Kill if:duelwin>0
+@goto Molak02#AfterChapter
+# SoaN7Bare
+검을 떨어뜨리고 목을 내민다. 쌍검 끝이 목젖에 닿고, 피 한 방울이 맺힌다.
+한참.
+"……비겁한 놈."
+쌍검이 거두어진다. 소아가 문을 박차고 나간다.
+복도 끝에서 그녀의 주먹이 벽을 치는 소리.
+@set aff=aff+1
+@set f_soatruth=1
+@set f_soawatch=1
+@fx hp:-1
+@goto Molak02#AfterChapter
+# SoaN7Kill
+@mark text:"소아를 베었다"
+@set f_soadead=1
+@set f_soakilled=1
+@set g_soadied=1
+@set g_soalast=1
+@set g_soaname=1
+소아가 무릎을 꿇는다. 쌍검 한 자루가 바닥을 미끄러진다.
+베어 놓고야 안다. 그녀의 두 번째 검이 마지막 한 치에서 멈췄다는 것을. 일부러.
+"……잘 됐다. 덜 익은 놈한테 베였으니. 익은 놈이었으면 억울할 뻔했다."
+웃으려다 기침을 한다.
+"반쪽……. 사부가, 반만, 주라 했지."
+그녀가 당신 귀에 입을 댄다. 숨은 뜨겁고 말은 차다. 우물 속에서 백 번 들은 적운의 구결을, 한 번에.
+"……내 이름은, 연(蓮)이다. 사부만 그리 불렀다. 너도, 한 번만."
+@goto #SoaDieTail
+# SoaN7C
+검 끝이 그녀의 목에 닿는다. 소아는 쌍검에 손도 대지 않는다.
+"그래. 그게 맞다. 속은 쪽이 베는 거다."
+외눈이 끝까지 당신을 본다.
+@choice "벤다" goto:#SoaN7CKill
+@choice "검을 거둔다" goto:#SoaN7CSpare
+@stop
+# SoaN7CKill
+@mark text:"소아를 베었다"
+@set f_soadead=1
+@set f_soakilled=1
+@set g_soadied=1
+@set g_soalast=1
+검이 한 번 움직인다. 그녀는 피하지 않는다.
+쓰러지는 몸을 받는다. 쌍검을 메고 다니던 몸이 이렇게 가벼웠다.
+그녀의 입술이 무언가를 말하려다 만다. 반쪽은 끝내 건너오지 않는다.
+@black text:"……|숨이 멎었다." red:true hold:1.7
+@fx sl:3 curse:6
+@set f_soablades=1
+@goto Molak02#AfterChapter
+# SoaN7CSpare
+@mark text:"소아를 베지 않았다"
+검을 거둔다. 그녀의 목에 붉은 줄 하나가 남는다.
+"……바보 같은 놈."
+소아가 책을 탁자에 둔 채 나간다. 첫 줄 아래에 그녀의 글씨로 한 줄이 더 적혀 있다.
+「못 베겠습니다, 사부.」
+@set aff=aff+2
+@set f_soatruth=1
+@goto Molak02#AfterChapter
+# SoaN7D
+문을 닫는다. 등 뒤에서 아무 소리도 나지 않는다.
+이튿날, 소아의 방이 비어 있다.
+"그 낭자, 새벽에 셈을 치르고 갔소. 며칠 뒤에 오겠다더이다. 안 올 사람처럼 말하더이다."
+@set aff=aff-2
+@set f_soarift=1
+@goto Molak02#AfterChapter
+
+; --- S8: 그 밤 (42일+, 7지점) ---
+# SoaN8
+@scene id:night
+@art scene:raid
+@art char:soa_fierce
+@goto #SoaN8Re if:g_soadied>0||g_know_raid>0
+@set g_know_raid=1
+한밤중. 기와 위로 여러 발소리가 지나간다.
+소아가 먼저 깨어 쌍검을 쥐고 복도에 서 있다.
+"혈랑대다. 열둘. 아니, 열넷."
+@vfx kind:embers
+창호지에 횃불이 번진다. 아래층에서 하진무가 점소이를 부엌으로 밀어 넣는다.
+"……대사형의 개들이다. 너를 데리러 왔다. 나는 덤이고."
+@goto #SoaN8C
+# SoaN8Re
+한밤중. 소리가 나기도 전에 눈을 뜬다.
+이 밤을 안다. 기와를 밟는 열넷의 발소리, 번지는 횃불, 점소이를 부엌으로 미는 하진무의 손.
+그리고 복도 끝, 쌍검을 쥐고 서 있을 사람.
+@goto #SoaN8ReB if:g_soadied<1
+<color=#9A70C4>지난 생, 이 밤에 그녀가 죽었다.</color>
+@goto #SoaN8ReC
+# SoaN8ReB
+<color=#9A70C4>지난 생에도 이 밤이 있었다.</color> 그때는 발소리를 듣고서야 깼다.
+# SoaN8ReC
+@goto #SoaN8ReT if:theme!=4
+<color=#9A70C4>지난 생보다 사흘 이르다.</color> 이번 생엔 혈랑대가 일찍 왔다.
+그래도 발소리는 같다.
+# SoaN8ReT
+@print "<color=#9A70C4>지난 생보다 이르다.</color> 돌아오지 않은 척후 둘의 값이다. 대주가 날을 당겼다." if:g_raidlast>0&&raidday<g_raidlast&&rp_tok>0
+@print "<color=#9A70C4>지난 생보다 이르다.</color> 수배서에 내 얼굴이 붙은 뒤로 혈랑대가 서두른다." if:g_raidlast>0&&raidday<g_raidlast&&rp_want>0&&rp_tok<1
+@print "<color=#9A70C4>지난 생보다 늦다.</color> 빈방을 부순 붉은 끈들이 고을 밖부터 뒤지느라 이틀을 썼다." if:g_raidlast>0&&raidday>g_raidlast&&rp_dodge>0
+@set g_know_raid=1
+아직 발소리는 없다. 시간이 조금 남았다.
+@choice "계단에 등잔 기름을 붓고, 하진무와 점소이를 아궁이 뒤에 숨긴다" goto:#SoaN8P1
+@choice "소아의 방문을 두드린다 — 이번엔 먼저 말한다" goto:#SoaN8P2
+@choice "그녀 방 앞 계단에 먼저 앉는다 — 이번엔 계단보다 먼저" if:g_soavow>0 goto:#SoaN8P3
+@choice "그대로 누워 기다린다 — 같은 밤을 다시 본다" goto:#SoaN8C
+@stop
+# SoaN8P1
+기름이 계단 넷째 칸까지 번진다. 하진무가 묻지 않고 점소이를 데리고 아궁이 뒤로 들어간다.
+@set f_raidprep=1
+@goto #SoaN8C
+# SoaN8P2
+문이 열리기도 전에 소아가 쌍검을 쥐고 서 있다.
+"……어떻게 알았지."
+<align=right>"<color=#9A70C4>오늘 밤 열넷이 오오. 그대는 계단에서 죽소. 지난번엔 그랬소.</color>"</align>
+우물 위에서 백 번 외운 말을 다시 듣는 눈이다.
+미친 소리로 듣는 눈이 아니다.
+"……그럼 이번엔 계단에 둘이 서지."
+@set aff=aff+1
+@set f_raidprep=1
+@goto #SoaN8C
+# SoaN8P3
+<color=#9A70C4>지난 생, 비 맞은 술병 앞에서 약조했다. 이번엔 계단보다 먼저 가겠다고.</color>
+등잔 기름 한 동이를 들고 그녀 방 앞 계단 셋째 칸에 앉는다. 칼은 무릎 위에.
+문이 열린다. 소아가 쌍검을 쥔 채 당신을 내려다본다.
+"……여기서 뭘 하고 있는 거지?"
+<align=right>"기다리오. 열넷을."</align>
+그녀가 말없이 당신 옆, 둘째 칸에 앉는다. 어깨가 닿는다.
+"계단이 좁군."
+<align=right>"둘이 서기엔 넓소."</align>
+@set f_raidprep=1
+@set aff=aff+2
+@goto #SoaN8C
+# SoaN8C
+@gosub #SoaN8Allies
+@goto #SoaN8CS0 if:g_sac_raid<1
+<color=#9A70C4>계단 셋째 칸. 지난 생엔 여기 혼자 앉아서 죽었다. 그 생의 그들은 산사 종루 밑에서 새벽을 맞았다.</color> 이번 생의 그들은 그 새벽을 모른다.
+# SoaN8CS0
+@choice "소아를 등 뒤에 두고 계단 앞을 막는다" goto:#SoaN8A
+@choice "소아와 하진무를 지붕으로 내보내고, 계단에 혼자 남는다 (대신 죽는다)" goto:#SoaN8S
+@choice "소아의 손목을 잡고 지붕으로 달아난다" goto:#SoaN8B
+@choice "문양을 푼다 — 사술에게 이 밤을 맡긴다" if:curse>=55 goto:#SoaN8C2
+@choice "뒷문으로 혼자 빠져나간다" goto:#SoaN8D
+@stop
+# SoaN8A
+"비켜라. 내 싸움이다."
+<align=right>"내 객잔 계단이다."</align>
+소아가 혀를 차고, 당신 등에 제 등을 댄다.
+등 뒤를 맡기는 적운의 서는 법이다.
+@set dkind="raid"
+@gosub MolakDuel#Run
+@goto #SoaN8AW if:duelwin>0
+@goto #SoaN8AL if:aff>=4
+계단 셋을 내준다. 둘을 베고 하나에게 베인다.
+혈랑대가 횃불을 던지고 물러난다.
+소아가 피를 뱉는다.
+"……다음번엔 스물이 올 거다."
+@fx curse:2
+@gosub #SoaN8LateMsg
+@goto Molak02#AfterChapter
+# SoaN8S
+@mark text:"소아 대신 남기로 했다" note:"너는 잊겠지만, 나는 기억한다."
+소아의 손목을 잡아 창 쪽으로 끈다. 그녀가 버틴다.
+"뭐 하는 거냐."
+<align=right>"지붕으로 가시오. 하진무와 점소이를 데리고. 뒷담 너머 산사 종루까지."</align>
+"그럼 너는?"
+<align=right>"계단은 하나가 막으면 되오. 둘이 막으면 둘 다 죽소."</align>
+그녀의 외눈이 당신을 읽는다. 거짓말이 아니라는 걸 읽는다. 그래서 더 버틴다.
+가슴의 문양이 낮게 웃는다. 이 몸은 죽어도 돌아간다.
+그녀는 돌아오지 못한다. 다른 길은 없다.
+창밖으로 그녀를 밀어낸다. 소아가 기와 위로 구른다.
+하진무가 점소이 손을 잡고 그 뒤를 따른다.
+마지막으로 돌아보는 하진무에게 고개를 끄덕인다.
+@page
+@bgm mood:boss
+@art scene:raidnight
+@art char:none
+계단 셋째 칸. 칼을 무릎에 눕히고 앉는다. 발소리가 올라온다. 열넷.
+@vfx kind:clash
+셋째 칸은 좁다. 한 번에 하나씩만 올라온다. 하나씩 눕힌다.
+일곱째에서 칼날이 무뎌진다.
+아홉째에서 팔이 무뎌진다.
+@vfx kind:hit
+열하나째의 칼이 옆구리에 들어온다. 열둘째의 칼이 등에.
+그래도 앉아 있다. 계단 셋째 칸은 앉아 있는 사람 하나로 막힌다.
+@bgm mood:hush
+@vfx kind:beat
+이 밤을 그녀는 잊는다. 다음 아침의 그녀는 이 계단에 누가 앉아 있었는지 모른다.
+국밥집에서 내 그릇을 뺏어 먹으며 처음 보는 얼굴을 할 것이다.
+'괜찮다. 내가 기억한다. 죽어서도.'
+@black text:"숨이 멎는다." red:true hold:1.6
+@page
+@bgm mood:sorrow
+@art scene:temple
+@art char:soa_grief
+되감기기 직전, 문양이 한 장면을 보여 준다. 당신이 없는 뒷날이다.
+새벽, 산사 종루 밑. 소아가 하진무와 점소이 사이에 앉아 있다. 셋 다 살아 있다.
+객잔 쪽 하늘이 붉다. 소아가 일어선다. 하진무가 그 소매를 잡는다. 놓지 않는다.
+"……가지 마시오. 객이 그러라고 했소."
+소아가 오래 서 있다. 그러다 앉는다. 쌍검을 무릎에 눕힌다. 계단 셋째 칸의 그 사람처럼.
+그 뒤로 그녀는 밤마다 다시 지은 객잔 지붕에 올라 술 석 잔을 따른다.
+셋째 잔은 계단 셋째 칸 몫이다.
+@set deathcause="희생"
+@set sackind=1
+@set g_sac_soa=1
+@set g_sac_raid=1
+@goto MolakOver#Dead
+# SoaN8AL
+무릎이 꺾인다. 혈랑대의 칼이 목을 향해 내려온다.
+그 칼과 목 사이로 흑의가 미끄러져 든다.
+@vfx kind:hit
+쇳소리 대신 살 소리가 난다.
+소아의 등이 당신 가슴에 기대어 온다. 너무 따뜻하다.
+@vfx kind:beat
+"……등 뒤를, 맡긴다고, 했잖아."
+@goto #SoaN8Die
+# SoaN8AW
+@set g_raid_won=g_raid_won+1
+@vfx kind:heavy
+열넷 중 열하나가 계단에 눕고 셋이 달아난다.
+달아나던 하나가 죽은 동료의 쇠패를 뜯어 간다.
+"패는 서열각 것이다. 몸은 네가 가져라."
+마당에서 횃불 하나가 혼자 탄다.
+@set g_fac_gyo2=1
+소아가 계단에 주저앉는다. 옆구리를 누른 손가락 사이로 피가 샌다. 깊지 않다고 우긴다.
+@fx sl:2
+@goto #SoaN8Dawn
+# SoaN8B
+지붕. 기와 셋을 건너 넷째에서 화살이 날아온다.
+@set tr=random(1,100)
+@goto #SoaN8BOk if:tr<=40+aff*5
+소아가 당신을 처마 밑 짚더미로 밀쳐 떨어뜨린다. 그녀는 지붕 위에 남는다.
+"가라. 둘이 뛰면 둘 다 잡힌다."
+지붕 위에서 쌍검 소리가 오래 나다가, 멎는다.
+@set aff=aff+1
+@goto #SoaN8BLost
+# SoaN8BOk
+기와를 차고 담을 넘는다. 소아의 손이 당신 손목에서 한 번도 풀리지 않는다.
+새벽녘, 둘은 산사의 종루 밑에서 숨을 고른다.
+"……도망치는 것도 둘이 하니 할 만하군."
+@goto #SoaN8Dawn
+# SoaN8BLost
+@bgm mood:hush
+@art scene:bloodroof
+@vfx kind:bloodrain
+@art char:none
+새벽, 객잔 지붕으로 돌아간다. 기와가 피로 미끄럽다.
+용마루 끝에 그녀가 쌍검을 무릎에 눕히고 앉은 채로 있다. 우물 덮개 위의 그 사부처럼.
+@goto #SoaN8BWrit if:aff>=3
+눈이 감겨 있지 않다. 당신이 달아난 쪽을 보고 있다.
+@mark text:"그 밤, 지붕을 떠났다"
+@black text:"……|소아." red:true hold:1.8
+@set f_soadead=1
+@set g_soadied=1
+@set g_soalast=1
+@set f_soablades=1
+@fx curse:4
+@goto Molak02#AfterChapter
+# SoaN8BWrit
+기와 위에 손가락으로 쓴 붉은 글씨가 있다. 비가 오기 전에 읽어야 한다.
+적운의 구결이다. 다 못 쓸까 봐, 같은 줄을 두 번 썼다.
+@vfx kind:beat
+맨 끝에 한 글자. 蓮.
+@mark text:"그 밤, 지붕을 떠났다"
+@black text:"蓮." red:true hold:2
+@set f_soadead=1
+@set g_soadied=1
+@set g_soalast=1
+@set g_redverse=1
+@set g_soaname=1
+@set f_soablades=1
+@fx curse:4
+@goto #SoaN8Fold if:storymode>0&&g_hapdone<1&&f_hapbyeok<1
+@goto Molak02#AfterChapter
+# SoaN8C2
+@vfx kind:curse
+문양이 풀린다. 그다음은 기억나지 않는다.
+@page
+눈을 뜬다. 아래층이 조용하다. 너무 조용하다.
+계단에 열넷이 누워 있다. 부엌 문간에 주저앉은 하진무는 무엇을 보았는지 말하지 않는다.
+복도 끝, 그녀가 벽에 기대 앉아 있다. 쌍검은 칼집에 꽂힌 채다.
+당신을 향해서는 뽑지 않았다.
+@vfx kind:beat
+가슴의 상처 결을 안다. 청운의 횡소다. 당신의 검이다.
+"……괜찮다. 막을 수 있었는데, 안 막았다."
+@set f_soakilled=1
+@fx curse:10 sl:3
+@goto #SoaN8Die
+# SoaN8D
+@vfx kind:embers
+뒷문. 골목. 등 뒤로 객잔이 불탄다.
+돌아보지 않는다. 돌아보면 멈춘다.
+@page
+@goto #SoaN8DH if:f_hajinhurt>0
+@art char:hajinmu
+사흘 뒤 돌아온 운락은 이 층 절반이 숯이 되어 내려앉았다.
+하진무가 그 앞에 앉아 주판알을 줍고 있다.
+"낭자는 끝까지 계단에 있었소. 객이 오면 비키겠다고."
+@goto #SoaN8DT
+# SoaN8DH
+사흘 뒤 돌아온 운락은 이 층 절반이 숯이 되어 내려앉았다.
+점소이가 그 앞에 앉아 주판알을 줍고 있다. 혼자서.
+"영감님은…… 무명 감은 팔로 낭자를 끌어내려다가. 둘 다 계단에서."
+점소이가 알이 반쯤 빠진 주판을 내민다. 셈이 끝내 맞지 않는 주판이다.
+주판을 받아 든다. 빠진 알 자리마다 그을음이 앉아 있다.
+@set f_hajindead=1
+@set g_hajindied=1
+# SoaN8DT
+@set f_soadead=1
+@set g_soadied=1
+@set g_soalast=1
+@set f_soaleft=1
+@fx curse:5
+@goto Molak02#AfterChapter
+# SoaN8Die
+@bgm mood:hush
+@set f_soadead=1
+@set g_soadied=1
+@set g_soalast=1
+@set g_redverse=1
+@set g_soaname=1
+@art scene:soanight
+@art char:none
+그녀를 안아 눕힌다. 풀린 안대 아래의 눈은 감긴 채 오래된 흉터다.
+"……들어라. 한 번만 한다."
+그녀가 당신 귀에 입을 댄다. 우물 속에서 백 번 들은 적운의 구결을, 한 번에.
+"나머지 반은, 네가 가졌다. 사당에. 운검사태의 제단 밑에. 둘이 함께 외워야 열리는 함이 있다."
+"……이번엔, 늦었구나. 사당은 탔다."
+피 묻은 이를 보이며 웃는다.
+"내 이름은 연(蓮)이다. 사부만 그리 불렀다. 너도, 한 번만."
+@goto #SoaDieTail
+# SoaDieTail
+@choice "\"……연아.\"" goto:#SoaDieA
+@choice "대답 대신 그 손을 쥔다" goto:#SoaDieB
+@stop
+# SoaDieA
+<align=right>"……응."</align>
+대답은 그것뿐이다. 그 한 마디가 적운의 마지막 소리다.
+손이 소매에서 풀린다. 그 이름을 불러 준 사람이 둘이 되었다.
+둘 다 그녀보다 오래 살았다.
+@black text:"……연(蓮)." red:true hold:2
+@fx curse:3
+@set f_soablades=1
+@goto #SoaN8Fold if:storymode>0&&g_hapdone<1&&f_hapbyeok<1
+@goto Molak02#AfterChapter
+# SoaDieB
+손가락이 차다. 우물물처럼.
+새벽이 되고 하진무가 무명천을 들고 올라올 때까지 손을 놓지 않는다.
+@black text:"……|손가락이 식는다." red:true hold:1.8
+@fx curse:3 hp:-1
+@set f_soablades=1
+@goto #SoaN8Fold if:storymode>0&&g_hapdone<1&&f_hapbyeok<1
+@goto Molak02#AfterChapter
+# SoaN8Dawn
+@gosub #SoaN8LateMsg
+@goto #SoaN8Verse if:f_soabond>0||aff>=6
+@art char:soa
+새벽. 소아가 당신 어깨에 기대 잠이 든다.
+그녀가 눈을 감은 채 중얼거린다.
+"……그 반쪽은 언젠가 줄 거다. 오늘은 아니다."
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# SoaN8Verse
+@art char:soa
+새벽. 소아가 당신 어깨에 기대 앉아 있다. 잠들지 않았다.
+"사부는 반만 주라 했다. 나머지 반이 네게 있다고."
+그녀가 당신 귀에 입을 댄다. 우물 속에서 백 번 들은 적운의 구결을, 한 번에.
+"운검사태의 제단 밑에 함이 있다. 둘이 함께 외워야 열린다."
+<align=right>"사당은 탔다."</align>
+"……그래. 늦었구나."
+한참 말이 없다. 동이 튼다.
+"그래도 줬다. 이제는 네가 가졌으니, 죽어서라도 잃어버리지 마라."
+농담처럼 하는 말이다. 당신에게는 농담이 아니다.
+@set g_redverse=1
+@set f_soaverse=1
+@set aff=aff+1
+@goto #SoaN8Fold if:storymode>0&&g_hapdone<1&&f_hapbyeok<1
+@goto Molak02#AfterChapter
+# SoaN8Fold
+; 0.4.94 기준: 되감기를 권하는 것은 이 생에서 사당의 함을 열지 못했을 때만(f_hapbyeok<1) — 함을 연 생까지 되감으면 같은 생을 끝없이 돌았다(이야기 모드 시험)
+@print "<color=#9A70C4>귀에 열두 줄이 남아 있다. 사당은 탔다. 이 생에서는 그 함을 열 수 없다.</color>"
+@choice "그 열두 줄을 품고 되감긴다 — 다음 생, 사당이 타기 전으로" goto:MolakOver#StoryFold
+@choice "이 생을 끝까지 걷는다" goto:Molak02#AfterChapter
+@stop
+
+; --- 사당이 타다 (28일+, 사당을 다녀간 뒤) ---
+# ShrFire
+@scene id:day
+@art scene:shrineash
+관도 서쪽 산허리에서 연기가 오른다.
+@goto #ShrFireSoa if:f_soamet>0&&f_soadead<1
+운검사태의 사당이 탔다고 장꾼들이 말한다. 혈쇄문 사슬잡이들이 '운검류 수집'이라며 기름을 부었다고.
+제단 밑까지 다 무너졌다.
+@goto Molak02#Daytime
+# ShrFireSoa
+@art char:soa
+해 질 녘, 소매와 손바닥이 재투성이인 소아가 돌아온다.
+"……제단 밑을 팠다. 함은 녹아서 돌덩이가 됐더군."
+우물가에 앉아 재 묻은 손을 씻지 않고 오래 내려다본다.
+"사부의 사부가 남긴 것이었다. 같이 열 사람이 생겼더니, 열 함이 없다."
+@set aff=aff+1
+@goto Molak02#Daytime
+
+; ---------- 복수 스파인: 산문을 연 자 ----------
+
+; --- R1: 소문 (7일+) ---
+# Rev1
+@art scene:well
+@set tr=random(1,3)
+@goto #Rev1_v2 if:tr==2
+@goto #Rev1_v3 if:tr==3
+@deja text:"우물가의 소문. 반쯤 틀리고 반쯤 무섭다. 무서운 쪽이 맞는다는 걸 지난 생에 알았다."
+{dejapre}
+우물가의 소문은 반쯤 틀리고 반쯤 무섭다.
+@goto #Rev1_vm
+# Rev1_v2
+국숫집 주인이 면을 썰며 하는 말이 귀에 걸린다.
+@goto #Rev1_vm
+# Rev1_v3
+표국 마당에서 말을 씻기던 표사 둘의 말이 귀에 걸린다.
+# Rev1_vm
+@goto #Rev1_vk if:g_jbtruth<1
+<color=#9A70C4>안에서 연 손을 안다. 그 손이 무엇과 바꿨는지도.</color>
+# Rev1_vk
+"청운검파 말일세. 그날 밤, 산문(山門)이 안에서 열렸다더군."
+안에서.
+청운의 산문은 빗장이 셋이다. 밖에서 부술 수는 있어도, 열 수는 없다.
+가슴에 저주보다 차가운 것이 내려앉는다.
+@set b_r1=1
+@choice "우물가를 돌며 소문의 출처를 캔다" goto:#Rev1A
+@choice "믿지 않는다 — 소문은 소문이다" goto:#Rev1B
+@choice "말을 옮긴 행상의 멱살을 잡는다" if:sl>=5 goto:#Rev1X
+@choice "거지 아이들에게 엿값을 쥐여 준다 (은자 1)" if:mn>=1&&f_alms>0||mn>=1&&f_thiefkid>0 goto:#Rev1Y
+@stop
+# Rev1X
+말을 옮기던 행상의 멱살을 잡아 담벼락에 붙인다.
+<align=right>"누구에게 들었느냐."</align>
+"나, 나리. 객잔 뒷골목에서 늑대 가죽 두른 놈이 술김에 떠든 거요. 산문 빗장 얘기를 하면서 낄낄대더이다."
+늑대 가죽. 행상을 놓아준다.
+내일이면 청운의 막내가 대낮에 사람 멱살을 잡더라는 소문이 돌리라.
+@fx sl:2 curse:1
+@goto Molak02#AfterChapter
+# Rev1Y
+@set f_hyeop=f_hyeop+1
+저잣거리 아이들에게 엿값으로 은자 한 냥을 쥐여 준다.
+해 질 녘, 코흘리개 하나가 담 밑에서 손짓한다.
+"그 얘기요, 성 밖 버려진 사당 쪽에서 처음 돌았대요. 보름마다 거기 누가 혼자 온대요."
+운검사태의 위패가 있던 사당이다.
+@fx mn:-1 curse:-1
+@goto Molak02#AfterChapter
+# Rev1A
+출처를 따라가면 끝에는 늘 같은 대답이다.
+"혈마교나 아는 얘기지."
+교에 물을 수는 없다. 아직은.
+원수록 첫 줄에 적는다. 산문을 연 자.
+@fx sl:1
+@goto Molak02#AfterChapter
+# Rev1B
+믿지 않기로 한다.
+그날 밤 꿈에, 빗장 셋이 차례로 풀리는 소리가 났다.
+@fx curse:1
+@goto Molak02#AfterChapter
+
+; --- R2: 혈랑대 (14일+) ---
+# Rev2
+@art scene:alley
+@goto #Rev2F if:f_jangfriend>0
+@art char:jang
+쥐눈이 장이 공짜 귀띔이라며 불러 세운다. 장이 값을 부르지 않는 날은 없었다.
+"혈랑대(血狼隊)라고 아시오? 교의 추격대요. 멸문 때마다 제일 먼저 들어가고 제일 늦게 나오는 놈들이오."
+"그 대주가 검을 쓰는데, 청운의 검이랍디다."
+청운은 죽었다. 당신 빼고는.
+<align=right>"이름은?"</align>
+"거기까진 값이 달라지오. ……농이오. 몰라서 못 파는 거요. 교가 이름을 지웠소."
+@goto #Rev2End
+# Rev2F
+@art char:jang
+쥐눈이 장이 전당포 뒷문을 열어 둔 채 기다리고 있다.
+"혈랑대(血狼隊). 교의 추격대요. 그 대주가 청운의 검을 쓰오."
+"이름은 교가 지웠소. 허나 그자, 보름마다 성 밖 버려진 사당에 혼자 절을 하러 간답디다. 위패도 없는 사당에."
+그곳을 안다. 운검사태의 위패가 있던 자리다.
+@goto #Rev2End
+# Rev2End
+@set b_r2=1
+청운의 검을 쓰는 늑대. 사부의 검이 교의 개 이빨이 되었다.
+@choice "보름에 그 사당에 가 본다" goto:#Rev2S
+@choice "소아에게 혈랑대를 묻는다" if:f_soamet>0&&f_soadead<1 goto:#Rev2A
+@choice "흘려듣는다 — 아직 칼이 모자라다" goto:#Rev2N
+@stop
+# Rev2S
+@page
+@art scene:shrine
+보름. 성 밖 버려진 사당. 해 지기 전에 닿는다. 아무도 없다.
+위패가 있던 자리에 쌀자루 하나. 매듭이 단정하다.
+그 옆에 향 재가 고였다. 오늘 아침에 꽂은 향이다.
+쌀자루 매듭을 본다. 청운에서 장 보러 갈 때 짐을 묶던 매듭이다.
+막내에게 그 매듭을 가르쳐 준 사람이 있었다.
+누구였는지, 손이 먼저 기억하고 머리는 기억하기를 거부한다.
+@set f_r2shrine=1
+@fx curse:1
+@goto Molak02#AfterChapter
+# Rev2A
+@art char:soa
+소아의 숟가락이 국그릇 위에서 멎는다.
+"……혈랑대."
+<align=right>"아시오?"</align>
+"십 년 전에 봤다. 우물 뚜껑 틈으로. 늑대 가죽, 붉은 끈. 그 놈들은 웃으면서 불을 지른다."
+그녀가 국그릇을 밀어낸다. 반도 안 먹었다.
+"그 대주가 청운 검을 쓴다고? ……그럼 너도 우물에 들어갈 날이 온다. 산문 안에서."
+@set aff=aff+1
+@set f_r2soa=1
+@goto Molak02#AfterChapter
+# Rev2N
+아직은 칼이 모자라다. 이름도 모르는 늑대를 쫓다가 늑대 밥이 될 수는 없다.
+그날 밤, 검을 갈며 대사형의 기수식을 흉내 낸다.
+손이 그 모양을 기억한다. 왜 그 모양인지는 모른다.
+@fx sw:1
+@goto Molak02#AfterChapter
+
+; --- R3: 늑대의 그림자 (운 분기) ---
+# Rev3
+@art scene:forest
+@set tr=random(1,3)
+@goto #Rev3_v2 if:tr==2
+@goto #Rev3_v3 if:tr==3
+관도 밖 숲길. 수풀이 반 호흡 일찍 숨을 죽였다.
+@goto #Rev3_vm
+# Rev3_v2
+나루터 갈대밭. 갈대가 바람과 반대로 눕는다.
+@goto #Rev3_vm
+# Rev3_v3
+버려진 물레방앗간. 물레가 멈춰 있다. 물은 흐르는데.
+# Rev3_vm
+붉은 끈에 늑대 가죽. 혈랑대 척후 셋이다.
+"서열록의 그 촌놈이군. 대주께서 얼굴을 봐 두라셨다."
+@set luck=random(1,3)
+@goto #Rev3L1 if:luck==1
+@goto #Rev3L2 if:luck==2
+수풀 너머의 네 번째가 사슬낫으로 등을 스친다.
+피가 흐르지만, 넷이 모두 같은 보법을 밟는 것을 보았다.
+어설프게 훔쳐 배운 반쪽짜리 운상보(雲上步). 청운의 보법이다.
+@fx hp:-4 sw:1 sl:1
+@goto #Rev3End
+# Rev3L1
+바람이 당신 편이었다. 첫 수에 하나, 돌아서는 수에 둘.
+물러나는 마지막 하나의 보법이 반쪽짜리 운상보(雲上步)다. 청운의 것이다.
+@fx sw:2 sl:1
+@goto #Rev3End
+# Rev3L2
+사슬낫 하나가 어깨를 긋고 갔다.
+물러나는 놈들의 보법은 어설프게 훔쳐 배운 청운의 운상보(雲上步)다.
+@fx hp:-2 sw:1 sl:1
+@goto #Rev3End
+# Rev3End
+@set b_r3=1
+혈랑대주가 부하에게 청운의 것을 제 것인 양 가르치고 있다.
+척후 하나가 수풀에 쓰러져 있다. 발목이 꺾였다.
+늑대 가죽 밑의 얼굴이 어리다. 열다섯이나 됐을까.
+아이가 칼을 쥐려다 놓친다. 손이 떨린다. 그래도 발은 운상보 첫 걸음을 밟으려 든다.
+몸이 먼저 배운 걸음이다.
+@choice "\"그 걸음, 누가 가르쳤느냐.\"" goto:#Rev3Q
+@choice "발목을 묶어 주고 보낸다" goto:#Rev3B
+@choice "벤다 — 늑대는 늑대다" goto:#Rev3K
+@stop
+# Rev3Q
+아이가 입을 다문다. 칼끝을 목에 대자 그제야 떨며 말한다.
+"……대주께서요. 칼 쥐는 법보다 도망치는 법을 먼저 가르치셨어요. 살아야 칼도 쥔다고."
+<align=right>"멸문 때마다 제일 먼저 들어가는 놈들이 도망치는 법을 배운다?"</align>
+"제일 먼저 들어가서, 제일 먼저 애들을 데리고 나오래요. 교에서 데려오라는 애들 말고. 숨은 애들."
+칼끝이 아래로 기운다. 마당에서 막내를 우물가로 끌고 가 숨바꼭질을 가르치던 손이 떠오른다.
+그 손도 숨는 법부터 가르쳤다.
+@set f_r3truth=1
+@fx curse:-1
+@goto #Rev3B
+# Rev3B
+꺾인 발목을 천으로 묶는다. 아이가 믿지 못하는 눈으로 본다.
+"……대주께서 그러셨어요. 청운 사람을 만나면, 칼보다 먼저 이름을 대라고."
+<align=right>"네 이름은."</align>
+"늑대한테 이름이 어디 있어요."
+아이가 절뚝이며 숲으로 사라진다. 운상보 반쪽으로.
+나머지 반쪽은, 누군가 일부러 가르치지 않은 것 같다.
+@set f_wolfboy=1
+@goto Molak02#AfterChapter
+# Rev3K
+칼이 내려온다. 아이가 눈을 감지 않는다. 늑대들은 눈 감는 법을 배우지 않는다.
+늑대 가죽을 벗기자 그 밑에 청운 제자복 조각을 덧댄 속옷이 있다.
+누가 입혀 준 것인지 생각하지 않기로 한다.
+@fx sl:2 curse:2
+@goto Molak02#AfterChapter
+
+; --- R4: 이름 (29일+) ---
+# Rev4
+@art scene:herbshop
+@goto #Rev4H if:f_herbdead>0
+@art char:granny
+백초 할멈이 약을 싸다 말고 지나가듯 묻는다.
+"네가 청운 사람이라 했느냐."
+<align=right>"……그렇소."</align>
+"혈랑대주가 오래전에 약을 지으러 온 적이 있단다. 왼 손목 안쪽에 구름 문신이 있더구나."
+@goto #Rev4M
+# Rev4H
+@art char:ggoji
+백초당 잿더미에서 거지 아이가 타다 남은 할멈의 처방지 한 장을 들고 온다.
+'혈랑대주. 왼 손목 안쪽 구름 문신. 금창약 셋. 값은 안 받음.'
+# Rev4M
+구름 문신은 청운의 일대제자(一代弟子)만 새긴다.
+일대는 여섯. 넷은 그날 밤 죽는 것을 보았다. 못 본 것은 둘.
+곳간 쪽으로 사라진 사저, 그리고 하나 더.
+대사형. <color=#C03434>진백(陳伯)</color>.
+운검사태의 수제자. 당신에게 처음 목검을 쥐여 준 손.
+그 손이 산문의 빗장을 열었다.
+@set b_r4=1
+@set f_jinbaek=1
+@fx curse:2 sl:1
+@page
+@art scene:yard
+@art char:jinbaek
+입문하던 날. 열세 살. 산문 앞에 쪼그려 앉아 울던 아이에게 대사형이 목검을 깎아 주었다.
+"칼이 무서우냐. 그럼 이걸로 시작해라. 나무는 사람을 안 벤다."
+대패질 소리. 나무 냄새. 목검 손잡이에 그가 새겨 준 글자 하나. 막(末). 막내.
+그 손이 빗장을 열었다.
+'막(末). 그 글자를 새기던 칼로.'
+@choice "보름을 기다린다 — 그 사당에서" goto:#Rev4W
+@choice "산사의 사저에게 이 이름을 알린다" if:f_jbsister>0 goto:#Rev4S
+@choice "이름을 가슴에 새긴다 — 베어야 할 이름으로" goto:#Rev4K
+@stop
+# Rev4W
+보름까지 엿새. 엿새 동안 검을 간다. 갈 때마다 날이 무뎌지는 것 같다.
+@set f_r4wait=1
+@goto Molak02#AfterChapter
+# Rev4S
+@art scene:templeyard
+@art char:cheongmyo_tears
+청묘가 장작을 패다 멈춘다. 도끼가 장작에 박힌 채 손을 떠난다.
+"……알고 있었어요. 보름마다 쌀이 놓였으니까. 그 매듭, 대사형 매듭이니까."
+<align=right>"왜 말하지 않았소."</align>
+"막내가 그 이름을 알게 되면, 칼을 뽑을 테니까요."
+그녀가 도끼를 다시 뽑는다. 장작을 패지 않고 그냥 든다.
+"뽑을 거예요?"
+대답하지 못한다. 그녀가 고개를 끄덕인다. 대답을 들은 얼굴이다.
+@set cmaff=cmaff+1
+@set f_r4wait=1
+@goto Molak02#AfterChapter
+# Rev4K
+진백. 두 글자를 가슴에 새긴다. 문양 바로 위에. 사(邪) 옆에.
+가슴의 문양이 그 이름을 반긴다.
+'그래, 먹어라. 알면서 주는 거다.'
+@fx curse:3 sl:1
+@goto Molak02#AfterChapter
+
+; --- R5: 대사형 (35일+) ---
+# Rev5
+@art char:jinbaek
+@scene id:shrine
+성 밖 버려진 사당, 운검사태의 위패가 있던 자리에 혈랑대주가 기다리고 있다.
+"막내야."
+진백이다. 늙지 않았다. 다만 눈이 죽어 있다.
+@goto #Rev5H if:f_jbheard<1
+보름 밤, 이 자리에서 사부를 부르며 울던 목소리다.
+같은 목소리가, 오늘은 울지 않는다.
+# Rev5H
+"교가 널 '문제'라더군. 남의 손에 맡길 일이 못 돼서 내가 나섰다."
+<align=right>"……왜 열었소."</align>
+"열지 않으면 다 죽는 날이었다. 열면, 다는 아니었고."
+그가 검을 뽑는다. 당신이 천 번을 따라 했던 그 기수식.
+@print "'그 밤 내가 옳았는지는 네가 정해라. 늑대 가죽을 입은 나를 보고.' 보름의 사당에서 들은 말이다. 늑대 가죽이 눈앞에 있다." if:f_jbasked>0
+"사부껜 내가 빌마. 네 몫까지."
+@choice "검을 뽑는다" goto:#Rev5F
+@choice "일곱째 사형의 패를 위패 자리에 세운다" if:f_relicpae>0 goto:#Rev5X
+@choice "사당 문간을 돌아본다 — 청묘가 서 있다" if:f_jbsister>0 goto:#Rev5S
+@choice "사당 문간을 돌아본다 — 다섯째 사형이 서 있다" if:f_gyeolally>0&&f_gyeoldead<1 goto:#Rev5G
+@stop
+# Rev5G
+@art char:gyeol_pain with:jinbaek
+문간에 검은 관복이 서 있다. 서열패를 떼어 손에 쥐었다.
+@print "'서열 구백 안에 들면 대전 문 앞에서 그 사람한테 묻겠다.' 그가 묻겠다던 자리는 대전이었다. 사당 문간이 먼저 왔다." if:f_gyeolaim>0
+관복 앞섶이 벌어져 회색 무복이 보인다.
+진백이 그를 본다. 검끝이 아주 조금 내려간다.
+"……결이냐."
+"숯가마 매듭은 잘 묶으셨소. 풀어 나오는 데 반나절 걸렸소."
+단목결이 서열패를 진백 발치에 던진다. 숫자가 위로 간다.
+"서열각이 우리 둘한테 같은 명을 내렸소. 막내 목을 먼저 가져오는 쪽에 대전 문을 준다고. 대사형도 받았지. 알고 왔소?"
+진백이 대답하지 않는다. 검을 쥔 손이 하얗다.
+"그 밤 나를 묶은 것도, 일곱을 뺀 것도, 오늘 이 막내 앞에 혼자 선 것도, 다 혼자 하시오. 그래서 내가 왔소. 오늘은 혼자 못 하게."
+@choice "\"둘 다 검을 거두시오. 교주한테 갈 검이오.\"" goto:#Rev5GA
+@choice "한 걸음 물러선다 — 이 셈은 다섯째 사형의 것이다" goto:#Rev5GB
+@stop
+# Rev5GA
+@mark text:"두 사형 사이에 섰다"
+@art char:jinbaek
+진백이 오래 서 있다. 그리고 검을 거꾸로 쥐어 자루를 내민다. 받는 손이 둘이다.
+당신과 다섯째 사형이 자루를 함께 쥔다.
+"……교주의 대전에 옆문이 있다. 집법당 칼잡이들이 지키지. 그 문은 결이 막아라. 나는 서열각이 쥔 정문을 열겠다. 막내는 북두를 거꾸로 밟아라."
+"명령은 여전하시구려."
+"사형이니까."
+단목결이 웃는다. 연무장에서 막내더러 발밑부터 쓸라고 하던 얼굴이다.
+@set f_jinally=1
+@set f_jinbaektruth=1
+@set f_janginfo=1
+@set f_gyeoldoor=1
+@fx curse:-3 sl:1
+@goto Molak02#AfterChapter
+# Rev5GB
+단목결이 검을 뽑는다. 진백도 뽑는다. 같은 기수식이다.
+사당 안에 청운 연무장 냄새가 난다.
+세 합. 넷째 합에 둘 다 검을 멈춘다. 단목결의 검끝이 진백 목 앞 한 치에 있다.
+진백의 검끝은 땅을 보고 있다. 처음부터 그랬다.
+"……안 막으셨소."
+"막을 이유가 없다. 네 몫이니."
+단목결의 검이 떨린다. 오래. 그리고 칼집으로 돌아간다.
+"그럼 남은 몫은 교주한테 받겠소. 같이 가시오, 대사형. 이번엔 숯가마 말고."
+@set f_jinally=1
+@set f_jinbaektruth=1
+@set f_gyeoldoor=1
+@fx curse:-2 sl:2
+@goto Molak02#AfterChapter
+# Rev5S
+@art char:none
+문간에 회색 승복이 서 있다. 머리를 깎았고, 왼 손목에 지워지다 만 구름 문신이 있다.
+@art char:jinbaek with:cheongmyo_tears
+진백의 검이 그의 손에서 사당 바닥으로 미끄러진다.
+"……사매."
+@art char:cheongmyo_tears
+"대사형. 보름마다 사당 앞에 이름 없는 쌀이 놓여 있었어요. 일 년 동안 스물네 번."
+혈랑대주가 서열록에 이름도 없는 비구니 앞에서 고개를 들지 못한다.
+"막내가 저를 찾아왔어요. 대사형이 무엇을 바꾸고 저를 살렸는지, 저는 이제 알아요."
+@art char:jinbaek
+진백이 그제야 당신을 똑바로 본다. 흐리던 눈에 초점이 돌아와 있다.
+"……막내야. 너는 어찌 이 아이를 알았느냐. 그 문 앞의 일은 나 혼자 지고 갈 셈이었다."
+@choice "\"혼자 지게 두지 않으려고 왔소. 교주는 둘이 베겠소.\"" goto:#Rev5SA
+@choice "\"사매를 데리고 떠나시오. 교주는 내가 맡겠소.\"" goto:#Rev5SB
+@choice "검을 뽑는다 — 그래도, 문을 연 손이다" goto:#Rev5SC
+@stop
+# Rev5SA
+@mark text:"진백에게 검을 거두었다"
+@art char:jinbaek
+진백이 검을 거꾸로 쥐어 자루를 당신에게 내민다.
+청운에서 사형이 사제에게 검을 맡기던 법이다.
+"교주의 대전에는 옆문이 있다. 집법당 칼잡이들이 지키지. 그 문은 내가 막는다. 너는 북두를 거꾸로 밟아라."
+청묘가 두 사람의 소매를 한 번씩 잡았다 놓는다. 승복 소매가 떨린다.
+@set f_jinally=1
+@set f_jinbaektruth=1
+@set f_janginfo=1
+@fx curse:-3 sl:1
+@goto Molak02#AfterChapter
+# Rev5SB
+<align=right>"떠나라고."</align>
+@art char:jinbaek_smile
+진백이 웃는다. 목검을 쥐여 주던 날의 얼굴이 아주 잠깐 겹친다.
+"막내가 사형을 내쫓는구나. 사부가 보셨으면 너를 혼냈을 게다. 아니, 나를 혼내셨겠지."
+그가 청묘의 손을 잡고 나가다 멈춘다.
+"혈랑대 정예는 관도 남쪽 길로 온다. 야습이 지나고 며칠 뒤. 그 길만 비워 둬라. 내가 북쪽으로 끌고 가마."
+@set f_jinleft=1
+@set f_jinbaektruth=1
+@fx curse:-2
+@goto Molak02#AfterChapter
+# Rev5SC
+@art char:jinbaek
+검을 뽑는다. 청묘가 비명을 삼킨다. 진백은 바닥의 검을 줍지 않는다.
+"……그래. 그것도 맞다. 사부의 막내라면 그렇게 해야지."
+그는 끝내 검을 줍지 않는다. 그의 앞을 막아선 청묘가 운다.
+@choice "벤다" goto:#Rev5SCK
+@choice "검을 거둔다" goto:#Rev5SA
+@stop
+# Rev5SCK
+검이 그녀가 막아선 자리 손가락 하나 옆으로 지나 진백에게 닿는다.
+@art char:jinbaek
+진백이 무너지며 사매의 소매를 붙든다.
+"……울지 마라. 막내 잘못이 아니다. 내 걸음이 늦었을 뿐이다."
+청묘가 진백을 끌어안고 당신을 본다. 젖은 눈에 원망은 없다.
+그 눈을 오래 잊지 못한다.
+@mark text:"진백을 베었다"
+@black text:"……|첫째 사형." red:true hold:1.8
+@set f_jinbaekdead=1
+@set f_jbsisterhate=1
+@fx sl:3 curse:5
+@goto Molak02#AfterChapter
+# Rev5X
+검보다 먼저 일곱째 사형의 패를 꺼내 먼지 앉은 위패 자리에 세운다.
+@art char:jinbaek
+진백의 검 끝이 조금 내려간다.
+"……일곱째로구나. 웃음이 헤픈 아이였지."
+검 끝이 다시 올라온다. 아까보다 무겁고 느리다.
+@fx curse:-1 sl:1
+@goto #Rev5F
+# Rev5F
+@set dkind="jinbaek"
+@gosub MolakDuel#Run
+@goto #Rev5W if:duelwin>0
+@art char:jinbaek
+사당 밖 어둠으로 구른다. 진백은 쫓아오지 않는다.
+"더 익혀 와라, 막내야. 그 검으론 교주는커녕 나도 못 벤다."
+치욕이 뼈에 새겨진다.
+@fx sw:1
+@goto Molak02#AfterChapter
+# Rev5W
+검이 반 수 빨랐다. 천 번을 죽어 본 자의 반 수다.
+@art char:jinbaek_smile
+진백이 무릎을 꿇는다. 피가 위패 자리의 먼지를 적신다.
+"……많이, 늘었구나."
+@choice "벤다 — 청운의 이름으로" goto:#Rev5K
+@choice "검을 거둔다 — \"죽기 전에, 전부 말하시오.\"" goto:#Rev5T
+@stop
+# Rev5K
+@art char:jinbaek
+검이 내려온다. 대사형은 피하지 않았다.
+"……고맙다, 막내야."
+그것이 마지막 말이었다. 끝까지 용서할 틈을 주지 않는다.
+원수록 첫 줄에 먹줄을 긋는다. 시원하지 않다. 그래도 긋는다.
+@set f_jinbaekdead=1
+@fx sl:2 curse:2
+@goto Molak02#AfterChapter
+# Rev5T
+@art char:jinbaek
+진백이 피 묻은 입으로 웃는다.
+"멸문 전날 밤. 백발 노인이 산문에 왔었다."
+심장이 멎는다.
+"사부와 밤새 다투더구나. 아이 하나를 내놓으라고. 사부는 거절했다. 다음 날 교가 왔다. 내게 온 것은 그 밤이었다. 열어라, 열면 네 사매 하나는 산다, 하더군."
+그가 당신의 가슴 문양을 본다.
+@art char:jinbaek_sorrow
+"노인이 원한 '아이 하나'가 누군지. 이제 알겠느냐, 막내야."
+당신이다. 멸문의 값이 당신이었다.
+"교주를 베러 가느냐. 가거든, 혈천진의 눈은 북두(北斗)를 거꾸로 밟는다. 교주 뒤의 일곱 걸음. 그걸 기억해라."
+진백은 사당 밖 어둠으로 사라졌다. 쫓지 않았다.
+원수록 첫 줄에는 끝내 먹줄을 긋지 못했다.
+@set f_jinbaektruth=1
+@set g_jbtruth=1
+@set f_janginfo=1
+@fx curse:-2
+@goto Molak02#AfterChapter
+
+
+; ---------- 그물이 조여든다: 혈랑대 추격 ----------
+
+; --- 추격 1: 그물 (45일+) ---
+# Hunt1
+@art scene:crossroad
+관도를 지나는 행인들의 눈이 하나같이 당신을 비켜 간다.
+저잣거리의 새 방(榜). 그림은 조악한데 가슴의 문양만은 정확하다.
+<color=#C03434>교가 그물을 친다.</color>
+@set tr=random(1,3)
+@goto #Hunt1_v2 if:tr==2
+@goto #Hunt1_v3 if:tr==3
+해 질 녘, 성문 밖 갈림길에서 늑대 가죽 둘이 길을 막는다. 혈랑대 척후조다.
+@goto #Hunt1_vm
+# Hunt1_v2
+해 질 녘, 성문 앞 찻집에 앉아 있는데 차를 시키지 않은 늑대 가죽 둘이 일어선다.
+@goto #Hunt1_vm
+# Hunt1_v3
+해 질 녘, 성문 밖 다리 양 끝에 늑대 가죽이 하나씩 선다.
+# Hunt1_vm
+"따라와야겠다. 되도록이면, 산 채로."
+@choice "맞선다 — 그물은 찢으면 그만" goto:#Hunt1F
+@choice "숲으로 몸을 숨긴다 — 아직 때가 아니다" goto:#Hunt1R
+@choice "성문 수문장에게 은자를 찔러 준다 (은자 3)" if:mn>=3 goto:#Hunt1X
+@choice "죽립을 눌러쓰고 장꾼 수레 틈에 섞인다" if:f_hat>0 goto:#Hunt1Y
+@stop
+# Hunt1X
+성문 쪽으로 걸어가 수문장 손바닥에 은자 세 냥을 얹는다.
+<align=right>"성 밖에서 칼부림이 날 것 같소."</align>
+수문장이 관병 넷을 데리고 나서자 척후 둘이 혀를 차며 물러난다.
+"관병 치마폭에 숨는구나. 오래는 못 숨는다."
+<align=right>"치마폭이 넓어서 좋소."</align>
+"……뭐?"
+그래도 피는 한 방울도 흘리지 않았다.
+@fx mn:-3 sl:-1
+@goto Molak02#AfterChapter
+# Hunt1Y
+죽립을 눌러쓰고 성문으로 드는 소금 수레 그늘에 붙는다.
+@set tr=random(1,100)
+@goto #Hunt1Z if:tr<=35
+척후의 눈이 죽립 위를 두 번 지나가고, 세 번째는 오지 않는다.
+등 뒤에서 놈들이 엉뚱한 사내의 죽립을 벗기고 있다.
+@fx curse:-1
+@goto Molak02#AfterChapter
+# Hunt1Z
+바람이 죽립 끝을 들친다. 척후의 눈이 옷깃 아래 문양에 멎는다.
+"거기 있었군."
+수레꾼들이 흩어진다. 숨을 곳이 없어졌다.
+@goto #Hunt1F
+# Hunt1F
+@set dkind="hunt1"
+@gosub MolakDuel#Run
+@goto #Hunt1W if:duelwin>0
+가까스로 몸을 뺐다. 추격은 이제 시작이다.
+@goto Molak02#AfterChapter
+# Hunt1W
+척후 둘이 흙바닥에 눕는다.
+놈들의 품에서 나온 명부, 당신 이름 옆에 「生捕(생포)」.
+교주가 산 채로 원하는 것이 있다. 가슴의 문양이 저 혼자 뜨거워진다.
+@fx mn:2 sl:1
+@goto Molak02#AfterChapter
+# Hunt1R
+반 시진을 내달려 숲에서 그물을 벗어난다.
+등을 보였다는 것이 가시에 긁힌 자리보다 오래 쓰리다.
+@fx hp:-3 curse:2
+@goto Molak02#AfterChapter
+
+; --- 추격 2: 몰이 (50일+) ---
+# Hunt2
+@goto #Hunt2J if:f_jinleft>0
+@art char:hajinmu
+@goto #Hunt2D if:f_hajindead>0
+@set tr=random(1,3)
+@goto #Hunt2_v2 if:tr==2
+@goto #Hunt2_v3 if:tr==3
+밤. 객잔의 개가 짖지 않는다. 늘 짖던 개가 조용하니 더 불길하다.
+@goto #Hunt2_vm
+# Hunt2_v2
+밤. 등잔을 들고 올라오던 점소이가 창밖을 보더니 등잔을 끈다.
+@goto #Hunt2_vm
+# Hunt2_v3
+밤. 바람도 없는데 느티나무의 새들이 한꺼번에 날아오른다.
+# Hunt2_vm
+마당에 혈랑대 정예 다섯이 서 있다. 척후와는 눈빛부터 다르다.
+하진무가 등불을 들고 나선다.
+"객잔엔 객밖에 없소."
+대장 격의 사내가 영감을 지나쳐, 정확히 당신의 창을 올려다본다.
+"내려오너라. 객잔에 불이 붙는 건 서로 바라지 않을 테지."
+@choice "내려간다 — 객잔 밖에서 받아준다" goto:#Hunt2F
+@choice "기와를 밟고 담 너머로 빠진다" goto:#Hunt2R
+@choice "담 밖 거지 아이들에게 휘파람을 분다" if:f_alms>0||f_thiefkid>0 goto:#Hunt2X
+@choice "문양의 열을 마당에 쏟는다 — 저주 +4" if:curse>=40 goto:#Hunt2Y
+@stop
+# Hunt2J
+밤. 관도 북쪽으로 횃불 행렬이 멀어진다. 남쪽 길은 조용하다.
+대사형이 끌고 갔다. 혈랑대 정예가 제 대주를 쫓아서.
+대주가 교를 등졌다는 걸 오늘 밤에야 안다.
+새벽, 북쪽 산마루에서 연기 한 줄이 오른다. 확인하러 가지 않는다. 사매가 산사에서 기다린다고 했으니.
+@set b_hunt2=1
+@fx curse:-1
+@goto Molak02#AfterChapter
+# Hunt2D
+밤. 객잔의 개가 짖지 않는다. 등불을 들고 나설 영감이 이제 없다.
+마당에 혈랑대 정예 다섯이 서 있다. 새 객잔 주인이 빗장을 지른다.
+이 객잔은 객을 지켜 주지 않는다.
+"내려오너라."
+@choice "내려간다 — 객잔 밖에서 받아준다" goto:#Hunt2F
+@choice "기와를 밟고 담 너머로 빠진다" goto:#Hunt2R
+@choice "문양의 열을 마당에 쏟는다 — 저주 +4" if:curse>=40 goto:#Hunt2Y
+@stop
+# Hunt2X
+창틀에 기대 저자 아이들이 쓰던 가락으로 휘파람을 분다.
+담 밖에서 놋대야가 울린다. 하나, 둘, 열.
+"불이야! 운락객잔에 불이야!"
+이웃마다 사람들이 쏟아져 나온다. 산 채로 끌고 가려면 구경꾼이 없어야 한다.
+"……다음엔 아이들 목부터 비틀어 주마."
+놈들이 물러난다. 이튿날, 아이들 엿값으로 세 냥이 나간다.
+@fx mn:-3 sl:-1
+@goto Molak02#AfterChapter
+# Hunt2Y
+창틀을 짚고 숨을 끊는다. 가슴의 문양이 열을 토한다.
+마당의 횃불 다섯이 한꺼번에 눕는다.
+대장 격의 사내가 옷깃 아래 붉게 번지는 획을 본다.
+"……대주 말씀대로군. 문양이 깨어 있을 때는 손대지 말라 하셨다."
+놈들이 등을 보이지 않고 한 걸음씩 물러난다.
+하진무가 꺼진 횃불들을 내려다보다, 아무 말 없이 당신의 창을 올려다본다.
+@fx curse:4 sl:2
+@goto Molak02#AfterChapter
+# Hunt2F
+@set dkind="hunt2"
+@gosub MolakDuel#Run
+@goto #Hunt2W if:duelwin>0
+다섯을 상대로는 역부족이다. 어둠을 방패 삼아 몸을 뺀다.
+이튿날, 하진무가 아무 말 없이 밥상에 국 한 그릇을 더 올린다.
+@goto Molak02#AfterChapter
+# Hunt2W
+마지막 하나가 무릎을 꿇는다.
+"……대주 말씀 그대로다. 괴물이다."
+대주. 그 한마디에 검이 멈칫한 틈에 놈들이 흩어진다.
+'대주가 나를 안다. 문양이 깨어 있을 때를 안다. 어떻게.'
+하진무가 마당의 핏자국에 재를 뿌리며 중얼거린다.
+"방값에 청소 값을 얹어야겠구려, 객."
+<align=right>"흘린 피는 저쪽 것이오."</align>
+"마당은 내 것이오."
+@fx mn:6 sw:1
+@goto Molak02#AfterChapter
+# Hunt2R
+기와 세 채를 건너뛰고, 우물 뒤 담을 넘는다.
+새벽에 돌아오니 마당에 늑대 발자국만 어지럽다.
+도망칠수록 그물코가 좁아진다.
+@fx hp:-4 curse:2
+@goto Molak02#AfterChapter
+
+; --- 추격 3: 집법전주 (55일+) ---
+# Hunt3
+@art scene:market
+@art char:lawlord
+정오. 텅 빈 저잣거리 한복판에 교의(敎衣)를 입은 늙은이가 홀로 서 있다.
+둘러선 혈랑대가 감히 다가서지 못한다.
+집법전주(執法殿主). 서열 사십. 걸어 다니는 교의 법이다.
+"젊은 것. 교주께서 두 번 부르셨다. 세 번째는 없다."
+그가 소매를 걷자 공기가 돌처럼 굳는다.
+@choice "검을 뽑는다 — 이것이 대답이다" goto:#Hunt3F
+@choice "무릎을 꿇는 척 틈을 본다" goto:#Hunt3K
+@choice "\"…가지. 교주에게.\" — 부름에 응한다" goto:#Hunt3Y
+@choice "\"교주는 끊어 주지 않소. 뜯어 가지. 그리고 첫 소임은 운락의 객잔이오.\"" if:g_end_ipma>0 goto:#Hunt3L
+@stop
+# Hunt3F
+@set dkind="hunt3"
+@gosub MolakDuel#Run
+@goto #Hunt3W if:duelwin>0
+법(法)은 무거웠다. 지붕 밑 그늘로 굴러 들어가 간신히 숨을 고른다.
+"……도망은 잘 치는군. 교주께 그리 고하지."
+일부러 살려 보냈다. 생포하라는 명이 목숨을 붙들어 두고 있다.
+@fx sw:1
+@goto Molak02#AfterChapter
+# Hunt3W
+집법전주가 베인 소매를 내려다본다.
+"……법이 꺾이는 날도 오는구나."
+늙은이가 돌아서자 혈랑대가 길을 연다. 저들의 전주를 위해서.
+그날 이후 교는 졸개를 보내지 않는다. 남은 것은 교주뿐이다.
+@fx mn:10 sl:1
+@goto Molak02#AfterChapter
+# Hunt3K
+모래를 뿌리며 몸을 뺀다.
+전주는 쫓지 않는다. 그 눈이 등에 낙인처럼 박힌다.
+"세 번째는 없다 했다."
+이제 정말로, 시간이 없다.
+@fx curse:6 sl:-1
+@goto Molak02#AfterChapter
+# Hunt3L
+집법전주의 소매가 걷히다 만다.
+"……무슨 소리냐."
+<align=right>"무릎 꿇은 자의 첫 소임 말이오. 서열각은 숫자를 받고 집법전은 무릎을 받는다 했소. 교주는 뿌리를 받소. 그건 법이 아니오."</align>
+걸어 다니는 교의 법이, 법 밖의 것을 들은 얼굴이다.
+"……집법은 무릎을 받는 곳이지, 뿌리를 뜯는 곳이 아니다."
+그가 다시 소매를 걷는다. 이번엔 손끝이 한결 무겁다.
+@set f_lawdoubt=1
+@goto #Hunt3F
+# Hunt3Y
+@goto #Ipma1
+
+
+; ===== 팩 9: 갈림길의 종장 =====
+
+; ---------- 성사(成邪): 사술이 다 익다 (저주 88+ · 노인을 본 뒤) ----------
+# Ripe1
+@set b_ripe=1
+@scene id:night
+@art char:none
+가슴이 뜨겁다. 열이라기보다 <color=#9A70C4>무언가 익는 냄새</color>가 난다.
+문양이 목까지 올라왔다. 피부 아래서 바위에 새겨져 있던 그 한 글자가 마저 그어진다.
+사(邪).
+@art char:oldman_face
+객잔 마당 느티나무 아래, 노인이 서 있다.
+복면 없이 백발을 드러낸 채, 이 객잔의 오랜 손님처럼.
+"다 익었구나."
+@print "'익지 마라. 명령이다.' 지붕에서 들은 소아의 목소리가 귀에 남아 있다. 그 명령은 못 지켰다." if:f_soawatch>0
+@art char:oldman_face
+하진무도 점소이도 보이지 않는다. 바람 소리조차 사라졌다.
+"청운의 아이는 거절했고, 교주는 썩었느니라. 네가 세 번째다."
+노인이 빈 손바닥을 내민다. 그 빈손이 당신을 끌어당긴다.
+"사(邪)를 알아야 사를 벤다. 이제 알겠느냐. 그 검으로, 무엇을 벨 테냐."
+@choice "손을 잡는다 — 사(邪)의 검을 받는다" goto:#RipeA
+@choice "검을 뽑는다 — 익은 것은 베어 떨어뜨린다" goto:#RipeB
+@choice "문양을 손톱으로 파낸다 — 차라리 썩겠다" goto:#RipeC
+@choice "\"거절한 청운의 아이가 누구였소.\"" if:g_end_seongsa>0&&g_know_ripe<1 goto:#RipeK
+@choice "검을 뽑지 않고 선다 — 장문인이 그랬듯이" if:g_know_ripe>0 goto:#RipeD
+@choice "느티나무 아래 셋째 잔을 비운다 — 사매 몫으로" if:g_oldsister>0 goto:#RipeS
+@choice "\"교주가 첫 열매였소. 장문인이 둘째, 나는 셋째.\"" if:g_oldmem4>0 goto:#RipeM
+@stop
+# RipeM
+@art char:oldman_face
+노인의 빈 손바닥이 허공에서 멎는다.
+"꿈을 엿보았구나. 노부의 문양이니 노부의 꿈도 흘러가겠지."
+<align=right>"넷째는 없소. 나에게서 끝내겠소."</align>
+"……어찌 끝낼 테냐. 베어도, 받아도, 서 있기만 해도 열매는 열매니라."
+@goto #RipeM2 if:g_oldlid<1
+<align=right>"사태가 함 뚜껑 안쪽에 남긴 글이 있소. 사형 몫으로."</align>
+노인의 손바닥이 천천히 오므라든다. 복면 아래에서 숨소리가 한 번 흐트러진다.
+"……그 글은, 익지 않은 손으로 전하거라. 이 마당에서 듣고 싶지는 않구나."
+노인이 등을 돌린다. 걸어서 문을 나간다. 늙은 걸음이다.
+@fx curse:-15
+@set f_ripedenied=1
+@goto Molak02#AfterChapter
+# RipeM2
+@choice "손을 잡는다 — 사(邪)의 검을 받는다" goto:#RipeA
+@choice "검을 뽑지 않고 선다 — 장문인이 그랬듯이" goto:#RipeD
+@choice "느티나무 아래 셋째 잔을 비운다 — 사매 몫으로" if:g_oldsister>0 goto:#RipeS
+@stop
+# RipeA
+@vfx kind:curse
+손이 닿는다.
+차갑고, 조용하다. 일 년 동안 가슴을 긁던 열이 가라앉는다.
+"잘했다."
+뼛속에서만 울리던 그 목소리가, 이번엔 바로 옆에서 들린다. 솜털이 일어선다.
+손에 당신의 검이 들려 있다. 다만 검로(劍路)가 당신 것이 아니다.
+"가자꾸나. 벨 것이 많다. 교주부터."
+발이 먼저 움직인다. 복수는 이루어지리라. 당신의 손으로, 당신의 뜻이 아닌 채로.
+객잔 문간에서 돌아본다. 하진무가 무어라 부르는데, 들리지 않는다.
+@goto #RipeAW if:g_oldmem4<1
+교주를 베고, 그다음엔 무엇을 하는지 당신은 안다. 꿈에서 보았다.
+불타는 산문 아래 숲 어귀에서, 살아남는 아이를 기다린다.
+그 자리에 설 사람이 누구인지도, 이제 안다.
+# RipeAW
+\[ 終 \] — 열매가 익었다.
+@set deathcause="성사"
+@set f_ripe=1
+@clearrun
+@ending
+@goto MolakOver#RipeAfter
+# RipeB
+당신의 검으로, 당신의 검로로. 사(邪)로 긋지 않은 마지막 일검.
+검이 백발 사이를 지난다. 안개를 벤 것처럼 베이지 않는다.
+"아직 덜 익었구나."
+문양이 <color=#C03434>터진다</color>.
+@goto MolakOver#Curse
+# RipeK
+@art char:oldman_face
+노인의 빈 손바닥이 아주 조금 오므라든다.
+"……네 장문인이었느니라. 열매가 다 익은 밤, 노부 앞에서 검을 뽑지 않고 서 있었지. 한참을."
+검을 뽑지 않고 서 있었다던 열 번째 산문의 이야기가 떠오른다.
+"베지도, 받지도 않았다. 익은 채로 서 있었다. 그러니 따지도 못했느니라. 아까운 아이였다."
+손이 다시 펴진다.
+"너는 어찌하겠느냐."
+@set g_know_ripe=1
+@choice "손을 잡는다 — 사(邪)의 검을 받는다" goto:#RipeA
+@choice "검을 뽑는다 — 익은 것은 베어 떨어뜨린다" goto:#RipeB
+@choice "검을 뽑지 않고 선다 — 장문인이 그랬듯이" goto:#RipeD
+@stop
+# RipeD
+검자루에서 손을 뗀다. 두 손을 아래로 내린다. 서 있는다.
+노인이 기다린다.
+@art char:oldman_face
+바람이 돌아온다. 느티나무 잎이 한 장 떨어진다.
+노인의 손바닥이 천천히 닫힌다.
+"……또 그 얼굴이로구나. 아깝다."
+눈을 깜빡인 사이 마당이 비어 있다. 익은 것은 사라지지 않고, 따이지 않은 채 남았다.
+@fx curse:-10
+@set f_ripedenied=1
+@goto Molak02#AfterChapter
+# RipeS
+@vfx kind:curse
+느티나무 아래 그 술상이 그대로 있다. 셋째 잔에 달 대신 새벽빛이 떠 있다.
+@art char:oldman_face
+잔을 든다. 노인의 손바닥이 허공에서 멎는다.
+"……그 잔은."
+<align=right>"사매 몫이라 했소. 그 사람이 옳았다면, 이 잔은 내가 비워야 하오."</align>
+비운다. 맹물이다. 차고, 아무 맛도 없다.
+노인이 한참 빈 잔을 본다. 복면 아래 무엇이 지나가는지 보이지 않는다.
+"……반쪽은 반쪽을 알아보는 법이로구나. 노부는 그 아이에게 그 말을 못 했느니라."
+노인이 등을 돌린다. 이번엔 사라지지 않고, 걸어서 문을 나간다. 늙은 걸음이다.
+@fx curse:-12
+@set f_ripedenied=1
+@set g_know_ripe=1
+@goto Molak02#AfterChapter
+# RipeC
+손톱이 살을 판다. 문양은 파이지 않는다. 더 깊은 곳에 있다.
+@art char:oldman_face
+노인은 웃지도, 화내지도 않는다.
+"썩는 것도 익는 것의 한 갈래니라."
+눈을 깜빡이자 소리가 돌아온다. 하진무가 빗자루를 든 채 당신의 피 묻은 손을 보고 있다.
+@fx hp:-3 curse:4
+@set f_ripedenied=1
+@goto Molak02#AfterChapter
+
+; ---------- 입마(入魔): 교주의 부름에 응하다 (집법전주 앞에서) ----------
+# Ipma1
+@set b_ipma=1
+@scene id:valley
+@art char:none
+전주가 앞서 걷는다. 혈랑대는 당신을 에워싸지 않고 호위한다. 어금니가 맞물린다.
+@page
+북쪽으로 닷새. 혈천진을 전주가 손짓 하나로 가른다.
+@art char:lord
+대전의 교주는 일어서지 않는다. 당신을 비무 상대로 치지 않는다. 손님으로 친다.
+"그 늙은이의 바둑돌이로구나. 가까이 오너라."
+서열록의 일위가 당신의 옷깃을 젖혀 문양을 오래 본다.
+"본좌도 이걸 달고 있었느니라. 삼십 년 전에."
+교주가 흉터조차 없는 제 가슴을 두드린다.
+"몇 번을 죽고 돌아왔는지 세다가, 베어냈다. 익기 전에. 그 값으로 이 자리에 앉았느니라."
+지겨운 눈이다. 살아서 오래 지겨웠던 눈.
+"본좌 밑에 서라. 사술은 본좌가 끊어 주마. 네 사문은…… 이미 없지 않으냐."
+@choice "무릎을 꿇는다 — \"끊어 주십시오.\"" goto:#IpmaA
+@choice "검을 뽑는다 — 여기까지 온 김에" goto:#IpmaB
+@choice "\"삼십 년 전, 왜 열매를 버리셨소.\"" goto:#IpmaC
+@choice "\"첫 소임은 운락의 객잔이겠지요. 교의 세작이 드나든다는.\"" if:g_end_ipma>0 goto:#IpmaK
+@stop
+# IpmaA
+@vfx kind:curse
+무릎이 돌바닥에 닿는다.
+교주의 손이 가슴에 얹힌다. 뜨겁다. 그리고 무언가가 <color=#C03434>뜯겨 나간다</color>. 일 년을 함께 산 열이, 뿌리째.
+숨이 멎을 듯한 통증 끝에 고요.
+문양도, 저주도, 되감길 것도 없다.
+"혈랑대 부대주. 첫 소임은 운락의 객잔이니라. 교의 세작이 그 집을 드나든다 하더구나."
+혀가 먼저 움직인다.
+<align=right>"존명."</align>
+복수는 끝났다. 복수하던 자가 없어졌으니.
+; 0.4.85 무릎을 꿇은 뒤의 생 — Molak21 #Cult
+@goto Molak21#Cult
+# IpmaK
+@art char:lord
+교주의 손이 옷깃에서 멎는다. 지겨워하던 눈빛이 달라진다.
+"……그 늙은이가 너에게 거기까지 보여 주었더냐."
+<align=right>"<color=#9A70C4>늙은이가 아니오. 내가 무릎을 꿇고 보았소. 존명이라 대답하고.</color>"</align>
+대전이 조용하다. 교주가 손을 거두고, 비무를 받는 자리에서 일어선다.
+@set f_ipmaknow=1
+@goto #IpmaB
+# IpmaB
+@set f_ipmafight=1
+검을 뽑는다. 대전의 공기가 한 겹 무거워진다.
+@art char:lord_wrath
+교주가 지겨운 눈 그대로 일어선다.
+"손님으로 왔다가 시체로 나가는 놈이 네가 처음은 아니니라."
+@set dkind="lord"
+@gosub MolakDuel#Run
+@goto Molak04#LordAfter
+# IpmaC
+@art char:lord
+교주가 이가 보이지 않는 웃음을 짓는다.
+"익은 뒤를 보았느니라."
+그가 턱으로 혈천진 너머 검은 산의 능선을 가리킨다.
+"저 산이 통째로 그 늙은이의 밭이다. 익은 것은 모두 따였고, 그 뒤로 본 자가 없느니라."
+침묵.
+"정하거라. 베어낼 것이냐, 베일 것이냐."
+@set f_lordlore=1
+@fx curse:-3
+@choice "무릎을 꿇는다" goto:#IpmaA
+@choice "검을 뽑는다" goto:#IpmaB
+@stop
+
+; ---------- 원행(遠行): 소아와 강호를 등지다 (약속 뒤 · 38일+) ----------
+# Leave1
+@scene id:roofmoon
+@art char:soa
+지붕 위에 소아가 먼저 와 있다. 늘 그랬듯이.
+<align=right>"……가자."</align>
+외눈이 당신을 오래 읽는다.
+"어디로."
+<align=right>"남쪽. 교의 깃발이 없는 데까지."</align>
+"그런 데가 있느냐?"
+<align=right>"찾을 때까지."</align>
+소아는 웃지 않고 기와에서 몸을 일으킨다.
+"짐은 없다. 원래 없었으니."
+@choice "새벽에 떠난다 — 하진무에게 인사 없이" goto:#LeaveA
+@choice "하진무에게는 말한다 — 빚은 갚고 간다" goto:#LeaveB
+@stop
+# LeaveA
+@fx sl:1
+새벽. 객잔 뒷문. 방값은 베개 밑에.
+운락을 벗어나자 길이 넓어진다. 일 년 내내 좁은 길만 걸었다.
+@goto #LeaveTail
+# LeaveB
+@fx curse:-2
+하진무는 묻지 않고 봇짐을 하나 더 꾸려 소아에게 내밀었다.
+"낭자 몫이오."
+소아가 서툰 손으로 받는다.
+@goto #LeaveTail
+# LeaveTail
+@scene id:crossroad
+@art char:soa_smile
+남쪽으로 열흘, 또 열흘. 깃발은 어디에나 있었다. 다만 작아졌다.
+소아는 길에서 말이 늘었다. 하루에 세 마디.
+가끔 그중 하나가 당신 이야기였다.
+; 0.4.85 한 달 만에 끝나던 것을 몇십 년의 삶으로 — Molak20
+@set f_lw=1
+@goto Molak20#LongGo
+
+; ---------- 포박(縛): 예순 날, 그물이 닫히다 ----------
+# NetSlip
+; 0.4.93 참새 깃(f_chamnews, 「관아 그물을 반나절 먼저 안다」): 그물이 닫히는 첫 아침을 한 번 빠져나간다 — 사흘(한 바퀴)을 번다.
+@set f_netslip=1
+@art scene:yard
+@deja text:"기와 틈의 깃 하나. 지난 생에도 이 깃을 따라 담을 넘었다."
+{dejapre}
+새벽, 객잔 뒷담 기와 틈에 참새 깃 하나가 꽂혀 있다.
+'짐 싸라는 뜻이다.'
+솥에 불도 넣기 전에 뒷담을 넘는다. 골목 끝에서 누가 손짓한다.
+@art char:chamsae
+"반나절이라고 했죠. 딱 반나절이에요."
+그녀가 하수 도랑 덮개를 들어 올린다. 냄새가 먼저 올라온다.
+<align=right>"이리로 가라는 거요?"</align>
+"향내 나는 길은 포졸들이 다 알아요. 이 길은 쥐랑 저만 알고요."
+도랑 끝은 성 밖 버드나무 아래다. 등 뒤에서 성문 빗장 걸리는 소리가 길게 운다.
+"사흘이에요. 그다음엔 저도 못 빼 드려요."
+그녀가 손을 한 번 흔들고 도랑으로 도로 내려간다.
+'사흘. 그 안에 끝을 본다.'
+@fx curse:-1 why:"참새가 사흘을 벌어 주었다"
+@goto Molak02#Daytime
+# Capture
+@set b_capture=1
+@scene id:market
+@art char:lawlord
+@set tr=random(1,3)
+@goto #Capture_v2 if:tr==2
+@goto #Capture_v3 if:tr==3
+@deja need:g_end_pobak text:"또 이 아침이다. 성문 빗장이 걸리는 소리를 귀가 먼저 기억한다."
+{dejapre}
+그물이 닫히는 아침.
+@goto #Capture_vm
+# Capture_v2
+그물이 닫히는 아침. 걸어 봐야 소용없다는 걸 알기에 아무도 문빗장을 걸지 않는다.
+@goto #Capture_vm
+# Capture_v3
+그물이 닫히는 아침. 점소이가 오지 않았다. 국밥 솥이 차갑다.
+# Capture_vm
+객잔 문이 열리기도 전에 거리가 비어 있다.
+집법전주가 마당에 서 있다. 이번엔 혈랑대 전원이다. 지붕 위에도, 우물가에도.
+"세 번째는 없다 했다."
+전주는 소매를 걷을 필요도 없다. 사슬 열 가닥, 스무 가닥이 먼저 날아온다.
+@choice "검을 뽑는다 — 마지막까지" goto:#CaptureF
+@choice "검을 내려놓는다 — 산 채로 교주 앞에 선다" goto:#CaptureK
+@stop
+# CaptureF
+@set dkind="hunt3"
+@gosub MolakDuel#Run
+@goto #CaptureW if:duelwin>0
+사슬이 발목을, 손목을, 목을 감는다. 검이 떨어지는 소리가 멀다.
+@goto #CaptureTail
+# CaptureW
+전주의 소매가 베인다. 그러나 사슬은 멈추지 않는다.
+"법은 꺾여도 그물은 남는다."
+사슬이 목을 감는다.
+@goto #CaptureTail
+# CaptureK
+검이 돌바닥에 눕는다. 일 년을 쥔 검치고는 소리가 작다.
+@goto #CaptureTail
+# CaptureTail
+@scene id:valley
+@art char:lord
+북쪽으로 닷새. 사슬에 끌려, 걸어서.
+대전. 교주가 당신의 옷깃을 젖히고 문양을 본다.
+"……그 늙은이의 바둑돌이로구나."
+더 묻지 않는다. 지겨운 눈이다.
+"익기 전에 썩혀 버리는 것. 그 늙은이가 가장 싫어하는 일이지."
+검이 내려온다.
+@set deathcause="포박"
+@set dkind="lord"
+@art char:none
+@goto MolakOver#Dead
+
+; ---------- 야습의 바깥: 개방의 매듭 · 무림맹의 원군 ----------
+# SoaN8Allies
+@goto #SoaN8Al2 if:f_gaewarn<1
+담장 말뚝에 사흘 전 꼬지가 맨 매듭 셋이 매달려 있다.
+그 말대로 늑대가 왔다.
+# SoaN8Al2
+@gosub #SoaN8Hyeok
+@gosub #SoaN8Gyeol
+@return if:f_maengvow<1||f_maengsold>0||f_baekridead>0
+@goto #SoaN8Late if:rep_maeng<3
+@art char:baekri
+지붕 끝에 그림자 셋. 옷깃 안쪽에서 별이 비친다.
+백리휘가 왼손으로 칼을 뽑는다.
+"늦지 않았소. 이번엔."
+혈랑대의 뒤가 흔들린다. 열넷 중 넷이 지붕으로 몸을 돌린다.
+@set f_maengraid=1
+@return
+# SoaN8Late
+@set f_maenglate=1
+@return
+# SoaN8Gyeol
+@return if:f_gyeolseen<1||f_gyeoldead>0
+@goto #SoaN8GyA if:f_gyeolally>0
+@set g_know_gyeolraid=1
+@art char:gyeol
+맞은편 지붕 용마루에 검은 관복이 하나 앉아 있다. 칼을 뽑지 않는다.
+혈랑대가 계단을 오르는 것을 숫자 세듯 내려다본다.
+서열각 감찰사의 칼, 다섯째 사형이다. 무엇이 끝나는지 적으러 왔다.
+@return
+# SoaN8GyA
+@art char:gyeol
+맞은편 지붕 용마루에서 검은 관복이 뛰어내린다. 혈랑대 지붕조 넷 사이로.
+청운 횡소, 아홉째. 허리를 반 박자 늦게 돌리는 검이다.
+"장작. 위는 내가 쓴다. 마당 쓸던 버릇대로."
+@set f_gyeolraid=1
+@return
+# SoaN8Hyeok
+@return if:f_hyeokdead>0||f_hyeoksafe<1
+@goto #SoaN8HyC if:f_hyeokcart>0
+@return if:f_hyeokally<1
+@art char:hyeok
+뒷계단 쪽에서 표호가 터진다.
+"장풍— 길을 비키시오!"
+염혁이 계단 아래 칸에 도를 가로로 걸고 섰다.
+혈랑대 셋이 그 도에 걸려 계단을 못 오른다.
+"표물이 위층에 있소. 아래는 내가 맡지."
+@return
+# SoaN8HyC
+@set g_know_hyeokcart=1
+창호지 너머 골목 끝에 수레 하나가 서 있다. 표기 귀퉁이에 붉은 끈.
+고삐를 쥔 표사가 객잔 지붕을 올려다본다.
+횃불이 그 얼굴을 비춘다. 염혁이다. 기름 독을 내리던 손이 멈춘다.
+@return
+# SoaN8LateMsg
+@return if:f_maenglate<1
+@page
+@art scene:yard
+@art char:baekri
+새벽. 객잔 마당에 피 없는 칼을 찬 백리휘와 둘이 서 있다.
+마당의 피는 다 식었다. 그가 오래 내려다본다.
+"……반 시진. 또 반 시진이오."
+명부를 펴지 않는다. 적을 말이 없는 얼굴이다.
+@set f_maenglate=0
+@set g_maenglate=1
+@return
+
+; ---------- 도주(逃走): 예순 날의 그물 밖으로 ----------
+# Doju
+@page
+@scene id:crossroad
+@art char:none
+@goto #DojuB if:f_dojuroute==2
+산 둘, 물길 하나. 소금 짐꾼들의 길이다. 깃발도, 사람도 없다.
+@goto #DojuM
+# DojuB
+밤배의 사공이 삯을 세지 않는다.
+"열흘 강 아래요. 그 너머는 나도 모르오."
+# DojuM
+등 뒤로 성문이 닫힌다. 관아의 그물이 빈 객잔 위로 내려앉을 것이다.
+하진무에게는 서찰 한 장. 방값은 베개 밑에.
+; 0.4.85 그물 밖의 생 — Molak20
+@set f_lw=5
+@goto Molak20#LongGo
+
+; ===== 0.4.73 소아 — 가까워지는 마디 다섯(언메이커: 친해지는 과정이 없다, 더 절절해야 한다) =====
+; 국밥 값(밤의 대작 뒤) · 이름(비 오는 밤 뒤) · 웃음(우물 뒤) · 등을 맡긴다(야습 며칠 전) · 비워 둔 자리(구결을 건넨 생 다음)
+
+# St1
+@page
+@scene id:day
+@art scene:marketday
+@art char:soa
+@deja text:"탁자 위에 엽전 일곱 닢. 지난 생에도 그녀는 이 국밥 값을 갚으러 왔다. 받지 않은 빚이 그 장부에 끝까지 남아 있었다."
+{dejapre}
+@goto #St1Re if:g_bt_st1>0&&f_bt_st1<1
+@set g_bt_st1=g_bt_st1+1 if:f_bt_st1<1
+@set f_bt_st1=1
+점심. 국밥집 같은 자리. 맞은편 의자가 끌린다.
+이번엔 그녀 앞에도 그릇이 있다.
+소아가 엽전 일곱 닢을 당신 그릇 옆에 한 닢씩 세워 놓는다.
+"첫날 먹은 국밥 값이다."
+<align=right>"벌써 잊었소."</align>
+"나는 안 잊었다."
+그녀가 품에서 낡은 장부를 꺼낸다. 줄마다 끼니가 적혀 있다.
+줄 끝마다 '빚'이라 썼다가 먹으로 지운 자국이 있다.
+"적운이 망하고 나서 얻어먹은 것들이다. 갚은 건 지운다. 사부가 그랬다. 빚을 지우지 못하고 죽으면 다음 생에 그 집 개로 난다고."
+마지막 줄은 아직 지워지지 않았다. 「청운 잔당 — 국밥 한 그릇」.
+# St1Ch
+@choice "엽전을 받는다 — 그녀의 셈을 지켜 준다" goto:#St1A
+@choice "엽전을 도로 민다 — \"그 줄은 지우지 마시오.\"" goto:#St1B
+@stop
+# St1A
+엽전 일곱 닢을 쓸어 담는다. 소아가 붓 끝에 침을 묻혀 마지막 줄에 먹을 긋는다.
+한 번에 긋지 않는다. 천천히.
+"……됐다. 이제 너한테 진 건 없다."
+그녀가 국밥을 먹는다. 제 그릇의 것을. 한 숟갈 뜨다 말고 당신 그릇을 흘깃 본다.
+"그쪽이 더 맛있어 보인다."
+<align=right>"빚이 또 생기는 거요."</align>
+"……알아. 그래서 참는 거다."
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# St1B
+소아가 엽전과 당신을 번갈아 본다. 외눈이 가늘어진다.
+"받지 않는 빚은 어떻게 지우지."
+<align=right>"안 지우면 되지 않소."</align>
+그녀가 한참 장부를 내려다본다. 붓을 들었다가 내려놓는다.
+지우는 대신 그 줄 옆에 작게 무엇인가를 적는다. 당신 쪽에서는 보이지 않는다.
+"……이상한 놈."
+그녀가 엽전을 거둬 넣는다. 일곱 닢이 전낭에 떨어지는 소리가 오래 난다.
+@set aff=aff+2
+@set f_soaledgerkeep=1
+@goto Molak02#AfterChapter
+
+# St2
+@page
+@scene id:night
+@art scene:roofmoon
+@art char:soa
+@deja text:"기와 위, 그녀가 이름의 뜻을 말하던 밤. 지난 생엔 그 이름을 끝내 한 번도 불러 주지 못했다."
+{dejapre}
+@goto #St2Re if:g_bt_st2>0&&f_bt_st2<1
+@set g_bt_st2=g_bt_st2+1 if:f_bt_st2<1
+@set f_bt_st2=1
+비가 그친 밤. 기와가 아직 젖어 있다. 소아가 용마루 끝에 앉아 있다가 옆자리를 턱으로 가리킨다.
+"앉아라. 미끄러지면 네 탓이다."
+한동안 둘 다 말이 없다. 처마 물 떨어지는 소리만 난다.
+"청운에선 너를 뭐라고 불렀지."
+<align=right>"막내. 사형들은 장작이라고 했소. 장작만 팼으니까."</align>
+그녀의 입꼬리가 아주 조금 움직인다.
+"그건 부르는 말이고. 이름은."
+<align=right>"{g_pname}."</align>
+그녀가 그 이름을 입속에서 한 번 굴려 보는 것 같다. 소리는 내지 않는다.
+<align=right>"……안 불러 보오?"</align>
+"비싸다. 국밥 한 그릇에 한 번이다."
+<align=right>"첫날 그 국밥은?"</align>
+"그건 장부에 있다. 다른 빚이다."
+"내 이름은 사부가 지었다. 소아(所牙). 이빨이 있는 자리라는 뜻이다. 물 데가 있어야 사람이 산다고. 원수든, 빚이든, 뭐든."
+<align=right>"물 데가 있소."</align>
+"있었지. 적운이 망한 날부터 그게 다였다. 혈마교. 그것 하나 물고 십 년을 살았다."
+그녀가 젖은 기와를 손톱으로 긁는다.
+"……요즘은 이상하다. 물 데가 하나 더 생긴 것 같아서."
+그녀가 당신을 보지 않는다. 당신도 그녀를 보지 않는다. 달이 구름에서 나온다.
+# St2Ch
+@choice "\"소아.\" — 이름을 불러 본다" goto:#St2A
+@choice "말없이 옆에 앉아 있는다" goto:#St2B
+@stop
+# St2A
+그녀의 어깨가 아주 조금 굳는다.
+"……왜."
+<align=right>"불러 보고 싶었소. 이빨이 있는 자리라니, 좋은 이름이오."</align>
+"사부 말고 그 이름을 그렇게 부른 놈은 없다."
+그녀가 일어선다. 기와 끝에서 한 번 돌아본다.
+"다음에 부를 땐 할 말이 있을 때만 불러라. 아깝다."
+@set aff=aff+2
+@set f_soaname=1
+@goto Molak02#AfterChapter
+# St2B
+그녀도 일어나지 않는다. 달이 기울 때까지.
+내려가기 전에 그녀가 말한다. 기와 쪽을 보면서.
+"장작. ……나쁘지 않은 이름이다. 불이 되니까."
+@set aff=aff+1
+@goto Molak02#AfterChapter
+
+# St3
+@page
+@scene id:day
+@art scene:innhall
+@art char:soa
+@deja text:"장기판 옆에서 터진 웃음소리. 지난 생엔 그 웃음을 이 날 한 번 들었다. 그 뒤로는 다시 듣지 못했다."
+{dejapre}
+비 오는 오후. 하진무가 장기판을 펴 놓고 당신을 붙잡았다. 사흘 내리 졌다.
+오늘은 점소이가 영감 대신 앉았다.
+열세 수 만에 진다. 열두 살짜리에게.
+점소이가 당신 궁을 집어 들고 이리저리 살핀다.
+"형님, 이거 원래 이렇게 잘 죽는 거예요?"
+등 뒤에서 이상한 소리가 난다. 기침 같기도 하고 사레 같기도 한 소리.
+돌아보니 소아가 입을 손등으로 막고 있다. 어깨가 떨린다.
+막은 손 틈으로 웃음이 샌다.
+멈추려다가 더 크게 샌다.
+그녀가 웃는다. 소리 내어.
+'웃었다. 이 사람이. 장기 열세 수 값으로.'
+웃다가 그녀가 멈칫한다. 제 웃음소리를 듣고 놀란 얼굴이다.
+손을 내린다. 외눈이 붉다.
+"……적운이 망한 뒤로, 웃은 적이 없었다. 웃는 법을 잊은 줄 알았는데."
+@choice "\"한 판 더 지겠소. 웃는 값으로.\"" goto:#St3A
+@choice "모른 척 장기알을 다시 놓는다" goto:#St3B
+@stop
+# St3A
+"……미친놈."
+그녀가 맞은편에 앉는다. 점소이를 밀어내고.
+"비켜라. 이번엔 내가 이긴다. 저놈은 지는 것도 웃기게 진다."
+그날 오후, 객잔 일층에서 웃음소리가 몇 번 더 난다.
+하진무가 계산대 뒤에서 주판을 튕기다 말고 그 소리를 듣는다.
+@set aff=aff+2
+@set f_soalaugh=1
+@fx curse:-2 why:"그녀가 웃었다"
+@goto Molak02#AfterChapter
+# St3B
+장기알을 놓는 손이 일부러 느리다. 그녀가 눈가를 소매로 한 번 훔치고, 아무 일도 없었다는 얼굴로 판을 내려다본다.
+"……차(車)를 거기 두면 또 죽는다."
+<align=right>"알고 있소."</align>
+"알면서 두냐."
+<align=right>"웃을 거면 웃으시오."</align>
+그녀가 이번엔 웃지 않는다. 대신 당신 차를 제 손으로 한 칸 옮겨 준다.
+@set aff=aff+1
+@set f_soalaugh=1
+@goto Molak02#AfterChapter
+
+# St4
+@page
+@scene id:night
+@art scene:yard
+@art char:soa
+@goto #St4R if:g_redverse>0
+@deja text:"뒷마당, 등과 등. 지난 생에 이 약속을 한 사람은 그 밤 계단에서 약속을 지켰다. 혼자서."
+{dejapre}
+@goto #St4Re if:g_bt_st4>0&&f_bt_st4<1
+@set g_bt_st4=g_bt_st4+1 if:f_bt_st4<1
+@set f_bt_st4=1
+밤. 뒷마당. 소아가 쌍검을 뽑아 들고 당신 앞에 선다.
+"등을 대라."
+<align=right>"무슨 말이오."</align>
+"적운의 서는 법이다. 둘이 등을 맞대고 선다. 앞만 본다. 뒤는 안 본다. 뒤는 등 뒤의 놈이 보니까."
+그녀가 당신 등에 제 등을 댄다. 체온이 옷 두 겹을 건너온다.
+생각보다 작은 등이다.
+"내가 왼발을 빼면 너는 오른쪽으로 돈다. 내가 숨을 들이쉬면 너는 내쉰다. 그래야 둘이 한 번에 지치지 않는다."
+반 시진. 달이 마당을 건너간다. 둘의 그림자가 하나로 겹쳤다가 갈라진다.
+그녀가 검을 거둔다. 등을 떼지 않은 채로 말한다.
+"적운에서는 이 법을 등을 맡길 사람한테만 가르친다. 사부한테 배웠고, 사형들 등에 대 봤다. 그 등들은 다 우물 위에서 식었다."
+"……"
+"가르쳤으니, 맡긴 거다. 내 등 뒤는 네가 본다. 네 등 뒤는 내가 본다."
+# St4Ch
+@choice "\"맡겠소.\"" goto:#St4A
+@choice "\"약속하오. 내가 먼저 쓰러지지 않겠소.\"" goto:#St4A
+@stop
+# St4A
+"적운은 약속을 장부에 안 적는다. 적을 필요가 없으니까."
+그녀가 등을 뗀다. 등이 갑자기 춥다.
+"며칠 안에 늑대들이 온다. 냄새가 난다. 그 밤엔 이렇게 서는 거다. 잊지 마라."
+@set f_soapromise=1
+@set aff=aff+2
+@goto Molak02#AfterChapter
+# St4R
+<color=#9A70C4>이 마당을 안다. 이 밤에 그녀가 "등을 대라"고 말할 것이다.</color>
+소아가 쌍검을 뽑아 들기 전에, 당신이 먼저 그녀 등 뒤로 걸어가 등을 댄다.
+그녀의 몸이 굳는다. 검자루를 쥔 손이 하얘진다.
+"……이건 적운의 서는 법이다. 사부하고 나만 안다. 너는 이걸 어디서."
+<align=right>"<color=#9A70C4>그대가 가르쳐 줬소. 왼발을 빼면 내가 오른쪽으로 돌고, 그대가 숨을 들이쉬면 나는 내쉬고.</color>"</align>
+긴 침묵. 그녀의 등이 떨린다. 떨림이 옷 두 겹을 건너온다.
+"……꿈에서. 장부에 적어 둔 꿈이 있다. 청운 놈이 계단에 기름을 붓는 꿈. 다음엔 둘이 서자고 하는 꿈."
+<align=right>"<color=#9A70C4>그 꿈 맞소. 이번엔 둘이 서오. 계단에 너 혼자 앉게 두지 않겠소.</color>"</align>
+그녀가 돌아서지 않는다. 등을 댄 채로 오래 서 있다.
+"……가르쳐 준 기억이 없는 법을 배운 놈이랑, 등을 맞대는구나. 사부가 알면 웃겠다."
+@set f_soapromise=1
+@set f_soabond=1
+@set g_soabond=1
+@set aff=aff+3
+@goto Molak02#AfterChapter
+
+# St5
+@page
+@scene id:day
+@art scene:marketday
+@art char:soa
+<color=#9A70C4>이 국밥집, 이 자리. 지난 생엔 이 맞은편에 그녀가 앉아 국밥 값을 셌다.</color>
+@goto #St5W if:f_soamet<1
+처음 마주친 날에서 며칠. 점심, 국밥을 두 그릇 시킨다.
+한 그릇은 맞은편 자리 앞에 놓는다. 김이 오른다.
+소아가 들어온다. 맞은편 의자를 끌다가, 이미 놓인 그릇을 본다. 손이 멎는다.
+"……누구 거지."
+<align=right>"<color=#9A70C4>당신 거요. 남의 그릇을 먹으니 아예 남의 그릇을 시켜 두었소.</color>"</align>
+외눈이 가늘어진다. 손이 쌍검 쪽으로 반 치 간다.
+"너, 나를 아나. 처음 본 날부터 그랬다. 내 버릇을 내가 하기도 전에 안다."
+<color=#9A70C4>안다. 당신 몫의 마지막 줄을 그녀는 끝내 지우지 못했다. 웃으면 손등으로 입을 막는다. 우물만 보면 손이 멎는다. 그리고 계단 셋째 칸에서—</color>
+@choice "\"꿈에서 봤소.\"" goto:#St5A
+@choice "\"모르오. 그냥 국밥이 식을까 봐.\"" goto:#St5B
+@stop
+# St5A
+그녀가 그릇을 내려다본다. 오래.
+"……요새 이상한 꿈을 꾼다. 모르는 청운 놈이 나오는 꿈. 그놈이 내 장부를 들고 웃는다."
+그녀가 의자에 앉는다. 숟가락을 든다. 제 그릇의 것을 뜬다.
+"……네 얼굴이었나. 꿈에선 흐렸는데."
+@set aff=aff+2
+@set f_soadream=1
+@goto Molak02#AfterChapter
+# St5B
+"이상한 놈."
+그녀가 앉는다. 그리고 습관처럼 당신 그릇을 끌어간다. 자기 앞에 놓인 그릇은 놔두고.
+당신은 그녀 앞에 놓였던 그릇을 끌어다 먹는다.
+그녀가 그걸 보고 숟가락을 멈춘다. 뭔가 말하려다 만다.
+@set aff=aff+1
+@goto Molak02#AfterChapter
+# St5W
+점심. 국밥집 맞은편 자리는 아직 비어 있다.
+그녀가 이 고을에 들어오는 날을 안다. 오늘은 아니다.
+그릇 하나를 비우고 일어선다. 맞은편 자리에 엽전 일곱 닢을 놓아 둔다.
+주인이 이상하게 본다.
+@goto Molak02#AfterChapter
+
+; ===== 회귀한 생: 지난 생에 본 장면(g_bt_*) — 먼저 말하고 먼저 움직인다 =====
+
+# SoaN1Re
+@set f_bt_soan1=1
+@set g_bt_soan1=g_bt_soan1+1
+밤 수련을 마친 마당. 소아가 담 위에서 술병을 흔들기 전에, 잔 셋을 담 위에 먼저 올려놓는다.
+<align=right>"<color=#9A70C4>적운에선 수련 끝나면 석 잔이지. 몸에, 검에, 그리고.</color>"</align>
+소아의 술병이 멈춘다.
+"……먼저 간 자들에게. 그 말을 누구한테 들었지."
+<align=right>"그대한테."</align>
+"나는 오늘 처음 말하는데."
+그녀가 잔 셋을 내려다본다. 한참. 그러고는 셋 다 채운다. 넘치도록.
+@goto #SoaN1Ch
+
+# SoaN2Re
+@set f_bt_soan2=1
+@set g_bt_soan2=g_bt_soan2+1
+저자. 대장간 앞에서 소아보다 먼저 걸음을 멈춘다.
+청석 숫돌 하나를 값을 치르고 사서, 그녀 손에 쥐여 준다.
+"……뭐냐."
+<align=right>"그대 칼이 무디오."</align>
+"무딘 건 네 칼이다. 그리고 청운엔 청석이 없다."
+그녀가 돌을 엄지로 쓸어 본다. 적운에서 쓰던 결이다.
+돌을 쥔 손이 한참 펴지지 않는다.
+@fx mn:-3 why:"소아에게 청석 숫돌을 사 주었다"
+"……너, 남의 사정을 너무 많이 안다. 그거 싫다."
+@goto #SoaN2Ch
+
+# SoaN3Re
+@set f_bt_soan3=1
+@set g_bt_soan3=g_bt_soan3+1
+비가 온다. 반 뼘 열린 문 앞. 그녀가 입을 열기 전에 문가에 먼저 앉는다. 등을 문설주에 대고.
+방 안에서 숨소리가 멎는다.
+<align=right>"우물 얘긴 안 해도 되오."</align>
+"……말 안 해도 되는 거, 그거 처음이다."
+방 안에서 그녀가 벽에 머리를 기대는 소리가 난다. 빗소리가 조금 작아진다.
+@goto #SoaN3Ch
+
+# SoaN4Re
+@set f_bt_soan4=1
+@set g_bt_soan4=g_bt_soan4+1
+저자에서 돌아오는 길목. 소아보다 먼저 그 골목에 들어선다.
+사슬 셋이 그림자에서 나오기 전에, 처마 밑 첫째의 손목부터 칼집으로 친다.
+사슬 하나가 흙바닥에 떨어진다.
+"……누구냐!"
+<align=right>"그 눈은 오늘 안 데려가오."</align>
+골목 끝에서 소아가 걸음을 멈춘다. 쌍검에 손이 간다.
+"……네가 왜 여기 있지."
+@fx sw:1
+@goto #SoaN4F
+
+# SoaN6Re
+@set f_bt_soan6=1
+@set g_bt_soan6=g_bt_soan6+1
+객잔 뒤뜰 우물가. 소아가 두레박줄을 쥐고 서 있다.
+손이 멎기 전에 줄 아래쪽을 같이 쥔다.
+"……뭐 하는 거냐."
+<align=right>"같이 내리면 반만 멎소."</align>
+줄이 둘의 손을 거쳐 천천히 풀려 내려간다. 첨벙.
+그녀가 줄을 놓지 않는다. 당신도 놓지 않는다.
+@goto #SoaN6M
+
+# St1Re
+@set f_bt_st1=1
+@set g_bt_st1=g_bt_st1+1
+점심. 국밥집 같은 자리. 그녀가 엽전을 꺼내기 전에 먼저 그릇 둘을 시켜 둔다.
+<align=right>"<color=#9A70C4>첫날 국밥 값이지. 일곱 닢.</color>"</align>
+엽전 일곱 닢을 쥔 그녀의 손이 탁자 위에서 멎는다.
+"……세어 보지도 않았는데."
+엽전을 그녀 쪽으로 도로 민다.
+<align=right>"장부에서 지우시오. 그거면 되오."</align>
+그녀가 품의 장부를 꺼내다 만다.
+"……내 장부를 어떻게 아냐."
+<align=right>"보여 준 거요. 그대가."</align>
+"나는 아무한테도 안 보여 준다."
+@goto #St1Ch
+
+# St2Re
+@set f_bt_st2=1
+@set g_bt_st2=g_bt_st2+1
+비가 그친 밤. 젖은 기와. 용마루 끝에 먼저 앉아 옆자리를 턱으로 가리킨다.
+<align=right>"앉으시오. 미끄러지면 내 탓이오."</align>
+소아가 눈을 가늘게 뜬다.
+"……그건 내 말이다."
+그녀가 앉는다. 처마 물 떨어지는 소리.
+그녀가 입을 열 때까지 기다린다. 이번엔 먼저 말하지 않는다.
+"소아(所牙). 이빨이 있는 자리라는 뜻이다. 물 데가 있어야 사람이 산다고 사부가 지었다."
+"……요즘은 이상하다. 물 데가 하나 더 생긴 것 같아서."
+그녀가 당신을 보지 않는다. 당신도 그녀를 보지 않는다.
+@goto #St2Ch
+
+# St4Re
+@set f_bt_st4=1
+@set g_bt_st4=g_bt_st4+1
+밤. 뒷마당. 소아가 쌍검을 뽑기 전에 먼저 그녀 앞에서 돌아선다. 등을 보인다.
+뒤에서 쌍검 뽑는 소리가 멎는다.
+"……내가 숨을 들이쉬면, 너는—"
+<align=right>"<color=#9A70C4>내쉰다. 그대가 왼발을 빼면 나는 오른쪽으로 돈다.</color>"</align>
+그녀의 등이 당신 등에 닿는다. 생각보다 작은 등이다. 그 등이 떨린다.
+"……이 법은 등을 맡길 사람한테만 가르친다. 나는 아직 안 가르쳤다."
+<align=right>"그럼 지금 가르치는 걸로 하오."</align>
+반 시진. 달이 마당을 건너간다.
+"가르쳤으니, 맡긴 거다. 내 등 뒤는 네가 본다. 네 등 뒤는 내가 본다."
+@goto #St4Ch
+

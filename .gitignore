@@ -28,3 +28,19 @@
 /Assets/NaninovelData/Transient*
 # Transient artifacts of the external tools.
 /Assets/NaninovelData/.nani/Transient*
+
+# 2026-11-24 PC 옮기기 전 정리: 걷어 낸 유료 패키지, 임시, 테스트 캡처
+/_removed/
+/.utmp/
+/Assets/Screenshots/
+/Assets/Screenshots.meta
+/framegrab*.png
+/codex_small.jpg
+/title_small.jpg
+/ui6.jpg
+/ui7.jpg
+/_removed/
+/.utmp/
+/Assets/Screenshots/
+/Assets/Screenshots.meta
+/framegrab*.png

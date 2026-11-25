@@ -1,0 +1,5 @@
+; Played in the title menu.
+; 몰락검신: 배경 액터(@back)는 쓰지 않는다 — placeholder 사각형 방지.
+
+; Show the title menu.
+@showUI TitleUI

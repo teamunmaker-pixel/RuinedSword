@@ -1,0 +1,761 @@
+﻿; ===== 공용 비무 =====
+; 판의 형편(dsit): 0 없음 1 빗속 2 외나무다리 3 구경꾼 4 독 바른 칼 5 판돈 6 제자를 데려온 상대 7 생사결
+; 지는 것이 곧 죽음인 판(dlethal)은 이야기의 결전·업보의 칼·생사결뿐. 그 밖의 판은 져도 목은 붙어 있고, 대신 몸·전낭·체면이 값을 치른다.
+# Run
+@set duelwin=0
+@set dx_keepok=0
+@set dstake=0
+@art scene:duel
+@companion at:duel
+@duelinfo kind:{dkind}
+@goto #StoryCut if:storyauto>0
+@goto #Sit1 if:dsit==1
+@goto #Sit2 if:dsit==2
+@goto #Sit3 if:dsit==3
+@goto #Sit4 if:dsit==4
+@goto #Sit5 if:dsit==5
+@goto #Sit6 if:dsit==6
+@goto #Sit7 if:dsit==7
+@goto #Sit8 if:dsit==8
+@goto #Sit9 if:dsit==9
+@goto #Sit10 if:dsit==10
+@goto #Sit11 if:dsit==11
+@goto #Sit12 if:dsit==12
+# Head
+<color=#C03434>{foename}</color> — 강호 서열 {foerank} · {foetier}.<br>상대의 기세를 읽는다.
+승산, 어림잡아 <color=#C9A227>열에 {odds10k}</color>.
+@print "{compline}" if:compline!="none"
+@print "<color=#9A70C4>옷깃의 참새 깃이 흔들린다. 그녀가 미리 알아다 준 이 칼잡이의 버릇이 떠오른다.</color>" if:f_chamfeather>0&&dlethal>0
+@goto #HeadInj if:injury>0||taint>0
+@goto #RunChoices if:memwarn<1
+<color=#9A70C4>지난 생, 이 상대의 검을 받아 보았다.</color> 첫 수가 한발 일찍 보인다.
+@goto #RunChoices
+# HeadInj
+<color=#C03434>옆구리가 당긴다.</color> 성한 몸으로 쥐던 승산이 아니다.
+@goto #RunChoices if:memwarn<1
+<color=#9A70C4>지난 생, 이 상대의 검을 받아 보았다.</color> 첫 수가 한발 일찍 보인다.
+# RunChoices
+@set donecut=0
+@goto #ExInit if:memwarn<1&&odds10<8
+@goto #ExInit if:memwarn<1&&dlethal>0
+@choice "지난 생의 그 수를 먼저 낸다 — 첫 수에 끝낸다" if:memwarn>0 goto:#Pre
+@choice "한칼에 끝낸다 — 합을 나눌 상대가 아니다" if:memwarn<1&&odds10>=8&&dlethal<1 goto:#OneCut
+@choice "합을 나눈다" goto:#ExInit
+@stop
+# StoryCut
+; 0.4.94 인연별 이야기 모드: 수를 고르지 않는다. 한 장면으로 줄이고 판을 끝낸다(승산 100 — MolakDuel.Odds).
+@set donecut=1
+@set wrand=random(1,3)
+@goto #StoryCut2 if:wrand==2
+@goto #StoryCut3 if:wrand==3&&dlethal<1
+<color=#C03434>{foename}</color>의 칼이 먼저 칼집을 떠난다.
+세 합이 오간다. 넷째 합에서 당신의 칼이 먼저 닿는다.
+@goto #StoryCutE
+# StoryCut2
+칼끝 너머로 <color=#C03434>{foename}</color>의 숨이 보인다.
+숨이 바뀌는 자리를 기다린다. 바뀐다. 한 걸음에 들어간다.
+@goto #StoryCutE
+# StoryCut3
+<color=#C03434>{foename}</color>의 칼이 빠르다. 옷깃이 한 번, 소매가 한 번 갈린다.
+셋째로 오는 칼을 비껴 흘리고, 빈 옆구리에 칼등을 넣는다.
+# StoryCutE
+@vfx kind:clash
+@duel style:onecut
+@goto #Result
+# Pre
+@duelx do:pre
+{dx_pretext}
+{dx_momtext}
+@goto #Final
+# OneCut
+칼을 뽑지 않는다. 손을 칼자루에 얹고 서 있기만 한다.
+상대가 먼저 온다. 기합 소리가 크다.
+@set donecut=1
+@vfx kind:heavy
+@wait 0.3
+@duel style:onecut
+@goto #Result
+# ExInit
+; --- 0.4.67 간파(看破): 상대의 세 수(엎어진 패)를 읽고 내 응수 셋을 순서대로 깐 뒤 한 합씩 맞부딪친다. 셋째 합은 결(決) ---
+@duelx do:kinit
+# KPlan
+@duelx do:kshow
+{dx_telltext}
+@choice "받아친다 — 찌르기(攻)에 이긴다" goto:#KA2
+@choice "흔든다 — 버티기(守)에 이긴다" goto:#KA3
+@choice "정면으로 벤다 — 허초(虛)에 이긴다" goto:#KA1
+@choice "관(觀) — 이 합은 눈으로. 남은 수가 다 보인다" if:dx_caneye>0 goto:#KA4
+@choice "운반(雲返) — 필살 말고는 다 이긴다 · 내공 −2" if:kp_can5>0 goto:#KA5
+@choice "적운보(赤雲步) — 攻·虛를 흘린다" if:kp_can6>0 goto:#KA6
+@stop
+# KA1
+@duelx put:1
+@goto #KNext
+# KA2
+@duelx put:2
+@goto #KNext
+# KA3
+@duelx put:3
+@goto #KNext
+# KA4
+@duelx put:4
+@goto #KNext
+# KA5
+@duelx put:5
+@goto #KNext
+# KA6
+@duelx put:6
+# KNext
+@goto #KPlan if:kp_k<3
+@duelx do:kgo
+{dx_telltext}
+# KRes
+@duelx do:kres
+{dx_restext}
+@goto #KRes if:dx_i<3
+{dx_momtext}
+# Final
+; 0.4.51 기억의 물건: 품속의 물건을 쥐고 정면으로 벤다(기세 +1, 물건마다 생에 한 번)
+@duelx do:keepcheck
+@choice "끝을 낸다 — 정면으로 벤다" goto:#StFront
+@choice "낙(落) — 쌓은 기세를 두 배로 싣고 내려친다(셋까지). 저주 +4" if:dx_canfall>0 goto:#StFall
+@choice "품속의 {dx_keepname} 쥐고 벤다 — 기세 +1(이번 생에 한 번)" if:dx_keepok>0 goto:#StKeep
+@choice "끝을 낸다 — 살기를 실어 선공한다" if:cansl>0 goto:#StKiller
+@choice "버틴다 — 수를 아끼며 받아친다" if:cansense<1 goto:#StGuard
+@choice "칼날의 푸른 기를 먼저 읽는다" if:cansense>0 goto:#StSense
+@choice "사술을 끌어낸다 — 저주 +5" if:cancurse>0&&curse<75 goto:#StCurse
+@choice "사술이 먼저 나선다 — 막지 못한다. 저주 +8" if:cancurse>0&&curse>=75 goto:#StCurse2
+@choice "물러선다" if:canflee>0 goto:#Flee
+@stop
+
+; ---------- 판의 형편 ----------
+# Sit1
+비가 듣는다. 공터 흙이 진창이다.
+'이런 날은 먼저 나가는 쪽이 먼저 자빠진다. 사형이 그랬다.'
+@goto #Head
+# Sit2
+@art scene:duelbridge
+개울 위 외나무다리에서 시비가 붙었다.
+"비켜라."
+<align=right>"그쪽이 비키시오."</align>
+"내가 먼저 올라왔다."
+<align=right>"내가 먼저 반을 건넜소."</align>
+발밑은 물살이고, 물러설 자리가 없다.
+@goto #Head
+# Sit3
+오늘따라 비무판에 사람이 몰렸다. 투전꾼들이 판돈을 외친다.
+'이기면 이름이 돌고, 지면 더 빨리 돈다. 둘 다 반갑지 않다.'
+@goto #Head
+# Sit4
+상대의 칼끝에 푸르스름한 기가 돈다. 독이다.
+심판 노릇을 하던 늙은이가 못 본 척 고개를 돌린다.
+스치기만 해도 끝나는 칼이다. 대신 독에 기대는 손목은 무르다.
+'독 묻힌 칼은 겁쟁이 칼이다. 겁쟁이 칼이 제일 무섭다.'
+@goto #Head
+# Sit5
+판주가 막대기로 바닥을 두드린다.
+"판돈 판이오. 열 냥 걸고, 이긴 쪽이 스무 냥 가져가시오. 돈 없으면 외상도 받소. 외상값은 왕삼 어른이 받소."
+@choice "열 냥을 건다 (은자 10)" if:mn>=10 goto:#Stake1
+@choice "외상으로 건다 — 지면 열닷 냥 빚" if:mn<10&&debt<1 goto:#Stake2
+@choice "\"판돈은 없소. 칼만 걸겠소.\"" goto:#Stake0
+@stop
+# Stake1
+은자 열 냥이 판주의 바구니에 떨어진다.
+@fx mn:-10
+@set dstake=1
+@goto #Head
+# Stake2
+판주가 판돈 판에 이름을 적는다.
+"지면 닷새 안에 열닷 냥이오. 왕삼 어른은 이자 셈이 빠르시오."
+@set dstake=2
+@goto #Head
+# Stake0
+판돈 없는 판이라 구경꾼이 반만 남는다.
+@goto #Head
+# Sit6
+상대 뒤에 열두어 살 아이가 검집을 안고 서 있다. 제자인 모양이다.
+사부가 지는 것을 본 적 없는 눈이다.
+'……하필 오늘.'
+@goto #Head
+# Sit8
+밤. 사당 마당에 등불 하나. 그 빛이 닿는 데까지가 비무판이다.
+빛 밖으로 한 걸음 나가는 쪽이 진다. 물러설 데가 없다.
+@goto #Head
+# Sit9
+상대가 지팡이를 내려놓고 검을 뽑는다. 맹인이다.
+킬킬 웃던 구경꾼 쪽으로 맹인의 고개가 정확히 돌아간다.
+'소리 나는 칼은 읽힌다. 숨도 줄여야 한다. 숨 쉬는 소리가 이렇게 컸나.'
+@goto #Head
+# Sit10
+상대는 아이를 업은 여자다. 아이는 잠들어 있다.
+"품삯 판이오. 이기면 쌀 한 말. 아이는 신경 쓰지 마시오. 깨지 않게 싸울 테니."
+아이를 업고 칼을 쥔 지 오래된 손이다.
+'쌀 한 말. 이 판은 이겨도 진 기분이겠다.'
+@goto #Head
+# Sit11
+상대가 술병을 들고 비틀거리며 판에 든다. 구경꾼들이 웃는다.
+그런데 비틀거림이 매번 반 보씩 같은 자리에 떨어진다.
+'취한 척이다. 아니면 정말 취했는데 저렇게 걷는 거다.'
+@goto #Head
+# Sit12
+비무판 가장자리에 서열각 감찰사가 붓을 들고 앉아 있다.
+이기든 지든, 얼굴이 서열각 명부에 오른다.
+"청운? 들어 본 이름 같은데."
+붓이 한 번 멎는다.
+@goto #Head
+# Sit7
+폐가 마당 한가운데 금이 그어져 있다.
+"생사결(生死決)이오. 금 밖으로 걸어 나가는 사람은 하나요."
+건너편 사내가 웃옷을 벗는다. 등에 칼자국이 열둘.
+앞에서 받은 것은 하나도 없다.
+@choice "검을 뽑고 금 안으로 든다" goto:#Head
+@choice "금 안으로 들되, 사내가 등을 보이게 돈다 — 열둘 다 등으로 받은 칼이다" if:g_end_sagyeol>0 goto:#SangsaK
+@choice "\"오늘은 아니오.\" — 등을 돌린다" goto:#SangsaNo
+@stop
+# SangsaK
+<color=#9A70C4>지난 생, 저 사내가 등을 보인 것은 미끼였다. 제 칼은 그다음에 왔다.</color>
+반 보 비켜 선다. 사내의 웃음이 굳는다.
+@set f_sangsaknow=1
+@goto #Head
+# SangsaNo
+야유가 쏟아진다.
+"뒷골목 판에서 등 돌린 칼은 다시 안 받소."
+@fx sl:-1
+@set duelwin=0
+@return
+
+; ---------- 초식 ----------
+# StFall
+@duelx do:fall
+청운의 검보에 없는 길이다. 문양이 그 길을 먼저 그어 놓는다.
+{dx_momtext}
+@goto #Final
+# StKeep
+@duelx do:keep
+@print "<color=#9A70C4>{dx_keeptext}</color>"
+@goto #StFront
+# StFront
+호흡 하나, 반 보. 칼이 먼저 나간 쪽이 이긴다.
+@vfx kind:clash
+@wait 0.35
+@duel style:front
+@goto #Result
+# StKiller
+살기가 먼저 상대의 목을 조른다. 검은 그다음이다.
+@vfx kind:heavy
+@wait 0.35
+@duel style:killer
+@goto #Result
+# StGuard
+받고, 흘리고, 기다린다. 조급한 쪽이 먼저 빈틈을 보인다.
+@vfx kind:clash
+@wait 0.35
+@duel style:guard
+@goto #Result
+# StSense
+막지 않는다. 푸른 날이 닿지 않는 자리에 먼저 가 있는다.
+@vfx kind:clash
+@wait 0.35
+@duel style:sense
+@goto #Result
+# StCurse
+문양이 차갑게 타오른다. 세상이 느려지고, 빈틈만 밝게 보인다.
+@vfx kind:clash
+@wait 0.35
+@duel style:curse
+@goto #Result
+# StCurse2
+손이 먼저 나간다. 제 손이 아닌 것처럼.
+문양이 <color=#C03434>스스로</color> 타오른다. 빈틈 너머 상대의 목숨 줄이 보인다.
+@vfx kind:heavy
+@wait 0.35
+@duel style:curse2
+@goto #Result
+
+; ---------- 패배 ----------
+# Result
+@goto #PracRes if:practice>0
+@goto #Win if:duelwin>0
+@set lrand=random(1,3)
+@goto #Lose2 if:lrand==2
+@goto #Lose3 if:lrand==3
+몸이 반 호흡 늦다. 상대의 검이 먼저 닿는다.
+@goto #LoseTail
+# Lose2
+칼길이 보였는데, 몸이 따라가지 못했다.
+@goto #LoseTail
+# Lose3
+'흙맛이다. 몇 번을 먹어도 이 맛은 안 늘다.'
+@goto #LoseTail
+# LoseTail
+@set arenawin=0
+@goto #LoseDeath if:hp<=0||dsit==7
+@goto #LtFirst if:g_runs>0||lostonce>0
+@set lostonce=1
+<color=#9A70C4>목은 붙어 있다.</color> 비무판의 칼은 대개 목까지 오지 않는다.
+대신 몸이 사흘을 앓는다.
+목을 거두는 판은 따로 있다. 생사결, 원수, 그리고 이야기의 끝에 선 자들.
+# LtFirst
+@goto #LtA if:dloot<1
+발이 미끄러져 물살로 떨어진다. 기어 나와 보니 은자 {dloot}냥이 떠내려갔다.
+# LtA
+@goto #LtB if:dsit!=3
+내일이면 저잣거리가 다 알 것이다.
+# LtB
+@goto #LtC if:dstake!=2
+"닷새요. 열닷 냥. 잊으시면 왕삼 어른이 기억해 드리오."
+판주가 붓을 내려놓는다.
+@set debt=15
+@set debtday=day+5
+@set debtext=0
+# LtC
+@goto #LtD if:dtaint<1
+@goto #LtC2 if:taintkind==2
+베인 자리가 검푸르게 붓는다. 독이다. 백초당 할멈이라면 풀 수 있다. 미루면 피가 식는다.
+@goto #LtE
+# LtC2
+아물지 않은 상처가 또 터졌다. 단내 섞인 고름 냄새가 난다.
+약을 쓰지 않으면 상처가 먼저 썩는다.
+@goto #LtE
+# LtD
+@goto #LtE if:dinj<1
+옆구리가 결린다. 사흘은 검이 무거울 것이다.
+# LtE
+@goto #LtF if:dlethal>0
+@set lrand=random(1,3)
+@goto #LtE2 if:lrand==2
+@goto #LtE3 if:lrand==3
+상대가 검을 거둔다. 목을 칠 만한 상대가 아니라는 뜻이다.
+@return
+# LtE2
+"다음엔 검을 들고 오게."
+@goto #LtIns
+# LtE3
+상대가 칼끝으로 턱을 한 번 들었다 놓는다. 베는 것보다 더 큰 모욕이다.
+# LtIns
+@return if:f_insulted>0
+@set f_insulted=1
+@set insultname=foename
+@set insultday=day
+<color=#9A70C4>{foename}. 그 이름을 잊지 않는다.</color>
+@return
+# LtF
+피를 뱉고 일어선다. 오늘은 둘 다 숨이 붙어 나간다.
+'다음엔 내가 남는다.'
+@return
+# LoseDeath
+@goto #RaidSave if:dkind=="raid"&&aff>=4
+@goto MolakOver#SoaDuelDeath if:dkind=="soa"
+@goto MolakOver#RaidDeath if:dkind=="raid"
+@goto MolakOver#GrudgeDeath if:dkind=="grudge"
+@goto MolakOver#DebtDeath if:dkind=="debt"
+@goto MolakOver#AssassinDeath if:dkind=="assassin"
+@goto MolakOver#GyeolDeath if:dkind=="gyeol"
+@goto MolakOver#TaxDeath if:dkind=="tax"
+@goto MolakOver#SangsaDeath if:dsit==7
+@goto MolakOver#DuelDeath
+
+# RaidSave
+@set hp=1
+@return
+
+; ---------- 승리 ----------
+# Win
+@goto #WinOne if:donecut>0
+@set wrand=random(1,3)
+@goto #Win2 if:wrand==2
+@goto #Win3 if:wrand==3
+서걱—승부가 한 호흡에 갈린다.
+@goto #WinRank
+# Win2
+상대의 검이 허공을 세 번 갈랐다. 네 번째 자리에는 당신이 먼저 가 있었다.
+@goto #WinRank
+# Win3
+쇳소리는 한 번뿐이었다.
+@goto #WinRank
+# WinOne
+칼이 칼집에서 나왔다가 들어간다. 그 사이에 판이 끝났다.
+상대가 두어 걸음 더 걷다가 무릎을 꿇는다. 손에 쥔 칼이 반으로 갈라져 있다.
+판 둘레가 조용하다. 누군가 침 삼키는 소리만 크다.
+@goto #WinRank
+# WinRank
+@goto #WinSame if:oldrank==newrank
+강호 서열 <color=#C9A227>{oldrank} → {newrank}</color>. 한 계단을 또 오른다.
+@goto #TierUp if:tierup>0
+@print "<color=#C9A227>서열이 {btnext}의 벽 앞에서 멎는다.</color> 서열각의 붓이 판을 적다 말고 선다. 「경지를 넘지 못한 자는 이 위 칸에 적지 않는다. 운이 좋았던 판과 실력은 다르다.」 판은 이겼는데 이름이 그 줄에 머문다." if:rankcap>0
+@goto #WinAfter
+# WinSame
+강호 서열은 <color=#C9A227>{newrank}</color> 그대로다. 아래 서열을 이겨서는 계단이 생기지 않는다.
+@goto #WinAfter
+# TierUp
+@vfx kind:tier
+@set btpend=1 if:tiername!="이류"&&practice<1
+<color=#C9A227>─ {tiername} 진입 ─</color>
+@goto #TU2 if:tiername=="이류"
+@goto #TU3 if:tiername=="일류"
+@goto #TU4 if:tiername=="절정"
+@goto #TU5 if:tiername=="초절정"
+@goto #TU6 if:tiername=="화경"
+@goto #TU7 if:tiername=="현경"
+@goto #TU8 if:tiername=="생사경"
+@goto #TU9 if:tiername=="신화경"
+한 단계 높은 경지에 들어선다. 세상의 소리가 조금 더 또렷해진다.
+@goto #WinAfter
+# TU2
+숨이 칼끝까지 내려간다. 칼이 손에 붙는다. 무겁지 않다.
+마당에서 천 번 그은 횡소가, 오늘 판 위에서 한 번에 나왔다.
+@goto #WinAfter
+# TU3
+상대의 칼이 오기 전에 바람이 먼저 온다. 그 바람의 방향이 보인다.
+삼류는 칼을 휘두르고, 이류는 칼을 쓰고, 일류는 칼이 갈 길을 먼저 안다.
+사부가 하던 말을 몸이 먼저 알아듣는다.
+@goto #WinAfter
+# TU4
+단전에서 손끝까지, 막혀 있던 마디가 하나씩 풀린다. 맥이 한 줄로 꿰인다.
+칼을 쥔 손이 따뜻하다. 문양의 열과는 다른 열이다. 제 것이다.
+@goto #WinAfter
+# TU5
+칼에 기가 실린다. 베지 않은 자리까지 서늘해진다.
+상대의 소매 끝이 칼이 지나간 반 뼘 바깥에서 갈라진다.
+칼보다 기가 먼저 닿았다.
+@goto #WinAfter
+# TU6
+힘이 발끝에서 터져 무릎과 허리를 지나 칼끝으로 나간다. 땅이 먼저 울린다.
+발밑 흙이 둥글게 패어 있다. 판 둘레의 구경꾼들이 한 걸음씩 물러선다.
+@goto #WinAfter
+# TU7
+허(虛)와 실(實)이 갈라져 보인다. 상대의 칼 셋 중 진짜는 하나다.
+나머지 둘은 그림자다.
+사부가 평생 말로만 하던 자리다. 이제 말이 필요 없다.
+@goto #WinAfter
+# TU8
+소리가 멎는다. 바람도, 숨소리도, 칼이 움직이는 소리마저.
+그 고요 속에서 칼이 혼자 간다. 당신은 따라가기만 한다.
+@goto #WinAfter
+# TU9
+더 오를 자리가 없다. 서열록의 맨 윗줄에서 이름 하나가 지워지고, 그 자리에 당신이 있다.
+청운의 막내가, 빗자루를 들던 손으로, 여기까지 왔다.
+'사형들. 보고 있소. 막내가 여기까지 왔소.'
+@goto #WinAfter
+# WinAfter
+@set arenawin=arenawin+1 if:dlethal<1
+@goto #Fame if:arenawin==3&&byeolho=="none"
+@goto #FameCall if:arenawin>=4&&byeolho!="none"&&dlethal<1
+@goto #FameE
+# Fame
+@vfx kind:crowd
+판 둘레가 술렁인다. 웅성임이 한 겹 두꺼워진다.
+"저 사내, 사흘 판을 내리 이겼다."
+@goto #FameS if:curse>=60
+@goto #FameK if:sl>=6
+"검로가 낯익은데. 청운 같아. 청운은 망했잖아."
+"망한 문파의 검이라. 떨어진 칼, 낙검(落劍)이로구먼."
+그날 저녁, 저잣거리에 별호 하나가 돈다. 낙검. 떨어진 칼.
+@set byeolho="낙검"
+@goto #FameE
+# FameS
+"칼끝에서 검은 김이 나더라. 사람 칼이 아니야."
+"사검(邪劍)이다. 저건 사검이야."
+그날 저녁, 저잣거리에 별호 하나가 돈다. 사검. 삿된 칼.
+'사검. 듣기 좋은 이름은 아니다. 틀린 이름도 아니라서 더 싫다.'
+@set byeolho="사검"
+@goto #FameE
+# FameK
+"눈 봤나. 상대 목만 보더라."
+"혈수(血手)라 불러야겠군. 손에 피 마를 날이 없겠어."
+그날 저녁, 저잣거리에 별호 하나가 돈다. 혈수. 피 묻은 손.
+'혈수. 손을 씻어도 이름은 안 씻긴다.'
+@set byeolho="혈수"
+@goto #FameE
+# FameCall
+@vfx kind:crowd
+"{byeolho}다!"
+판 둘레에서 누군가 외친다. 다음 판 상대가 칼을 고쳐 쥔다. 손바닥이 젖어 있다.
+# FameE
+@goto #WaS1 if:dstake<1
+@goto #WaS2 if:dstake==2
+판주가 스무 냥을 세어 내민다. 한 냥을 쥔 손가락을 눈짓 한 번으로 마저 펴게 만든다.
+@fx mn:20
+@goto #WaS1
+# WaS2
+"외상 판은 이겨도 열 냥이오."
+열 냥이 손에 떨어진다.
+@fx mn:10
+# WaS1
+@goto #WaSangsa if:dsit==7
+@goto #WaCrowd if:dsit==3
+@goto #Mercy if:dsit>0&&dlethal<1
+@return
+# WaCrowd
+담장 위 아이들이 휘파람을 분다. 투전꾼들이 던진 은자 석 냥이 구른다.
+@goto #Mercy
+# WaSangsa
+금 안에 하나가 눕는다. 일어서는 것은 당신이다.
+판주가 판돈과 죽은 자의 전낭을 한데 묶어 던진다.
+아무도 시신의 이름을 묻지 않는다.
+@return
+
+; ---------- 이긴 자의 몫 ----------
+# Mercy
+@goto #MercyS if:dsit==6
+@goto #MercyB if:dsit==10
+상대가 무릎 꿇은 채 목을 내민다. 진 자의 예법이다.
+목을 칠지는 이긴 쪽이 정한다.
+@goto #MercyC if:g_end_wonsu<1
+<color=#9A70C4>지난 생, 이렇게 내민 목 하나의 값으로 상복 셋이 찾아왔다.</color>
+# MercyC
+@choice "검을 거두고 손을 내민다" goto:#MSpare
+@choice "검 쥐는 손목의 힘줄을 끊는다" goto:#MMaim
+@choice "목을 친다 — 전낭은 이긴 자의 것" goto:#MKill
+@stop
+# MercyS
+아이가 검집을 끌어안고 사부 앞으로 뛰어든다. 떨면서도 비키지 않는다.
+"…베려거든 저부터 베시오."
+@choice "아이의 머리에 손을 얹고 돌아선다" goto:#MSpare
+@choice "아이를 밀치고 사부의 손목을 끊는다" goto:#MMaim
+@choice "아이가 보는 앞에서 목을 친다" goto:#MKillS
+@stop
+# MercyB
+여자는 무릎을 꿇지 않고 아이를 고쳐 업는다.
+깨어난 아이가 울지 않고 당신을 본다.
+아이를 업었으니, 목을 내미는 예법은 이 판에 없다.
+@choice "쌀 한 말을 그녀에게 밀어 준다 — 가시오" goto:#MercyB1
+@choice "길을 비켜 준다" goto:#MercyB2
+@stop
+# MercyB1
+여자가 쌀자루를 한참 보다 받는다. 칼 쥔 손보다 서툰 손이다.
+"……이 빚은 내 칼로 갚겠소. 언제든."
+@set spared=spared+1
+@set f_sparedally=1
+@fx curse:-1
+@return
+# MercyB2
+여자가 판을 나간다. 업힌 아이가 끝까지 돌아본다.
+"이 목숨, 빚으로 달아 두겠소."
+@set spared=spared+1
+@set f_sparedally=1
+@return
+# MSpare
+상대의 손을 잡지 않고 제 힘으로 일어서게 둔다. 포권(抱拳)이 깊다.
+"이 목숨, 빚으로 달아 두겠소."
+@set spared=spared+1
+@return
+# MMaim
+힘줄이 끊긴다. 상대가 비명을 삼킨다. 다시는 검을 쥐지 못할 손이다.
+@fx sl:1
+@set tr=random(1,100)
+@goto #MMaimG if:tr<=40
+칼 대신 무엇으로 먹고살지는 그자의 몫이다.
+'……모른 척한다. 모른 척하는 게 칼보다 무겁다.'
+@return
+# MMaimG
+피 흘리며 물러나는 눈이 당신 얼굴을 외운다.
+@set grudgeday=day+random(6,10) if:grudge<1
+@set grudge=grudge+1
+@return
+# MKill
+@set killed=killed+1
+검이 한 번 내려간다. 비무판이 조용해진다.
+구경꾼 하나가 슬그머니 자리를 뜬다. 어디로 가는지는 묻지 않아도 안다.
+'이름도 안 물었다. 또.'
+@fx sl:2 curse:2 mn:5
+@set tr=random(1,100)
+@return if:tr>70
+@set grudgeday=day+random(5,9) if:grudge<1
+@set grudge=grudge+1
+@return
+# MKillS
+@set killed=killed+1
+아이는 울지 않는다. 사부의 피가 아이 신발 코까지 번진다.
+아이가 끝까지 당신 얼굴을 외운다.
+'저 아이가 언젠가 이 얼굴을 찾아온다. 그때 나는 할 말이 없다.'
+@fx sl:3 curse:3 mn:5
+@set f_orphan=1
+@set grudgeday=day+random(4,7) if:grudge<1
+@set grudge=grudge+1
+@return
+
+; ---------- 물러섬 ----------
+# Flee
+'오늘은 아니다. 물러서는 것도 수다. 사형이 그랬다.'
+@goto #FleeStake if:dstake==1
+@return
+# FleeStake
+"판돈 판에서 물러난 칼은 판돈도 물러나오."
+열 냥은 돌아오지 않는다.
+@return
+
+; ---------- 0.4.55 비무 연습(타이틀) ----------
+; 목숨도 서열도 걸리지 않는다. 들어올 때의 전역 기록은 나갈 때 그대로 돌아간다(MolakPractice).
+# Practice
+@practice do:begin
+@art scene:duel
+<color=#C9A227>비무 연습</color> — 목숨도 서열도 걸리지 않는 판이다. 몸과 상대를 골라 합만 겨뤄 본다.<br><color=#8A7A66>여기서 지든 이기든 이야기에는 아무것도 남지 않는다. 청운검결 넷(운보·관·연·낙)은 모두 쓸 수 있다.</color>
+# PracBody
+몸을 고른다.
+@choice "갓 깨어난 몸 — 검술 8 · 내공 3 · 체력 12" goto:#PracB1
+@choice "한 달을 버틴 몸 — 검술 20 · 내공 10 · 체력 16" goto:#PracB2
+@choice "교주 앞에 선 몸 — 검술 34 · 내공 22 · 체력 20" goto:#PracB3
+@choice "「비무의 법」을 다시 읽는다" goto:#PracGuide
+@choice "연습을 마친다" goto:#PracEnd
+@stop
+# PracGuide
+@practice do:guide
+@goto #PracBody
+# PracB1
+@practice body:1
+@goto #PracFoe
+# PracB2
+@practice body:2
+@goto #PracFoe
+# PracB3
+@practice body:3
+# PracFoe
+상대를 고른다. <color=#8A7A66>몸 — 검술 {sw} · 내공 {ng} · 체력 {hp}/{hpmax}</color>
+@choice "거리의 칼 — 이름 없는 무사, 뒷골목 판, 자객, 야습조" goto:#PracG1
+@choice "이름난 칼잡이 — 호치, 곽산, 철산도, 남궁현, 소아" goto:#PracG2
+@choice "결전의 칼 — 견아, 진백, 혈쇄문주, 집법전주, 교주" goto:#PracG3
+@choice "몸을 바꾼다" goto:#PracBody
+@stop
+# PracG1
+@choice "떠돌이 무사 — 성미는 판마다 다르다" goto:#PF_street
+@choice "뒷골목 사설 판 — 합 둘, 더 센 상대" goto:#PF_back
+@choice "교의 자객 — 보이는 칼은 미끼다" goto:#PF_assassin
+@choice "혈랑대 야습조 — 어둠 속에서 먼저 찌른다" goto:#PF_raid
+@choice "돌아간다" goto:#PracFoe
+@stop
+# PracG2
+@choice "호치 — 체세 시험판 · 새 비무(체세·파세·잔상)" goto:#PF_hochiS
+@choice "독아단 아장 호치 — 필살 「독아쇄」" goto:#PF_hochi
+@choice "창잡이 곽산 — 당신이 낸 수를 따라 한다 · 필살 「회마창」" goto:#PF_rival
+@choice "철산도 — 무거운 칼로 버틴다 · 필살 「철산고」" goto:#PF_cheolsan
+@choice "남궁현 — 정석대로 차례를 지킨다 · 필살 「천뢰일섬」" goto:#PF_namgung
+@choice "적운검파 소아 — 받아 흘리는 검 · 필살 「적운쌍영」" goto:#PF_soa
+@choice "돌아간다" goto:#PracFoe
+@stop
+# PracG3
+@choice "독아단주 견아 — 물어뜯듯 몰아친다 · 필살 「광견난무」" goto:#PF_kyona
+@choice "혈랑대주 진백 — 같은 수를 두 번 잇지 않는다 · 필살 「북두낙월」" goto:#PF_jinbaek
+@choice "혈쇄문주 — 사슬로 받아 놓고 기다린다 · 필살 「혈쇄망」" goto:#PF_wolf
+@choice "집법전주 — 앞 합의 틈을 본다 · 필살 「집법단죄」" goto:#PF_hunt3
+@choice "혈마교주 혈천마 — 당신이 방금 낸 수를 노린다 · 필살 「멸도벽」" goto:#PF_lord
+@choice "돌아간다" goto:#PracFoe
+@stop
+# PF_street
+@set dkind="street"
+@goto #PracGo
+# PF_back
+@set dkind="back"
+@goto #PracGo
+# PF_assassin
+@set dkind="assassin"
+@goto #PracGo
+# PF_raid
+@set dkind="raid"
+@goto #PracGo
+# PF_hochi
+@set dkind="hochi"
+@goto #PracGo
+# PF_rival
+@set dkind="rival"
+@goto #PracGo
+# PF_cheolsan
+@set dkind="cheolsan"
+@goto #PracGo
+# PF_namgung
+@set dkind="namgung"
+@goto #PracGo
+# PF_soa
+@set dkind="soa"
+@goto #PracGo
+# PF_kyona
+@set dkind="kyona"
+@goto #PracGo
+# PF_jinbaek
+@set dkind="jinbaek"
+@goto #PracGo
+# PF_wolf
+@set dkind="wolf"
+@goto #PracGo
+# PF_hunt3
+@set dkind="hunt3"
+@goto #PracGo
+# PF_lord
+@set dkind="lord"
+# PracGo
+@practice do:heal
+@gosub #Run
+@art scene:duel
+# PracAfter
+@choice "같은 상대와 다시 겨룬다" goto:#PracGo
+@choice "상대를 바꾼다" goto:#PracFoe
+@choice "몸을 바꾼다" goto:#PracBody
+@choice "연습을 마친다" goto:#PracEnd
+@stop
+# PracRes
+@goto #PracResW if:duelwin>0
+<color=#C03434>졌다.</color> 진짜 판이었다면 {foename}의 칼이 거기서 멈추지 않았을 것이다.
+@return
+# PracResW
+<color=#C9A227>이겼다.</color> {foename}의 칼이 땅에 떨어진다.
+@return
+# PF_hochiS
+@set dkind="hochi"
+@practice do:heal
+체세 시험판 — 호치와 겨룬다. <color=#8A7A66>상성을 맞히면 체세가 깨지고, 다 깨면 파세. 무너진 상대는 한 차례 쉬고, 그 차례엔 두 배로 들어간다.</color>
+@choice "처음 보는 상대로" goto:#StJan0
+@choice "지난 생에 이 도끼에 죽어 본 몸으로 — 잔상이 보인다" goto:#StJan1
+@stop
+# StJan0
+@set pjan=0
+@goto #StRun
+# StJan1
+@set pjan=1
+# StRun
+@art scene:duel
+@art char:hochi
+@stance do:init
+{stell}
+# StTurn
+@stance do:pre
+{stell}
+# StMenu
+@choice "受 받아친다 — 찌르러 올 때" goto:#StA1
+@choice "變 흔든다 — 웅크려 받을 때" goto:#StA2
+@choice "斬 정면으로 벤다 — 허초일 때" goto:#StA3
+@choice "雲步 — 큰 수가 오는 자리를 비켜선다" if:scharge==1 goto:#StA4
+@choice "觀 — 지금과 다음을 읽는다 · 막마다 한 번" if:sread<1&&sgwan>0&&ng>=2 goto:#StGwan
+@choice "落 — 무너진 자리에 떨어지는 칼 · 저주 +4" if:sbroken>0 goto:#StA6
+@stop
+# StGwan
+@stance do:gwan
+{stell}
+@goto #StMenu
+# StA1
+@stance act:1
+@goto #StAfter
+# StA2
+@stance act:2
+@goto #StAfter
+# StA3
+@stance act:3
+@goto #StAfter
+# StA4
+@stance act:4
+@goto #StAfter
+# StA6
+@stance act:6
+# StAfter
+{sres}
+@goto #StTurn if:send<1
+@stance do:end
+@art char:none
+@goto #StAgain
+# StAgain
+@choice "같은 판을 다시" goto:#PF_hochiS
+@choice "상대를 바꾼다" goto:#PracFoe
+@choice "연습을 마친다" goto:#PracEnd
+@stop
+# PracEnd
+@practice do:end
+@stop

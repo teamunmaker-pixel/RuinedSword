@@ -1,14 +1,5 @@
 ; Played in the title menu.
-; Use to set up the menu's appearance—background, music, FX, etc.
-; Title script path can be changed in the scripts configuration.
-
-; For example, let's set 'Title' background.
-@back Title
-
-; Note that since we don't have a real background resource yet,
-; Naninovel renders it as a placeholder with abstract visuals.
+; 몰락검신: 배경 액터(@back)는 쓰지 않는다 — placeholder 사각형 방지.
 
 ; Show the title menu.
 @showUI TitleUI
-
-; Click "NEW GAME" to play the entry script.

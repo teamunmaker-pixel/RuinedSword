@@ -1,0 +1,137 @@
+using MolakVn;
+using UnityEngine;
+
+/// <summary>
+/// 전생의 앎 — 되감겨도 남는 것들의 장부. 키는 전역(g_) 변수이고, 여러 키 중 하나라도 0보다 크면 안다.
+/// 메뉴 「전생의 앎」 탭(MolakMenu.DrawKnow)과, 죽은 직후 "되감기지 않는 것" 한 줄(@knownew)이 이 표를 쓴다.
+/// </summary>
+public static class MolakKnow
+{
+    public struct Entry
+    {
+        public string Keys, Name, Desc, Where;
+        public Entry (string k, string n, string d, string w) { Keys = k; Name = n; Desc = d; Where = w; }
+    }
+
+    public static readonly Entry[] All =
+    {
+        new Entry("g_runs",                    "되감긴 아침",      "하진무의 여식은 시집가서 둘째를 낳았다. 노인이 아직 하지 않은 이야기다.",           "운락객잔"),
+        new Entry("g_end_ohin",                "젓가락 끝",        "'마지막이다' 뒤에는 칼이 온다. 어디서, 어느 각도로 오는지 목이 기억한다.",           "저잣거리 국밥집"),
+        new Entry("g_soaname",                 "그 이름",          "연(蓮). 사부만 그리 불렀다. 부르는 사람이 둘이 되었다.",                             "저잣거리 국밥집"),
+        new Entry("g_know_raid",               "그 밤",            "늑대가 우는 밤 한밤중. 혈랑대 열넷이 기와를 밟고 와서 계단으로 오른다.",                   "운락객잔"),
+        new Entry("g_soadied",                 "그녀가 죽은 밤",   "등 뒤를 맡긴다던 사람이 먼저 갔다.",                                                   "운락객잔"),
+        new Entry("g_redverse",                "적운의 구결",      "우물 속에서 백 번 들은 열두 줄. 청운의 열두 줄 위에 겹쳐 외운다.",                    "운검사태의 사당"),
+        new Entry("g_know_cup|g_end_jagaek",   "매화 향 술",       "이 철에 매화는 없다. 사내의 칼은 왼 소매에 있다.",                                     "주막 구석"),
+        new Entry("g_know_taxday|g_end_hyeop", "징세조가 오는 날", "해가 중천에 오르기 전, 붉은 끈 다섯. 우두머리는 칼을 뽑을 때 왼 무릎부터 굽힌다.",    "운락객잔 마당"),
+        new Entry("g_know_wangsam|g_end_chae", "왕삼의 빚 책",      "궤짝 셋째 칸. 붓끝이 청운 쪽 이름 위에서 한 번 멈춘다.",                               "전당포 뒷방"),
+        new Entry("g_end_wonsu",               "상복의 원한",      "늘인 목 하나의 값으로 상복 셋이 지붕 동쪽으로 내려온다. 맨 끝의 하나가 반 박자 늦다.",                                     "비무판, 그리고 그 뒤"),
+        new Entry("g_end_ik",                  "개울의 여울목",    "물이 얕아지는 자리는 하류에 있다. 뛰어들지 않아도 된다.",                              "불어난 개울"),
+        new Entry("g_end_amhyang|g_know_amhkey","단내 나는 술",    "암향의 손목에도 검푸른 실핏줄이 있다. 손님 하나에 해약 한 첩.",                        "주막의 밤"),
+        new Entry("g_know_amhsister",          "향고 옆방",        "열두 살 아이. 바깥에서만 잠기는 문. 한밤중에 문지기가 바뀐다.",                          "암향루"),
+        new Entry("g_know_soa",                "적운의 쌍검",      "적운의 검은 두 번 오지 않는다. 한 번에 둘이 온다.",                                    "소아와 칼을 맞댈 때"),
+        new Entry("g_know_hochi",              "뼈 장식 소리",     "독아단 아장 호치의 첫 수. 뼈 장식이 짤랑이고 반 호흡 뒤에 도끼가 온다.",               "회목촌"),
+        new Entry("g_know_kyona",              "골짜기의 개",      "독아단주 견아의 첫 수.",                                                               "북쪽 골짜기"),
+        new Entry("g_know_wolf|g_know_chainmob","사슬의 버릇",     "사슬이 왼 어깨를 돌 때, 오른 무릎이 반 호흡 늦게 따라온다.",                           "혈쇄문"),
+        new Entry("g_know_jinbaek",            "대사형의 검",      "막내라고 부를 때만 검이 반 치 늦다.",                                                  "혈랑대"),
+        new Entry("g_know_hunt1|g_know_hunt2", "혈랑대의 그물",    "척후조가 먼저 오고, 정예는 등 뒤에서 온다.",                                           "관도"),
+        new Entry("g_know_hunt3",              "집법의 검",        "집법전주의 첫 수.",                                                                    "집법전"),
+        new Entry("g_know_cheolsan",           "철산도",           "표국 어음을 품은 칼잡이의 첫 수.",                                                     "산길 주막"),
+        new Entry("g_know_rival",              "곽산의 창",        "창이 길어서 첫 수가 멀다. 그다음은 가깝다.",                                           "비무판"),
+        new Entry("g_oldmem1",                 "한 검을 둘이",     "폭포 아래, 왼손은 사매 몫이었다. 운검이라는 이름은 그녀가 지었다.",                    "노인의 꿈"),
+        new Entry("g_oldmem2",                 "찢어진 검보",      "'사(邪)를 아는 검이 홀로면 사에 먹힌다.' 반쪽은 그녀가 들고 빗속으로 갔다.",            "노인의 꿈"),
+        new Entry("g_oldmem3",                 "늦게 닿은 암자",   "제단 앞의 사태, 무릎에 마른 연잎. 그 함은 노인의 반쪽으로는 열리지 않는다.",            "노인의 꿈"),
+        new Entry("g_oldlid",                  "뚜껑 안쪽",        "'사형. 왼쪽은 비워 두었소. 늦게 와도 되오.' 노인은 이 글을 본 적이 없다.",               "교주를 벤 뒤, 노인 앞에서"),
+        new Entry("g_oldmem4",                 "첫 열매",          "잿더미의 아이가 제 손으로 문양의 반을 도려내고 나갔다. 그 아이가 혈천마다. 둘째는 장문인, 셋째가 당신.", "느티나무 아래"),
+        new Entry("g_seen_hochi|g_seen_jinbaek|g_seen_namgung", "칼잡이들의 버릇", "이름난 칼잡이는 칼을 쥐면 하던 대로 한다. 겪어 본 버릇은 첫 합에 보인다.", "비무의 합"),
+        new Entry("g_jbtruth",                 "산문을 연 까닭",   "열면 네 사매 하나는 산다. 그 사매는 산사에서 머리를 깎았다. 보름마다 쌀자루가 놓인다.", "산사, 그리고 사당"),
+        new Entry("g_know_hajin",              "관아 대문 앞",     "하진무의 왼 팔뚝에 불로 지져 뭉갠 낙인이 있다. 징세조가 그 자리를 엄지로 누르며 손님 이름을 받아 간다.", "운락객잔 뒷문"),
+        new Entry("g_hajindied",               "셈이 맞던 날",     "노인은 당신 앞에 서서 셈을 맞췄다. 주판알이 피 웅덩이로 굴러갔다.",                    "운락객잔 마당"),
+        new Entry("g_know_jangsell",           "판 소식",          "뒷문에 서 있던 그 사람이 이 방을 판다. 서른 냥에.",                         "운락객잔의 한밤중"),
+        new Entry("g_know_hao",                "담보 칸의 딸",     "쥐눈이 장의 딸, 열 살. 징세 명부의 담보 칸. 교는 이름을 지우지 않고 줄을 하나 더 긋는다.", "주루 계단 밑"),
+        new Entry("g_know_maeng",              "그 밤의 수레",     "원군은 남궁의 피난 수레 열두 대를 지키고 있었다. 산 아래, 반 시진 거리.",            "성 서쪽 폐사찰"),
+        new Entry("g_maenglate",               "반 시진",          "백리휘는 피가 다 식은 새벽에 온다. 칼에 피 한 방울 없이.",                            "야습 뒤의 객잔 마당"),
+        new Entry("g_know_maengsell",          "맹의 저울",        "청운 막내 하나에 맹 잔당 일곱. 저울을 단 사람이 직접 일러 주러 왔다.",                "객잔 뒷문"),
+        new Entry("g_know_namgung",            "닳은 패",          "남궁현은 패를 엄지로 문지른다. 던지고 싶은 손이다.",                                  "남궁현과 칼을 맞댈 때"),
+        new Entry("g_know_gaeknot",            "매듭 셋",          "하나는 낯선 칼, 둘은 관아, 셋은 늑대. 엎은 그릇은 이 길로 다니지 마라.",               "담장 말뚝"),
+        new Entry("g_know_yong",               "회목채의 누이",    "용개의 누이와 다섯 살 조카가 회목채에 있다. 견아가 당신의 길 하나와 바꾸자 했다.",    "객잔 뒷문, 북쪽 산길"),
+        new Entry("g_know_gwak",               "푸른 창날",        "곽산의 아내가 피를 토한다. 백초당 외상이 막혔다. 독은 교 약재 창고 뒷문에서 샀다.", "객잔 앞 공터"),
+        new Entry("g_gwakwifedied",            "거꾸로 꽂힌 창",   "독칼을 들춘 생, 약값이 끊긴 지 이레 만에 곽산의 아내가 죽었다.",                     "저자 공터"),
+        new Entry("g_herbdied",                "백초당이 타던 밤", "꾸러미 속을 바꾸면 징세조가 보름 뒤에 알아챈다. 달아 보는 저울추까지 바꿔야 한다.", "약재 거리"),
+        new Entry("g_end_simma",               "아는 열",          "저주 일흔다섯을 넘긴 아침의 열. 청심차, 적운의 봉인, 거지 중의 호흡 중 하나는 있어야 한다.", "아침의 가슴"),
+        new Entry("g_end_pobak",               "그물이 조이는 순서", "성문이 먼저 닫히고, 그 밤 지붕에 사람이 오르고, 이튿날 아침 거리가 빈다. 그 전에 빠질 길이 있다.", "그물이 좁혀 오는 아침"),
+        new Entry("g_end_ipma",                "뜯겨 나간 뿌리",   "교주는 끊어 주지 않는다. 뜯어 간다. 무릎 꿇은 자의 첫 소임은 운락의 객잔이다.",       "집법전주 앞, 교주의 대전"),
+        new Entry("g_end_wonhaeng",            "강가의 달",        "남쪽으로 한 달. 도망친 길 끝에서도 열매는 익었다.",                                 "지붕 위의 약조"),
+        new Entry("g_know_ripe",               "검을 뽑지 않은 아이", "노인 앞에서 검을 뽑지 않고 반 각을 선 사람이 있었다. 청운의 장문인.",                "느티나무 아래"),
+        new Entry("g_end_sagyeol",             "등의 칼자국 열둘", "금 건너편 사내가 등을 보이는 것은 미끼다. 칼은 그다음에 온다.",                   "뒷골목 생사결"),
+        new Entry("g_know_lord",               "교주의 첫 수",     "멸도의 벽이 어디서부터 오는지 몸이 안다.",                                             "혈마곡 대전"),
+        new Entry("g_know_tea",                "청심차 비방",      "백초당 할멈의 비방. 알고 깨어나면 아침마다 달여 마신다 — 저주가 덜 오른다.",            "백초당"),
+        new Entry("g_know_lodge",              "빈칸 방값",        "하진무는 '운객' 칸을 빈칸으로 둔다. 알고 깨어나면 첫날부터 방값을 외상으로 단다.",       "운락객잔 계산대"),
+        // 0.4.55 청운검결의 조각 — 비무의 합에서 쓰는 수
+        new Entry("g_form_step",               "청운검결 · 운보(雲步)", "맞을 자리에 서 있지 마라. 합에서 지는 수를 판마다 한 번 비켜선다.",               "칼에 죽어 본 몸"),
+        new Entry("g_form_eye",                "청운검결 · 관(觀)",    "칼은 어깨가 먼저 말한다. 합 하나를 눈으로 쓰면 다음 합의 기세가 확실히 보인다.",     "이름난 칼잡이에게 죽어 본 눈"),
+        new Entry("g_form_chain",              "청운검결 · 연(連)",    "들어갔으면 이어서 들어라. 합을 내리 둘 이기면 기세가 하나 더 붙는다.",             "세 번 이기고 죽은 손"),
+        new Entry("g_form_fall",               "청운검결 · 낙(落)",    "사람의 검법에 없는 길. 마지막 한 칼에 쌓은 기세를 두 배로 싣는다. 저주 +4.",         "문양이 터진 날"),
+        // 0.4.55 필살 초식 — 처음 받을 땐 읽히지 않는다. 받아 본 생부터 보인다
+        new Entry("g_sig_hochi",               "필살 · 독아쇄",     "머리 위에서 내리찍는 도끼. 먼저 들어오는 수다 — 받아치면 손목이 열린다.",                 "호치와 칼을 맞댈 때"),
+        new Entry("g_sig_kyona",               "필살 · 광견난무",   "사방에서 무는 칼. 찌르러 오는 수다 — 받아쳐야 끊긴다.",                               "견아와 칼을 맞댈 때"),
+        new Entry("g_sig_cheolsan",            "필살 · 철산고",     "어깨로 들이받는 수. 찌르러 오는 수다 — 받아치며 비켜선다.",                           "철산도와 칼을 맞댈 때"),
+        new Entry("g_sig_namgung",             "필살 · 천뢰일섬",   "칼집에서 곧장 나오는 일섬. 찌르러 오는 수다 — 받아치면 흘릴 수 있다.",                 "남궁현과 칼을 맞댈 때"),
+        new Entry("g_sig_jinbaek",             "필살 · 북두낙월",   "일곱 칼끝 가운데 여섯이 거짓이다. 허초다 — 정면으로 들면 깨진다.",                     "대사형과 칼을 맞댈 때"),
+        new Entry("g_sig_rival",               "필살 · 회마창",     "물러서는 등은 미끼다. 허초다 — 창이 돌기 전에 정면으로 끊는다.",                       "곽산과 칼을 맞댈 때"),
+        new Entry("g_sig_soa",                 "필살 · 적운쌍영",   "엇갈려 세운 쌍검은 받기 위한 것이다 — 칼끝을 흔들어 한 자루를 떼어 낸다.",             "소아와 칼을 맞댈 때"),
+        new Entry("g_sig_wolf",                "필살 · 혈쇄망",     "몸을 감싼 사슬 그물은 받는 수다 — 칼끝을 흔들어 고리 하나를 걸어 당긴다.",             "혈쇄문주와 칼을 맞댈 때"),
+        new Entry("g_sig_hunt3",               "필살 · 집법단죄",   "기다렸다 죄를 묻는 칼. 받는 수다 — 먼저 흔들어 법도를 흐트러뜨린다.",                  "집법전주와 칼을 맞댈 때"),
+        new Entry("g_sig_lord",                "필살 · 멸도벽",     "벽처럼 막아 서는 마공. 받는 수다 — 정면은 튕긴다. 흔들어 벽의 이음새를 찾는다.",        "혈마곡 대전"),
+        // 0.4.58 (끝에 붙인다 — 앎의 번호가 지난 생 기록과 어긋나지 않게)
+        new Entry("g_know_scout",              "나흘째 밤",        "삼경, 혈랑대 척후 둘이 계단 셋째 칸을 밟고 이층으로 온다. 막내를 산 채로 데려가라는 명이다.", "운락객잔 이층"),
+        new Entry("g_know_scoutb",             "해 질 녘 골목",    "한 번 막힌 길은 다른 길로 돌아온다. 새 끈을 맨 지게꾼 둘, 짐 속에 칼 두 자루.",              "장터에서 객잔으로 가는 골목"),
+        // 0.4.62 이유가 다른 배신들
+        new Entry("g_know_gwak2",              "돌판의 빈자리",    "곽산이 독을 처음 산 건 아내가 앓기 전이다. 서열각 돌판에 '곽' 자 하나를 새기고 싶었다.",     "비무판, 푸른 창날 앞"),
+        new Entry("g_know_herbmonster",        "앞의 둘",          "흑단환으로 살린 둘째 아이가 지금 검은 산에 앉아 있다. 그 아이도 맥이 둘이었다.",            "백초당, 혹은 금침이 오는 밤"),
+        new Entry("g_know_cultsong",           "솥의 노래",        "교도들의 노래 마지막 줄. 거두거든 우리 님도 거두소서. 교주도 누군가의 밭에서 났다.",          "장터 솥이 걸리는 밤, 혹은 웃는 교도의 입"),
+        new Entry("g_know_yong2",              "다섯 쪽 길",       "용개가 판 것은 다섯이 지키는 길이었다. 스물이 지키는 길 대신.",                            "나루, 지게꾼 일곱이 모인 아침"),
+        // 0.4.63 하진무 · 장 — 볼모 말고 다른 셈
+        new Entry("g_know_hajin2",             "운락(雲樂)",       "이십 년 전 청운산 아래 찻집의 '귀'. 장문인이 제 손으로 낙인을 지지고 객잔 밑천과 이름을 내주었다.", "운락객잔 아궁이 앞"),
+        // 0.4.70 염혁 · 단목결
+        new Entry("g_know_hyeokpass",          "북쪽 고개의 상여",  "염혁은 끈 값을 벌러 혼자 고개를 넘는다. 독아단은 바람을 등지고 나오고, 첫 칼은 말 다리로 간다.", "표국 앞 상여"),
+        new Entry("g_know_hyeokcart",          "붉은 끈의 수레",    "표행패를 찬 염혁이 처음 끈 수레는 혈랑대의 기름 수레였다. 기름 다섯 독, 밧줄, 쇠갈고리.", "그 밤의 골목 끝"),
+        new Entry("g_know_gyeolraid",          "용마루의 관복",     "그 밤 맞은편 용마루에 다섯째 사형이 앉아 있었다. 무엇이 끝나는지 적으러.",             "야습의 지붕"),
+        new Entry("g_know_gyeolorder",         "두 줄",             "서열각은 같은 명을 둘에게 내렸다. 막내의 숫자를 먼저 지우는 쪽에 대전 문을. 다섯째 사형과, 대사형.", "달 없는 밤의 창틀"),
+        new Entry("g_know_gyeoltruth",         "숯가마의 매듭",     "그 밤 대사형은 다섯째 사형을 칼등으로 쳐서 숯가마에 묶었다. 일곱을 명부에서 뺀 손이다.", "성 밖 사당"),
+        new Entry("g_know_jang2",              "싸게 먹히는 목숨",  "장은 당신이 아침이면 다시 온다는 걸 눈치챘다. 그래서 당신 방을 골랐다. 딸은 한 번 가면 안 오니까.", "주루 계단 밑, 쏟아진 은자"),
+    };
+
+    public static bool Known (Entry e)
+    {
+        foreach (var k in e.Keys.Split('|')) if (MolakStats.Get(k) > 0f) return true;
+        return false;
+    }
+
+    public static int Count () { int n = 0; foreach (var e in All) if (Known(e)) n++; return n; }
+
+    /// <summary>회차 시작 때 아는 것들을 적어 둔다(비전역 변수라 저장/불러오기에도 남는다).</summary>
+    public static void Snapshot ()
+    {
+        var sb = new System.Text.StringBuilder();
+        for (int i = 0; i < All.Length; i++) if (Known(All[i])) sb.Append(i).Append(',');
+        MolakStats.SetStr("knowsnap", sb.ToString());
+    }
+}
+
+/// <summary>@knownew — 이번 생에 새로 알게 된 것: knownew(이름들), knownewc(개수)</summary>
+[Alias("knownew")]
+public class KnowNewCommand : Command
+{
+#pragma warning disable CS1998
+    public override async Awaitable Execute (ExecutionContext ctx)
+#pragma warning restore CS1998
+    {
+        string snap = MolakStats.Str("knowsnap");
+        var had = new System.Collections.Generic.HashSet<string>(snap.Split(','));
+        var names = new System.Collections.Generic.List<string>();
+        for (int i = 0; i < MolakKnow.All.Length; i++)
+            if (MolakKnow.Known(MolakKnow.All[i]) && !had.Contains(i.ToString())) names.Add("「" + MolakKnow.All[i].Name + "」");
+        MolakStats.SetStr("knownew", string.Join(" ", names.ToArray()));
+        MolakStats.Set("knownewc", names.Count);
+    }
+}

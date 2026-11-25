@@ -1,0 +1,223 @@
+using System.Collections.Generic;
+using MolakVn;
+using UnityEngine;
+
+/// <summary>
+/// 0.4.58 「그 밤의 진실」 — 풀다 만 줄기가 다음 판의 이유가 되게(언메이커: 계속 하고 싶게).
+///  · 줄기(질문) 다섯. 줄기마다 빈칸(실마리) 서넛~여섯. 빈칸은 전역 앎(g_)이 켜지면 채워진다 — 회귀해도 남는다.
+///  · 채워지지 않은 빈칸 중 맨 앞의 것만 '어디서'를 귀띔한다(방법은 말하지 않는다). 나머지는 「· · ·」.
+///  · 죽은 뒤(MolakMemory.OnLifeEnd) 「풀다 만 실마리」 두 줄: 이번 생에 나아간 줄기 먼저, 없으면 시작한 줄기, 그것도 없으면 첫 실마리.
+///  · 메뉴(☰) → 「그 밤의 진실」.
+/// </summary>
+public static class MolakTruth
+{
+    public struct Slot { public string Key, Name, Text, Hint; public Slot (string k, string n, string t, string h) { Key = k; Name = n; Text = t; Hint = h; } }
+    public struct Thread { public string Title; public Slot[] Slots; public Thread (string t, Slot[] s) { Title = t; Slots = s; } }
+
+    public static readonly Thread[] All = {
+        new Thread("대사형은 왜 산문을 열었나", new[] {
+            new Slot("g_clue_bukdu",   "북두 쇠패",       "척후의 허리춤에서 떨어진 쇠패. 대사형이 매일 아침 밟던 일곱 점.", "나흘째 밤, 이층으로 올라오는 척후 — 그 허리춤"),
+            new Slot("g_know_jinbaek", "막내야",          "막내라고 부를 때만 그의 검이 반 치 늦다.",                         "혈랑대주와 칼을 맞대는 날"),
+            new Slot("g_sig_jinbaek",  "북두낙월",        "일곱 칼끝 가운데 여섯이 거짓이다.",                                 "대사형의 필살을 한 번 받아 본다"),
+            new Slot("g_know_gyeolorder", "두 줄",       "서열각은 같은 명을 둘에게 내렸다. 다섯째 사형과 대사형.",            "달 없는 밤, 창틀에 앉은 관복"),
+            new Slot("g_know_gyeoltruth", "숯가마의 매듭", "그 밤 대사형은 다섯째 사형을 칼등으로 쳐서 숯가마에 묶었다.",       "성 밖 사당, 관복을 벗은 다섯째 사형에게 대사형의 셈을 말한다"),
+            new Slot("g_jbtruth",      "산문을 연 까닭",   "열면 사매 하나는 산다. 그 사매는 산사에서 머리를 깎았다.",           "복수의 끝 — 그가 입을 여는 자리"),
+        }),
+        new Thread("누가 이 문양을 새겼나", new[] {
+            new Slot("g_oldmem1",   "한 검을 둘이",       "폭포 아래, 왼손은 사매 몫이었다.",                  "잠든 사이 남의 꿈을 꾼다 — 폭포 소리가 나는 꿈"),
+            new Slot("g_oldmem2",   "찢어진 검보",        "사(邪)를 아는 검이 홀로면 사에 먹힌다.",            "그 꿈은 이어진다 — 빗속으로 반쪽이 떠난다"),
+            new Slot("g_oldmem3",   "늦게 닿은 암자",     "제단 앞의 사태, 무릎에 마른 연잎.",                  "꿈의 셋째 밤 — 늦게 닿은 사람이 본 것"),
+            new Slot("g_oldlid",    "뚜껑 안쪽",          "'왼쪽은 비워 두었소. 늦게 와도 되오.'",              "암자의 함 — 노인의 반쪽으로는 열리지 않는다"),
+            new Slot("g_oldmem4",   "첫 열매",            "잿더미의 아이가 제 손으로 문양의 반을 도려냈다.",    "꿈의 마지막 — 잿더미에 선 아이"),
+            new Slot("g_know_ripe", "검을 뽑지 않은 아이", "노인 앞에서 검을 뽑지 않고 반 각을 선 사람.",        "열매가 익는 날, 노인 앞에서"),
+            new Slot("g_know_cultsong", "솥의 노래",      "거두거든 우리 님도 거두소서. 교주도 누군가의 열매다.", "장터 한가운데 솥이 걸리는 밤, 노래를 끝까지 듣는다"),
+            new Slot("g_know_oldloop", "늦게 닿는 아침", "노인도 제 가슴에 새겼다. 사매가 식기 전으로 돌아가려고. 익은 열매를 거두어 한 번 더 감았다.", "누가 내 이름을 샀는지 찾아, 그 이름을 되사는 날"),
+        }),
+        new Thread("그 밤, 맹은 어디 있었나", new[] {
+            new Slot("g_know_maeng",     "그 밤의 수레", "원군은 남궁의 피난 수레 열두 대를 지키고 있었다.", "무림맹 밀사가 운락에 온다 — 그의 말을 끝까지 듣는다"),
+            new Slot("g_maenglate",      "반 시진",      "백리휘는 피가 다 식은 새벽에 온다.",                "혈랑대가 객잔을 덮치는 밤, 원군을 기다려 본다"),
+            new Slot("g_know_maengsell", "맹의 저울",    "청운 막내 하나에 맹 잔당 일곱.",                    "밀사와의 거래가 깊어진 뒤"),
+        }),
+        new Thread("적운의 우물", new[] {
+            new Slot("g_know_soa",  "적운의 쌍검",   "적운의 검은 두 번 오지 않는다. 한 번에 둘이 온다.", "소아와 칼을 맞댄다"),
+            new Slot("g_soadied",   "그녀가 죽은 밤", "등 뒤를 맡긴다던 사람이 먼저 갔다.",               "그녀를 지키지 못한 생"),
+            new Slot("g_soaname",   "그 이름",       "연(蓮). 사부만 그리 불렀다.",                       "그녀가 칼을 겨누는 밤에 듣는다"),
+            new Slot("g_redverse",  "적운의 구결",   "우물 속에서 백 번 들은 열두 줄.",                   "그 밤 그녀와 함께 살아서 지붕으로 달아난다"),
+        }),
+        // 0.4.85 진엔딩에 무엇이 필요한지 흩어져 있던 것(언메이커 지적) — 한 줄기로 모은다. 방법은 말하지 않고 '어디서'만.
+        new Thread("합벽 — 소아와 한 검을", new[] {
+            new Slot("g_redverse", "적운의 구결",   "우물 속 열두 줄. 반쪽 검보를 읽는 열쇠다.",                     "그 밤 그녀와 함께 살아서 지붕으로 달아난다"),
+            new Slot("g_hapbo",    "반쪽 검보",     "한 번 읽으면 눈꺼풀 안쪽에 남는다. 검보를 품은 자는 서열 서른 안이면 산문 앞에 선다.", "구결을 품고, 성 밖 사당의 석함 앞에"),
+            new Slot("g_wolfwon",  "끊어진 사슬",   "혈쇄문주를 넘은 자에게만 검은 산의 산문이 열린다.",             "서열이 백 안에 들면 오는 초대"),
+            new Slot("g_soabond",  "등을 맞댄 사람", "합벽은 혼자 쓰는 검이 아니다. 그 생에 그녀가 왼쪽에 서 있어야 한다.", "소아에게 등을 대는 법을 배운다"),
+            new Slot("g_hapdone",  "합벽",          "두 자루가 한 획을 긋는다.",                                     "교주 앞, 그녀가 왼쪽에 선 생"),
+        }),
+        // 0.4.85 소아 말고도 문양을 끊는 길(언메이커: 소아만 밀어준 것 아니냐). 그 사람과 서른 해를 산 생이 실마리다.
+        new Thread("다른 손으로", new[] {
+            new Slot("g_long_amh",  "향을 끈 서른 해",  "향을 꺼도 열매는 익었다. 끄지 말고 재워야 했다 — 백초당 할멈이 사십 년 지었다는 약으로.", "암향과 남쪽으로 떠나, 늙도록 산다"),
+            new Slot("g_long_cm",   "산문 밖의 서른 해", "산문 밖도 노인의 밭이었다. 위패는 산문 안, 운검사태가 비워 둔 왼쪽 자리에.",               "사저와 위패를 모시고 떠나, 늙도록 산다"),
+            new Slot("g_long_cham", "이름 없는 서른 해", "이름을 지워도 숨지 못했다. 그 밤 노인은 내 이름을 어디선가 샀다.",                       "참새와 이름 없이 떠나, 늙도록 산다"),
+        }),
+        new Thread("운락 사람들이 숨긴 것", new[] {
+            new Slot("g_know_hajin",     "관아 대문 앞",   "하진무의 팔뚝, 지져 뭉갠 낙인. 징세조가 그 자리를 누른다.", "하진무가 밤에 나가는 날, 뒤를 밟는다"),
+            new Slot("g_know_hajin2",    "운락(雲樂)",     "이십 년 전 찻집의 '귀'. 장문인이 낙인을 지지고 객잔을 내주었다.", "그 팔을 아는 생에, 뒷문 앞에서 노인에게 묻는다"),
+            new Slot("g_know_jangsell",  "판 소식",        "뒷문에 서 있던 그 사람이 이 방을 판다. 서른 냥에.", "쥐눈이 장이 뒷문에 서던 무렵"),
+            new Slot("g_know_hao",       "담보 칸의 딸",   "장의 딸, 열 살. 징세 명부의 담보 칸.",           "장의 사정을 아는 생에 그를 다시 만난다"),
+            new Slot("g_know_jang2",     "싸게 먹히는 목숨","아침이면 다시 오는 사람의 방. 그래서 골랐다.",      "판 소식을 아는 밤, 계단 밑에서 장에게 묻는다"),
+            new Slot("g_know_gwak",      "푸른 창날",      "곽산의 아내가 피를 토한다. 외상이 막혔다.",        "곽산과 다시 겨루는 판, 창날의 빛"),
+            new Slot("g_know_gwak2",     "돌판의 빈자리",  "독을 처음 산 건 아내가 앓기 전. 돌판에 '곽' 자를 새기고 싶었다.", "곽산의 집에서 국을 얻어먹는 날, 그의 아내에게 묻는다"),
+            new Slot("g_herbdied",       "백초당이 타던 밤","교납을 다는 저울추.",                            "할멈이 교의 약재를 거절하는 생"),
+            new Slot("g_know_herbmonster","앞의 둘",       "흑단환으로 살린 둘째 아이가 지금 검은 산에 앉아 있다.", "씨앗을 알아본 할멈이, 깊은 밤 금침을 들고 오는 날"),
+            new Slot("g_know_yong",      "회목채의 누이",  "용개의 누이와 다섯 살 조카가 회목채에 있다.",     "회목촌의 매복"),
+            new Slot("g_know_yong2",     "다섯 쪽 길",     "용개가 판 것은 다섯이 지키는 길. 스물이 지키는 길 대신.", "용개가 흙에 그려 준 길로 회목촌에 가는 생"),
+        }),
+    };
+
+    static bool Has (string k) { return MolakStats.Get(k) > 0f; }
+    public static int Known (Thread t) { int n = 0; foreach (var s in t.Slots) if (Has(s.Key)) n++; return n; }
+    public static int NextIndex (Thread t) { for (int i = 0; i < t.Slots.Length; i++) if (!Has(t.Slots[i].Key)) return i; return -1; }
+    public static int TotalKnown () { int n = 0; foreach (var t in All) n += Known(t); return n; }
+    public static int TotalSlots () { int n = 0; foreach (var t in All) n += t.Slots.Length; return n; }
+
+    /// <summary>회차 시작 때 줄기마다 아는 수를 적어 둔다(이번 생에 나아간 줄기를 가리려고).</summary>
+    public static void Snapshot ()
+    {
+        var parts = new List<string>();
+        foreach (var t in All) parts.Add(Known(t).ToString());
+        MolakStats.SetStr("truthsnap", string.Join(",", parts.ToArray()));
+    }
+
+    /// <summary>죽은 뒤 「풀다 만 실마리」 줄들(최대 2).</summary>
+    public static List<string> Leads ()
+    {
+        var snap = (MolakStats.Str("truthsnap") ?? "").Split(',');
+        var advanced = new List<int>(); var started = new List<int>();
+        for (int i = 0; i < All.Length; i++)
+        {
+            int k = Known(All[i]), was = 0;
+            if (i < snap.Length) int.TryParse(snap[i], out was);
+            if (NextIndex(All[i]) < 0) continue;              // 다 푼 줄기
+            if (k > was) advanced.Add(i); else if (k > 0) started.Add(i);
+        }
+        var pick = new List<int>(advanced);
+        foreach (var i in started) if (pick.Count < 2) pick.Add(i);
+        if (pick.Count == 0) { pick.Add(0); if (All.Length > 1) pick.Add(1); }
+        var lines = new List<string>();
+        foreach (var i in pick)
+        {
+            if (lines.Count >= 2) break;
+            var t = All[i]; int nx = NextIndex(t); if (nx < 0) continue;
+            lines.Add("「" + t.Title + "」 " + Known(t) + "/" + t.Slots.Length + (advanced.Contains(i) ? " <color=#C9A227>(이번 생에 풀린 것이 있다)</color>" : "") +
+                      "<br><color=#8A7A66>　다음 실마리 — " + t.Slots[nx].Hint + "</color>");
+        }
+        return lines;
+    }
+}
+
+/// <summary>메뉴의 「그 밤의 진실」 판.</summary>
+public class MolakTruthView : MonoBehaviour
+{
+    static MolakTruthView inst;
+    bool open; int detail = -1; float openT;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void Boot ()
+    {
+        if (inst) return;
+        var go = new GameObject("MolakTruthView"); DontDestroyOnLoad(go);
+        inst = go.AddComponent<MolakTruthView>();
+    }
+    public static bool IsOpen => inst != null && inst.open;
+    public static void Open () { if (inst != null) { inst.open = true; inst.detail = -1; inst.openT = 0f; } }
+
+    GUIStyle sHead, sRow, sSub, sBtn, sBody; float builtU = -1f;
+    void Styles (float u)
+    {
+        if (sHead != null && Mathf.Approximately(builtU, u)) return;
+        builtU = u;
+        sHead = MolakGui.Label(44, u, TextAnchor.MiddleCenter, false); sHead.font = MolakTypography.Heading(sHead.font); sHead.richText = true;
+        sRow = MolakGui.Label(32, u, TextAnchor.UpperLeft, true); sRow.richText = true;
+        sSub = MolakGui.Label(24, u, TextAnchor.UpperLeft, true); sSub.richText = true;
+        sBody = MolakGui.Label(28, u, TextAnchor.UpperLeft, true); sBody.richText = true;
+        sBtn = MolakGui.Label(32, u, TextAnchor.MiddleCenter, false);
+    }
+
+    void OnGUI ()
+    {
+        if (!open || !Engine.Initialized) return;
+        openT += Event.current.type == EventType.Repaint ? Time.unscaledDeltaTime : 0f;
+        float u = MolakGui.U; Styles(u);
+        GUI.depth = MolakGui.DepthBlackout + 9;
+        float w = Screen.width, h = Screen.height;
+        MolakInputGuard.Guard(new Rect(0, 0, w, h));
+        var g0 = GUI.color;
+        // 0.4.80 창의 결(MolakPaper): 종이로 통째로 덮고 흰 카드에 검붉은 띠, 채운 칸은 검붉게
+        var ink = MolakPaper.Ink; var gold = MolakPaper.Accent; var dim = MolakPaper.Sub;
+        MolakPaper.Backdrop(w, h);
+        float cx = MolakPaper.Margin(w, u), cw = w - cx * 2f;
+        float y = MolakPaper.Top(h, u);
+        bool clicked = false;
+        var br = MolakPaper.BottomButton(w, h, u);
+
+        if (detail < 0)
+        {
+            MolakPaper.Header(ref y, cx, cw, "그 밤의 진실", "죽어도 남는 앎으로 빈칸을 채운다 · " + MolakTruth.TotalKnown() + " / " + MolakTruth.TotalSlots(), u);
+            float ch = 150f * u, gap = 14f * u;
+            float avail = br.y - 24f * u - y;
+            if (MolakTruth.All.Length * (ch + gap) > avail) { ch = Mathf.Max(120f * u, avail / MolakTruth.All.Length - gap); }
+            for (int i = 0; i < MolakTruth.All.Length; i++)
+            {
+                var t = MolakTruth.All[i]; int k = MolakTruth.Known(t), n = t.Slots.Length, nx = MolakTruth.NextIndex(t);
+                var r = new Rect(cx, y, cw, ch);
+                MolakPaper.CardFace(r, k > 0 ? gold : MolakPaper.Empty, u, MolakPaper.Pressed(r));
+                MolakGui.Ink(sRow, k > 0 ? ink : dim);
+                GUI.Label(new Rect(r.x + 34f * u, r.y + 14f * u, r.width - 200f * u, 44f * u), t.Title, sRow);
+                var cnt = MolakPaper.SmallRight(u);
+                GUI.Label(new Rect(r.xMax - 180f * u, r.y + 14f * u, 156f * u, 44f * u), k + " / " + n, cnt);
+                // 칸: 채운 칸은 검붉게, 빈칸은 테두리만
+                float bx = r.x + 34f * u, by = r.y + 64f * u, bs = 26f * u, lw = Mathf.Max(1f, 2f * u);
+                for (int s = 0; s < n; s++)
+                {
+                    var b = new Rect(bx + s * (bs + 10f * u), by, bs, bs);
+                    if (MolakStats.Get(t.Slots[s].Key) > 0f) MolakPaper.Box(b, gold);
+                    else
+                    {
+                        var e = MolakPaper.Empty;
+                        MolakPaper.Box(new Rect(b.x, b.y, b.width, lw), e); MolakPaper.Box(new Rect(b.x, b.yMax - lw, b.width, lw), e);
+                        MolakPaper.Box(new Rect(b.x, b.y, lw, b.height), e); MolakPaper.Box(new Rect(b.xMax - lw, b.y, lw, b.height), e);
+                    }
+                }
+                MolakGui.Ink(sSub, dim);
+                string sub = nx < 0 ? "<color=#" + ColorUtility.ToHtmlStringRGB(gold) + ">다 풀었다</color>" : "다음 실마리 — " + t.Slots[nx].Hint;
+                GUI.Label(new Rect(r.x + 34f * u, by + bs + 8f * u, r.width - 60f * u, 44f * u), sub, sSub);
+                if (GUI.Button(r, GUIContent.none, GUIStyle.none) && openT > 0.25f) { detail = i; openT = 0f; clicked = true; MolakSfx.Confirm(); }
+                y += ch + gap;
+            }
+        }
+        else
+        {
+            var t = MolakTruth.All[detail]; int nx = MolakTruth.NextIndex(t);
+            MolakPaper.Header(ref y, cx, cw, t.Title, MolakTruth.Known(t) + " / " + t.Slots.Length, u);
+            string goldHex = ColorUtility.ToHtmlStringRGB(gold), dimHex = ColorUtility.ToHtmlStringRGB(dim), emptyHex = ColorUtility.ToHtmlStringRGB(MolakPaper.Empty);
+            for (int s = 0; s < t.Slots.Length; s++)
+            {
+                var sl = t.Slots[s]; bool known = MolakStats.Get(sl.Key) > 0f;
+                string head = known ? "<color=#" + goldHex + ">「" + sl.Name + "」</color>" : (s == nx ? "<color=#" + dimHex + ">「 ? 」</color>" : "<color=#" + emptyHex + ">· · ·</color>");
+                string body = known ? sl.Text : (s == nx ? "다음 실마리 — " + sl.Hint : "");
+                MolakGui.Ink(sBody, known ? ink : dim);
+                float bh = sBody.CalcHeight(new GUIContent(head + "  " + body), cw - 60f * u);
+                var cr = new Rect(cx, y, cw, bh + 36f * u);
+                MolakPaper.CardFace(cr, known ? gold : MolakPaper.Empty, u);
+                GUI.Label(new Rect(cx + 34f * u, y + 18f * u, cw - 60f * u, bh), head + "  " + body, sBody);
+                y += cr.height + 12f * u;
+            }
+        }
+
+        if (!clicked && MolakPaper.InkButton(br, detail >= 0 ? "돌아간다" : "닫는다", u, openT > 0.2f))
+        {
+            if (detail >= 0) { detail = -1; openT = 0f; } else { open = false; MolakInputGuard.MuteFor(0.25f); }
+        }
+        GUI.Button(new Rect(0, 0, w, h), GUIContent.none, GUIStyle.none);
+        GUI.color = g0;
+    }
+}
